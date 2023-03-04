@@ -15,28 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class MainController {
-    @Autowired
-    private ClinicService clinicService;
-
+public class RegistryController {
     @Autowired
     private RegistryService registryService;
 
-    @Autowired
-    private PatientService patientService;
-
-    @Autowired
-    private DoctorService doctorService;
-
-    @GetMapping("/clinic/getAll")
-    public List<Clinic> getAllClinics() { return clinicService.getAll(); }
-
-    @GetMapping("/registry/getAll")
+    @GetMapping("/registries")
     public List<Registry> getAllRegistries() { return registryService.getAll(); }
-
-    @GetMapping("/patient/getAll")
-    public List<Patient> getAllPatients() { return patientService.getAll(); }
-
-    @GetMapping("/doctor/getAll")
-    public List<Doctor> getAllDoctors() { return doctorService.getAll(); }
 }
