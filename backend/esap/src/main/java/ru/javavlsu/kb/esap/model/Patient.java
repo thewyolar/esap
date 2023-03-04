@@ -59,7 +59,7 @@ public class Patient {
     private List<Appointment> appointments;
 
     @ManyToOne
-    @JoinColumn(name = "registration_id")
+    @JoinColumn(name = "registry_id")
     private Registry registry;
 
     // Constructors, getters and setters
