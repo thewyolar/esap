@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.javavlsu.kb.esap.model.Registry;
 
 @Repository
-public interface RegistrationRepository extends JpaRepository<Registry, Long> {
+public interface RegistryRepository extends JpaRepository<Registry, Long> {
 }
