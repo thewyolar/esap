@@ -33,6 +33,10 @@ public class Registry {
     @OneToMany(mappedBy = "registry")
     private List<Patient> patients;
 
+    @OneToOne
+    @JoinColumn(name = "clinic")
+    private Clinic clinic;
+
     // Геттеры и сеттеры
 
 }

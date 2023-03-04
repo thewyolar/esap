@@ -23,10 +23,6 @@ public class Clinic {
     @Column(nullable = false)
     private String address;
 
-    @OneToOne
-    @JoinColumn(name = "registry")
-    private Registry registry;
-
     @OneToMany(mappedBy = "clinic")
     private List<Department> departments;
 
