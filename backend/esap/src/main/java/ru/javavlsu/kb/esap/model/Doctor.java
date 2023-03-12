@@ -1,28 +1,30 @@
 package ru.javavlsu.kb.esap.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @Table(name = "doctors")
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "login")
+    private String login;
+
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-    @NotBlank
     @Size(max = 100)
     @Column(name = "patronymic", nullable = false)
     private String patronymic;
@@ -39,6 +41,10 @@ public class Doctor {
     @ManyToOne
     @JoinColumn(name = "registry_id")
     private Registry registry;
+
+    @ManyToOne
+    @JoinColumn(name = "clinic_id", referencedColumnName = "id")
+    private Clinic clinic;
 
     // Constructors, getters and setters
 
