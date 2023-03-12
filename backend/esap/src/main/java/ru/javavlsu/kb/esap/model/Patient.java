@@ -1,6 +1,7 @@
 package ru.javavlsu.kb.esap.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -38,8 +39,8 @@ public class Patient {
     private LocalDate birthDate;
 
     @NotBlank
-    @Size(max = 20)
-    private String gender;
+    @Min(value = 2, message = "Не верно указан пол")
+    private int gender;
 
     @Size(max = 200)
     private String address;
