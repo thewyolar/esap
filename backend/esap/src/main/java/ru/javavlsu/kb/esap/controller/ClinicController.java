@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.service.ClinicService;
-import ru.javavlsu.kb.esap.util.ClinicRegistration;
+import ru.javavlsu.kb.esap.dto.ClinicRegistrationDTO;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class ClinicController {
     }
     
     @PostMapping
-    public ResponseEntity<HttpStatus> registrationClinics(@RequestBody @Valid ClinicRegistration clinicRegistration,
+    public ResponseEntity<HttpStatus> registrationClinics(@RequestBody @Valid ClinicRegistrationDTO clinicRegistration,
                                                             BindingResult bindingResult) {               
         if(bindingResult.hasErrors()){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

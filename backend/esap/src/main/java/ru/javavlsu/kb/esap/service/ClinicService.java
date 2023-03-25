@@ -31,7 +31,6 @@ public class ClinicService {
         doctor.setPassword("admin");
         doctor.setClinic(clinic);
         clinic.setDoctors(Collections.singletonList(doctor));
-        System.out.println(clinic.getDoctors());
         clinicRepository.save(clinic);
         return new String[] {doctor.getLogin(), doctor.getPassword()};
     }

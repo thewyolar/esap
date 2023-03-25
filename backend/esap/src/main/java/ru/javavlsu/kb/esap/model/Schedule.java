@@ -22,9 +22,9 @@ public class Schedule {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
-    private LocalTime startTime;
+    private LocalTime startDoctorAppointment;
 
-    private LocalTime endTime;
+    private LocalTime endDoctorAppointment;
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Appointment> appointments;

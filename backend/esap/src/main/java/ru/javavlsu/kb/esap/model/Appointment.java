@@ -24,10 +24,10 @@ public class Appointment {
     private Doctor doctor;
 
     @Column(name = "start_time")
-    private LocalDateTime startTime;
+    private LocalDateTime startAppointments;
 
     @Column(name = "end_time")
-    private LocalDateTime endTime;
+    private LocalDateTime endAppointments;
 
     @Column(name = "reason")
     private String reason;
@@ -36,5 +36,4 @@ public class Appointment {
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 
-    // constructors, getters, setters
 }
