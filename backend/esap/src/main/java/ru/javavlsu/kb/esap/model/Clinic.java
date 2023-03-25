@@ -31,4 +31,14 @@ public class Clinic {
     @JsonIgnore
     private List<Doctor> doctors;
 
+    @OneToMany(mappedBy = "clinic")
+    @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JsonIgnore
+    private List<Patient> patients;
+
+    @OneToMany(mappedBy = "clinic")
+    @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    @JsonIgnore
+    private List<Registry> registries;
+
 }

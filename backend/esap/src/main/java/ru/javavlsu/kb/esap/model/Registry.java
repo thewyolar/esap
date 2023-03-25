@@ -27,16 +27,8 @@ public class Registry {
     @Column(name = "email")
     private String email;
 
-    @OneToMany(mappedBy = "registry")
-    private List<Doctor> doctors;
-
-    @OneToMany(mappedBy = "registry")
-    private List<Patient> patients;
-
     @OneToOne
     @JoinColumn(name = "clinic")
     private Clinic clinic;
-
-    // Геттеры и сеттеры
 
 }

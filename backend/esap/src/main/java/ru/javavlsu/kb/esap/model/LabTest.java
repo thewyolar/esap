@@ -25,4 +25,5 @@ public class LabTest {
     @ManyToOne
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
+
 }

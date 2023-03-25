@@ -29,9 +29,6 @@ public class Appointment {
     @Column(name = "end_time")
     private LocalDateTime endAppointments;
 
-    @Column(name = "reason")
-    private String reason;
-
     @ManyToOne
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;

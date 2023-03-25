@@ -1,10 +1,7 @@
 package ru.javavlsu.kb.esap.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -50,6 +47,7 @@ public class Patient {
     private String phoneNumber;
 
     @NotBlank
+    @Email
     @Size(max = 100)
     private String email;
 
@@ -60,7 +58,7 @@ public class Patient {
     private List<Appointment> appointments;
 
     @ManyToOne
-    @JoinColumn(name = "registry_id")
-    private Registry registry;
+    @JoinColumn(name = "clinic_id", referencedColumnName = "id")
+    private Clinic clinic;
 
 }

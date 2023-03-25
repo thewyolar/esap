@@ -30,6 +30,5 @@ public class Analysis {
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 
-    // constructors, getters, and setters
 }
 

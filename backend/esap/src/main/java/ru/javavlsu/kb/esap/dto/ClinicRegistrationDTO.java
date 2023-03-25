@@ -9,8 +9,8 @@ import ru.javavlsu.kb.esap.model.Doctor;
 @Setter
 public class ClinicRegistrationDTO {
     
-    private Clinic clinic;
+    private ClinicDTO clinicDTO;
 
-    private Doctor doctor;
+    private DoctorDTO doctorDTO;
 
 }

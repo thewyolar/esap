@@ -26,8 +26,8 @@ public class Schedule {
 
     private LocalTime endDoctorAppointment;
 
+
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
-    // constructors, getters, and setters
 }

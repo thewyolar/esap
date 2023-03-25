@@ -32,9 +32,4 @@ public class Employee {
     @Column(name = "position")
     private String position;
 
-    @ManyToOne
-    @JoinColumn(name = "registration_id")
-    private Registry registry;
-
-    // constructors, getters, setters
 }

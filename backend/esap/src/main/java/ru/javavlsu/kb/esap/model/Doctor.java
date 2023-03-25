@@ -35,18 +35,12 @@ public class Doctor {
     @Column(name = "specialization", nullable = false)
     private String specialization;
 
-    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "doctor")
     private List<Schedule> schedules;
-
-    @ManyToOne
-    @JoinColumn(name = "registry_id")
-    private Registry registry;
 
     @ManyToOne
     @JoinColumn(name = "clinic_id", referencedColumnName = "id")
     private Clinic clinic;
-
-    // Constructors, getters and setters
 
 }
 

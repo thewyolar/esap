@@ -30,6 +30,5 @@ public class MedicalRecord {
     @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
     private List<LabTest> labTests;
 
-    // constructors, getters, and setters
 }
 
