@@ -26,17 +26,17 @@ public class Clinic {
     @Column(nullable = false)
     private String address;
 
-    @OneToMany(mappedBy = "clinic")
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
     @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JsonIgnore
     private List<Doctor> doctors;
 
-    @OneToMany(mappedBy = "clinic")
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
     @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JsonIgnore
     private List<Patient> patients;
 
-    @OneToMany(mappedBy = "clinic")
+    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
     @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JsonIgnore
     private List<Registry> registries;

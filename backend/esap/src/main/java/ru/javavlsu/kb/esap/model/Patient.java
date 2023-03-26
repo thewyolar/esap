@@ -36,7 +36,8 @@ public class Patient {
     private LocalDate birthDate;
 
     @NotBlank
-    @Min(value = 2, message = "Не верно указан пол")
+    @Max(value = 2, message = "Не верно указан пол")
+    @Max(value = 1, message = "Не верно указан пол")
     private int gender;
 
     @Size(max = 200)
@@ -51,13 +52,13 @@ public class Patient {
     @Size(max = 100)
     private String email;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     private List<MedicalRecord> medicalRecords;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     private List<Appointment> appointments;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clinic_id", referencedColumnName = "id")
     private Clinic clinic;
 

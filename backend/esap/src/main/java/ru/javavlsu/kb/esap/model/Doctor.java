@@ -1,5 +1,6 @@
 package ru.javavlsu.kb.esap.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -35,11 +36,13 @@ public class Doctor {
     @Column(name = "specialization", nullable = false)
     private String specialization;
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Schedule> schedules;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "clinic_id", referencedColumnName = "id")
+    @JsonIgnore
     private Clinic clinic;
 
 }
