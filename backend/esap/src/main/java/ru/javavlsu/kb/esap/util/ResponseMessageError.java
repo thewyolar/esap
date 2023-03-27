@@ -2,6 +2,9 @@ package ru.javavlsu.kb.esap.util;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.validation.FieldError;
+
+import java.util.List;
 
 public class ResponseMessageError {
 
@@ -11,6 +14,14 @@ public class ResponseMessageError {
 
     public ResponseMessageError(String message) {
         this.message = message;
+    }
+
+    public static String createErrorMsg(List<FieldError> errors){
+        StringBuilder errorMsg = new StringBuilder();
+        for(FieldError error: errors){
+            errorMsg.append(error.getField()).append(" - ").append(error.getDefaultMessage()).append(";");
+        }
+        return errorMsg.toString();
     }
 
 }

@@ -36,7 +36,6 @@ public class Patient {
     @NotNull
     private LocalDate birthDate;
 
-    @NotBlank
     @Max(value = 2, message = "Не верно указан пол")
     @Min(value = 1, message = "Не верно указан пол")
     private int gender;

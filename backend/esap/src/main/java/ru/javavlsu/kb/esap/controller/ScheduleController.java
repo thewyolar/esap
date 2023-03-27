@@ -4,13 +4,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.model.Appointment;
 import ru.javavlsu.kb.esap.model.Schedule;
 import ru.javavlsu.kb.esap.service.AppointmentService;
 import ru.javavlsu.kb.esap.service.ScheduleService;
 import ru.javavlsu.kb.esap.util.NotCreateException;
+import ru.javavlsu.kb.esap.util.ResponseMessageError;
 import ru.javavlsu.kb.esap.util.ScheduleNotFoundException;
 
 import java.util.List;
@@ -38,22 +38,24 @@ public class ScheduleController {
         return scheduleService.get(id);
     }
 
+    @PostMapping
+    public ResponseEntity<HttpStatus> createSchedule(@RequestBody @Valid Schedule schedule,
+                                                     BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
+        }
+        scheduleService.create(schedule);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @PostMapping("/{id}/appointment")
     public ResponseEntity<HttpStatus> addAppointment(@PathVariable("id") Long id, @RequestBody @Valid Appointment appointment,
                                                      BindingResult bindingResult){
         if(bindingResult.hasErrors()){
-            throw new NotCreateException(createErrorMsg(bindingResult.getFieldErrors()));
+            throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
         appointmentService.create(appointment, id);
         return ResponseEntity.ok(HttpStatus.OK);
-    }
-
-    private String createErrorMsg(List<FieldError> errors){
-        StringBuilder errorMsg = new StringBuilder();
-        for(FieldError error: errors){
-            errorMsg.append(error.getField()).append(" - ").append(error.getDefaultMessage()).append(";");
-        }
-        return errorMsg.toString();
     }
 
     @ExceptionHandler
