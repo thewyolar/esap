@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -37,7 +38,7 @@ public class Patient {
 
     @NotBlank
     @Max(value = 2, message = "Не верно указан пол")
-    @Max(value = 1, message = "Не верно указан пол")
+    @Min(value = 1, message = "Не верно указан пол")
     private int gender;
 
     @Size(max = 200)
@@ -62,4 +63,24 @@ public class Patient {
     @JoinColumn(name = "clinic_id", referencedColumnName = "id")
     private Clinic clinic;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Patient patient = (Patient) o;
+        return gender == patient.gender && Objects.equals(id, patient.id)
+                && Objects.equals(firstName, patient.firstName)
+                && Objects.equals(patronymic, patient.patronymic)
+                && Objects.equals(lastName, patient.lastName)
+                && Objects.equals(birthDate, patient.birthDate)
+                && Objects.equals(address, patient.address)
+                && Objects.equals(phoneNumber, patient.phoneNumber)
+                && Objects.equals(email, patient.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, patronymic, lastName,
+                birthDate, gender, address, phoneNumber, email);
+    }
 }

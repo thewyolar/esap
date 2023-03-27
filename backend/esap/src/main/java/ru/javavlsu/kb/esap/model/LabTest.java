@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Objects;
+
 @Entity
 @Getter
 @Setter
@@ -26,4 +28,16 @@ public class LabTest {
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LabTest labTest = (LabTest) o;
+        return Objects.equals(id, labTest.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

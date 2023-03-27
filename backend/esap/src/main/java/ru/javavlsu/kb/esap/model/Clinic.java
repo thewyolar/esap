@@ -1,6 +1,7 @@
 package ru.javavlsu.kb.esap.model;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.annotations.Cascade;
 
@@ -40,5 +41,18 @@ public class Clinic {
     @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JsonIgnore
     private List<Registry> registries;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Clinic clinic = (Clinic) o;
+        return Objects.equals(id, clinic.id) && Objects.equals(name, clinic.name) && Objects.equals(address, clinic.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, address);
+    }
 
 }
