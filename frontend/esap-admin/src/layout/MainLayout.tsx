@@ -4,10 +4,6 @@ import Topbar from "../components/topbar/Topbar";
 import Sidebar from "../components/sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
 
-// interface MainLayoutProps {
-//   children: React.ReactNode
-// }
-
 const MainLayout: React.FC = () => {
   return (
     <div>
