@@ -1,9 +1,10 @@
-import './newUser.scss'
+import React from "react";
+import './newPatient.scss';
 
-const NewUser = () => {
+const NewPatient: React.FC = () => {
   return (
-    <div className='newUserPage'>
-      <h1>New User</h1>
+    <div className='newPatientPage'>
+      <h1>Новый пациент</h1>
       <form>
         <div className="item">
           <label>Username</label>
@@ -54,4 +55,4 @@ const NewUser = () => {
   )
 }
 
-export default NewUser
+export default NewPatient;

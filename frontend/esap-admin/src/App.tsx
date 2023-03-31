@@ -1,11 +1,11 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home';
 import NewProduct from './pages/newProduct/NewProduct';
-import NewUser from './pages/newUser/NewUser';
+import Test from './pages/newPatient/NewPatient';
 import Product from './pages/product/Product';
 import ProductList from './pages/productList/ProductList';
 import User from './pages/user/User';
-import UserList from './pages/userList/UserList';
+import PatientList from './pages/patientList/PatientList';
 import HospitalRegistrationForm from "./components/auth/HospitalregistrationForm";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MainLayout from "./layout/MainLayout";
@@ -18,9 +18,9 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/users" element={<UserList />} />
+        <Route path="/users" element={<PatientList />} />
         <Route path="/user/:userId" element={<User />} />
-        <Route path="/newUser" element={<NewUser />} />
+        <Route path="/newUser" element={<Test />} />
         <Route path="/products" element={<ProductList />} />
         <Route path="/product/:productId" element={<Product />} />
         <Route path="/newProduct" element={<NewProduct />} />
@@ -31,6 +31,5 @@ const App: React.FC = () => {
     </Routes>
   );
 };
-
 
 export default App;
