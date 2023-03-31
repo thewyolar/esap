@@ -20,12 +20,12 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="wrapper">
         <div className="menu">
-          <h3>Dashboard</h3>
+          <h3>Панель управления</h3>
           <ul>
             <Link to='/' className='link'>
               <li>
                 <LineStyle className='icon'/>
-                Home
+                Домашняя
               </li>
             </Link>
             {/*<li>*/}
@@ -38,15 +38,17 @@ const Sidebar = () => {
             {/*</li>*/}
           </ul>
         </div>
-        {/*<div className="menu">*/}
-        {/*  <h3>Quick Menu</h3>*/}
-        {/*  <ul>*/}
-        {/*    <Link to='/users' className='link'>*/}
-        {/*      <li>*/}
-        {/*        <PermIdentity className='icon'/>*/}
-        {/*        Users*/}
-        {/*      </li>*/}
-        {/*    </Link>*/}
+        <div className="menu">
+          <h3>Быстрое меню</h3>
+          <ul>
+            <Link to='/users' className='link'>
+              <li>
+                <PermIdentity className='icon'/>
+                Пациенты
+              </li>
+            </Link>
+          </ul>
+        </div>
         {/*    <Link to='/products' className='link'>*/}
         {/*      <li>*/}
         {/*        <Storefront className='icon' />*/}
