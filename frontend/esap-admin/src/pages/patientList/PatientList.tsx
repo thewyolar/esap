@@ -84,7 +84,7 @@ const PatientList: React.FC = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/user/${params.row.id}`}>
+            <Link to={`/patient/${params.row.id}`}>
               <button className='editButton'>Изменить</button>
             </Link>
             <DeleteOutline
