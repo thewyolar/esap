@@ -1,19 +1,6 @@
-import './sidebar.scss'
-
-import {
-  LineStyle,
-  Timeline,
-  TrendingUp,
-  PermIdentity,
-  Storefront,
-  AttachMoney,
-  BarChart,
-  MailOutline,
-  DynamicFeed,
-  ChatBubbleOutline,
-  WorkOutline,
-  Report } from '@mui/icons-material'
-import { Link } from 'react-router-dom'
+import './sidebar.scss';
+import { LineStyle, PermIdentity } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
@@ -28,20 +15,12 @@ const Sidebar = () => {
                 Домашняя
               </li>
             </Link>
-            {/*<li>*/}
-            {/*  <Timeline className='icon' />*/}
-            {/*  Analytics*/}
-            {/*</li>*/}
-            {/*<li>*/}
-            {/*  <TrendingUp className='icon' />*/}
-            {/*  Sales*/}
-            {/*</li>*/}
           </ul>
         </div>
         <div className="menu">
           <h3>Быстрое меню</h3>
           <ul>
-            <Link to='/users' className='link'>
+            <Link to='/patients' className='link'>
               <li>
                 <PermIdentity className='icon'/>
                 Пациенты
@@ -49,56 +28,6 @@ const Sidebar = () => {
             </Link>
           </ul>
         </div>
-        {/*    <Link to='/products' className='link'>*/}
-        {/*      <li>*/}
-        {/*        <Storefront className='icon' />*/}
-        {/*        Products*/}
-        {/*      </li>*/}
-        {/*    </Link>*/}
-        {/*    <li>*/}
-        {/*      <AttachMoney className='icon' />*/}
-        {/*      Transactions*/}
-        {/*    </li>*/}
-        {/*    <li>*/}
-        {/*      <BarChart className='icon' />*/}
-        {/*      Reports*/}
-        {/*    </li>*/}
-        {/*  </ul>*/}
-        {/*</div>*/}
-        {/*<div className="menu">*/}
-        {/*  <h3>Notifications</h3>*/}
-        {/*  <ul>*/}
-        {/*    <li>*/}
-        {/*      <MailOutline className='icon'/>*/}
-        {/*      Mail*/}
-        {/*    </li>*/}
-        {/*    <li>*/}
-        {/*      <DynamicFeed className='icon' />*/}
-        {/*      Feedback*/}
-        {/*    </li>*/}
-        {/*    <li>*/}
-        {/*      <ChatBubbleOutline className='icon' />*/}
-        {/*      Messages*/}
-        {/*    </li>*/}
-        {/*  </ul>*/}
-        {/*</div>*/}
-        {/*<div className="menu">*/}
-        {/*  <h3>Staff</h3>*/}
-        {/*  <ul>*/}
-        {/*    <li>*/}
-        {/*      <WorkOutline className='icon'/>*/}
-        {/*      Manage*/}
-        {/*    </li>*/}
-        {/*    <li>*/}
-        {/*      <Timeline className='icon' />*/}
-        {/*      Analytics*/}
-        {/*    </li>*/}
-        {/*    <li>*/}
-        {/*      <Report className='icon' />*/}
-        {/*      Report*/}
-        {/*    </li>*/}
-        {/*  </ul>*/}
-        {/*</div>*/}
       </div>
     </div>
   )
