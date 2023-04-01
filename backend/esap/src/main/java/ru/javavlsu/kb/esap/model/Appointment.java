@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import ru.javavlsu.kb.esap.validator.LocalTimeConstraint;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -34,10 +35,12 @@ public class Appointment {
 
     @Column(name = "start_time")
     @JsonSerialize(using = LocalTimeSerializer.class)
+    @LocalTimeConstraint(message = "Time should have minutes either 00 or 30")
     private LocalTime startAppointments;
 
     @Column(name = "end_time")
     @JsonSerialize(using = LocalTimeSerializer.class)
+    @LocalTimeConstraint(message = "Time should have minutes either 00 or 30")
     private LocalTime endAppointments;
 
     @ManyToOne(fetch = FetchType.LAZY)

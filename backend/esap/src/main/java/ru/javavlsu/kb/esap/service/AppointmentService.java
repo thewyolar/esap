@@ -9,8 +9,8 @@ import ru.javavlsu.kb.esap.repository.ScheduleRepository;
 import ru.javavlsu.kb.esap.util.NotCreateException;
 import ru.javavlsu.kb.esap.util.ScheduleNotFoundException;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -30,6 +30,8 @@ public class AppointmentService {
         List<Appointment> appointments = appointmentRepository.findBySchedule(schedule);
         if(schedule.getMaxPatientPerDay() == appointments.size()){
             throw new NotCreateException("No free time found in the schedule");
+        }else if(appointment.getStartAppointments().until(appointment.getEndAppointments(), ChronoUnit.MINUTES) != 30){
+            throw new NotCreateException("Invalid time");
         }
         appointments = appointmentRepository.findByStartAppointmentsAndDateAndSchedule(appointment.getStartAppointments(), appointment.getDate(), schedule);
         if(!appointments.isEmpty()){
