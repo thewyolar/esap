@@ -1,7 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/home/Home';
 import NewPatient from './pages/newPatient/NewPatient';
-import User from './pages/user/User';
 import PatientList from './pages/patientList/PatientList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MainLayout from "./layout/MainLayout";
@@ -9,6 +8,7 @@ import LoginForm from "./components/auth/LoginForm";
 import React from "react";
 import RegistrationPage from "./pages/registration/Registration";
 import Queue from "./components/queue/Queue";
+import User from "./pages/user/User";
 
 const App: React.FC = () => {
   return (
@@ -16,7 +16,7 @@ const App: React.FC = () => {
       <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/patients" element={<PatientList />} />
-        <Route path="/patients/:patientId" element={<User />} />
+        <Route path="/patient/:patientId" element={<User />} />
         <Route path="/newPatient" element={<NewPatient />} />
         <Route path="/queue" element={<Queue />} />
       </Route>
