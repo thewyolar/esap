@@ -1,4 +1,4 @@
-export type clinicDTO = {
+export interface ClinicDTO {
     name: string;
     address: string;
 }

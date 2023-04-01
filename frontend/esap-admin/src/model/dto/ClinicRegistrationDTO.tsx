@@ -1,7 +1,7 @@
-import { clinicDTO } from "./ClinicDTO";
-import { doctorDTO } from "./DoctorDTO";
+import { ClinicDTO } from "./ClinicDTO";
+import { DoctorDTO } from "./DoctorDTO";
 
-export type clinicRegistrationDTO = {
-    clinic: clinicDTO;
-    doctor: doctorDTO;
+export interface ClinicRegistrationDTO {
+    clinic: ClinicDTO;
+    doctor: DoctorDTO;
 }
