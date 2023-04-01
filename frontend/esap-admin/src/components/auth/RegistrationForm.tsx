@@ -7,8 +7,6 @@ interface RegistrationFormProps {
 }
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
-  const [doctorPassword, setDoctorPassword] = useState('');
-  const [doctorLogin, setDoctorLogin] = useState('');
   const [doctorFirstName, setDoctorFirstName] = useState('');
   const [doctorPatronymic, setDoctorPatronymic] = useState('');
   const [doctorLastName, setDoctorLastName] = useState('');
@@ -18,8 +16,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
     event.preventDefault();
 
     const doctorData: DoctorDTO = {
-      password: doctorPassword,
-      login: doctorLogin,
       firstName: doctorFirstName,
       patronymic: doctorPatronymic,
       lastName: doctorLastName,
@@ -48,16 +44,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
             <label htmlFor="doctorPatronymic">Отчество</label>
             <input id="doctorPatronymic" type="text" className="form-control mt-1" placeholder="Отчество" value={doctorPatronymic}
                    onChange={(e) => setDoctorPatronymic(e.target.value)} />
-          </div>
-          <div className="form-group mt-3">
-            <label htmlFor="doctorLogin">Логин</label>
-            <input id="doctorLogin" type="text" className="form-control mt-1" placeholder="Логин" value={doctorLogin}
-                   onChange={(e) => setDoctorLogin(e.target.value)} required />
-          </div>
-          <div className="form-group mt-3">
-            <label htmlFor="doctorPassword">Пароль</label>
-            <input id="doctorPassword" type="password" className="form-control mt-1" placeholder="Пароль" value={doctorPassword}
-                   onChange={(e) => setDoctorPassword(e.target.value)} required />
           </div>
           <div className="form-group mt-3">
             <label htmlFor="doctorSpecialization">Специализация</label>
