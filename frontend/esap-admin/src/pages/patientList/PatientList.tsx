@@ -1,24 +1,19 @@
 import './patientList.scss';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DeleteOutline } from '@mui/icons-material';
-import { patientsData } from '../../dummyData';
 import { Link } from 'react-router-dom';
-
-interface Patient {
-  id: number;
-  firstName: string;
-  patronymic: string;
-  lastName: string;
-  birthDate: string;
-  gender: string;
-  address: string;
-  phoneNumber: string;
-  email: string;
-}
+import { Patient } from "../../model/Patient";
+import HttpService from "../../service/HttpService";
 
 const PatientList: React.FC = () => {
-  const [data, setData] = useState<Patient[]>(patientsData);
+  const [data, setData] = useState<Patient[]>([]);
+
+  useEffect(() => {
+    HttpService.getPatientList()
+      .then(response => setData(response))
+      .catch(error => console.error(error));
+  }, []);
 
   const handleDelete = (id: number) => {
     setData(data.filter(item => item.id !== id));
@@ -59,6 +54,13 @@ const PatientList: React.FC = () => {
       field: 'gender',
       headerName: 'Пол',
       width: 80,
+      renderCell: (params) => {
+        return (
+          <div className='patientListField'>
+            {params.row.gender === 1 ? 'мужской' : 'женский'}
+          </div>
+        );
+      },
     },
     {
       field: 'address',

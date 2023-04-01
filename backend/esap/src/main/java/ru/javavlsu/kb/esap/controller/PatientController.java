@@ -15,6 +15,7 @@ import ru.javavlsu.kb.esap.util.ResponseMessageError;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/patient")
 public class PatientController {
 
