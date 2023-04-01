@@ -1,6 +1,5 @@
 package ru.javavlsu.kb.esap.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
@@ -10,9 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,7 +25,6 @@ public class Schedule {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "doctor_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer"})
     private Doctor doctor;
 
     @JsonSerialize(using = LocalDateSerializer.class)
@@ -41,7 +37,6 @@ public class Schedule {
     private LocalTime endDoctorAppointment;
 
     private int maxPatientPerDay;
-
 
     @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY)
     private List<Appointment> appointments;

@@ -1,14 +1,9 @@
 package ru.javavlsu.kb.esap.dto;
 
-import jakarta.persistence.*;
+
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import ru.javavlsu.kb.esap.model.Clinic;
-import ru.javavlsu.kb.esap.model.Registry;
-import ru.javavlsu.kb.esap.model.Schedule;
-
-import java.util.List;
 
 @Getter
 @Setter

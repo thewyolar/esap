@@ -3,16 +3,13 @@ package ru.javavlsu.kb.esap.dto;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
-import ru.javavlsu.kb.esap.model.Appointment;
 import ru.javavlsu.kb.esap.model.Clinic;
-import ru.javavlsu.kb.esap.model.MedicalRecord;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter
-public class PatientDTO {
+public class PatientRequestDTO {
 
     @NotBlank
     @Size(max = 100)
@@ -44,10 +41,6 @@ public class PatientDTO {
     @Email
     @Size(max = 100)
     private String email;
-
-    private List<MedicalRecord> medicalRecords;
-
-    private List<Appointment> appointments;
 
     private Clinic clinic;
 

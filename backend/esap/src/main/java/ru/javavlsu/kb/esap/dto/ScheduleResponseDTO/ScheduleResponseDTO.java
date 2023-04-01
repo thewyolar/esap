@@ -1,9 +1,8 @@
-package ru.javavlsu.kb.esap.dto;
+package ru.javavlsu.kb.esap.dto.ScheduleResponseDTO;
 
 import lombok.Getter;
 import lombok.Setter;
-import ru.javavlsu.kb.esap.model.Appointment;
-import ru.javavlsu.kb.esap.model.Doctor;
+import ru.javavlsu.kb.esap.dto.DoctorDTO;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -11,9 +10,11 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ScheduleDTO {
+public class ScheduleResponseDTO {
 
-    private Doctor doctor;
+    private Long id;
+
+    private DoctorDTO doctor;
 
     private LocalDate date;
 
@@ -21,6 +22,6 @@ public class ScheduleDTO {
 
     private LocalTime endDoctorAppointment;
 
-    private List<Appointment> appointments;
+    private List<AppointmentResponseDTO> appointments;
 
 }
