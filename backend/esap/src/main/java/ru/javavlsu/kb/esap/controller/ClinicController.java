@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/clinic")
 public class ClinicController {
 
@@ -42,8 +43,8 @@ public class ClinicController {
         if(bindingResult.hasErrors()){
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        String[] loginPassword = clinicService.save(convertClinicDTO(clinicRegistrationDTO.getClinicDTO()),
-                convertDoctorDTO(clinicRegistrationDTO.getDoctorDTO()));
+        String[] loginPassword = clinicService.save(convertClinicDTO(clinicRegistrationDTO.getClinic()),
+                convertDoctorDTO(clinicRegistrationDTO.getDoctor()));
         return Map.of("login", loginPassword[0], "password", loginPassword[1]);
     }
 
