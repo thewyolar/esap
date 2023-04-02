@@ -17,6 +17,18 @@ class HttpService {
           .then((res) => res.data)
           .catch((error) => error)
     }
+
+    public static async getShedulesList() {
+        return await axios.get<Shedule[]>(HttpService.url + "/api/schedule")
+          .then((res) => res.data)
+          .catch((error) => error)
+    }
+
+    public static async getShedule(id: number) {
+        return await axios.get<Shedule>(HttpService.url + `/api/schedule/${id}`)
+          .then((res) => res.data)
+          .catch((error) => error)
+    }
 }
 
 export default HttpService;
