@@ -18,6 +18,7 @@ import ru.javavlsu.kb.esap.util.ScheduleNotFoundException;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/schedule")
 public class ScheduleController {
 
@@ -33,19 +34,19 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public List<ScheduleResponseDTO> getAllSchedule(){
+    public List<ScheduleResponseDTO> getAllSchedule() {
         return scheduleService.getAll().stream().map(this::convertSchedule).toList();
     }
 
     @GetMapping("/{id}")
-    public Schedule getSchedule(@PathVariable("id") Long id){
-        return scheduleService.get(id);
+    public ScheduleResponseDTO getSchedule(@PathVariable("id") Long id) {
+        return convertSchedule(scheduleService.get(id));
     }
 
     @PostMapping
     public ResponseEntity<HttpStatus> createSchedule(@RequestBody @Valid Schedule schedule,
-                                                     BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+                                                     BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
         scheduleService.create(schedule);
@@ -54,7 +55,7 @@ public class ScheduleController {
 
     @PostMapping("/{id}/appointment")
     public ResponseEntity<HttpStatus> addAppointment(@PathVariable("id") Long id, @RequestBody @Valid Appointment appointment,
-                                                     BindingResult bindingResult){
+                                                     BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
@@ -62,17 +63,17 @@ public class ScheduleController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    private ScheduleResponseDTO convertSchedule(Schedule schedule){
+    private ScheduleResponseDTO convertSchedule(Schedule schedule) {
         return modelMapper.map(schedule, ScheduleResponseDTO.class);
     }
 
     @ExceptionHandler
-    private ResponseEntity<NotCreateException> notCreateException(NotCreateException e){
+    private ResponseEntity<NotCreateException> notCreateException(NotCreateException e) {
         return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    private ResponseEntity<ScheduleNotFoundException> scheduleNotFoundException(ScheduleNotFoundException e){
+    private ResponseEntity<ScheduleNotFoundException> scheduleNotFoundException(ScheduleNotFoundException e) {
         return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 
