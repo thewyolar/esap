@@ -10,6 +10,8 @@ import java.time.LocalTime;
 @Setter
 public class AppointmentResponseDTO {
 
+    private Long id;
+
     private PatientResponseDTO patient;
 
     private LocalDate date;
