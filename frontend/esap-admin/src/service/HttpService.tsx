@@ -1,13 +1,14 @@
 import axios from "axios";
 import { ClinicRegistrationDTO } from "../model/dto/ClinicRegistrationDTO";
-import {Patient} from "../model/Patient";
+import { Patient } from "../model/Patient";
+import { Shedule } from "../model/Shedule";
 
 class HttpService {
 
     private static url = "http://localhost:8080";
 
     public static async registrationClinics(body: ClinicRegistrationDTO){
-        return await axios.post(HttpService.url + "/api/clinic", body)
+        return await axios.post<ClinicRegistrationDTO>(HttpService.url + "/api/clinic", body)
         .then((res) => res.data)
         .catch((error) => error)
     }
