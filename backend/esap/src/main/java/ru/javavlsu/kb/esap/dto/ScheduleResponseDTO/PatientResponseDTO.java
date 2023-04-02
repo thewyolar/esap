@@ -9,6 +9,8 @@ import java.time.LocalDate;
 @Setter
 public class PatientResponseDTO {
 
+    private Long id;
+
     private String firstName;
 
     private String patronymic;
@@ -24,6 +26,4 @@ public class PatientResponseDTO {
     private String phoneNumber;
 
     private String email;
-
-
 }
