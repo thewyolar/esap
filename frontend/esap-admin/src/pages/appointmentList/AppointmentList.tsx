@@ -4,6 +4,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Link, useParams } from "react-router-dom";
 import { DeleteOutline } from "@mui/icons-material";
 import { Appointment } from "../../model/Appointment";
+import './appointmentList.scss';
 
 const AppointmentList: React.FC = () => {
   let { id } = useParams();
