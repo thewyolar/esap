@@ -17,7 +17,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@Table(name = "shedules")
+@Table(name = "schedules")
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

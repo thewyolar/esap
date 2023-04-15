@@ -28,7 +28,7 @@ public class Registry {
     private String email;
 
     @OneToOne
-    @JoinColumn(name = "clinic")
+    @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 
     @Override
