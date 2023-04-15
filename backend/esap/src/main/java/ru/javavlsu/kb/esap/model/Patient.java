@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -52,8 +53,9 @@ public class Patient {
     @Size(max = 100)
     private String email;
 
-    @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
-    private List<MedicalRecord> medicalRecords;
+    @OneToOne(mappedBy = "patient", fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
+    private MedicalCard medicalCard;
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     private List<Appointment> appointments;

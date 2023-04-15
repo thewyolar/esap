@@ -1,5 +1,8 @@
 package ru.javavlsu.kb.esap.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,10 +28,12 @@ public class Analysis {
     private String result;
 
     @Column(name = "date")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "medical_record_id")
+    @JsonIgnore
     private MedicalRecord medicalRecord;
 
     @Override

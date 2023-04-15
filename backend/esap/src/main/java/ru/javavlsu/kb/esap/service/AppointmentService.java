@@ -7,7 +7,7 @@ import ru.javavlsu.kb.esap.model.Schedule;
 import ru.javavlsu.kb.esap.repository.AppointmentRepository;
 import ru.javavlsu.kb.esap.repository.ScheduleRepository;
 import ru.javavlsu.kb.esap.util.NotCreateException;
-import ru.javavlsu.kb.esap.util.ScheduleNotFoundException;
+import ru.javavlsu.kb.esap.util.NotFoundException;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -26,7 +26,7 @@ public class AppointmentService {
 
     @Transactional
     public void create(Appointment appointment, long scheduleId) throws NotCreateException{
-        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new ScheduleNotFoundException("Schedule not found"));
+        Schedule schedule = scheduleRepository.findById(scheduleId).orElseThrow(() -> new NotFoundException("Schedule not found"));
         List<Appointment> appointments = appointmentRepository.findBySchedule(schedule);
         if(schedule.getMaxPatientPerDay() == appointments.size()){
             throw new NotCreateException("No free time found in the schedule");

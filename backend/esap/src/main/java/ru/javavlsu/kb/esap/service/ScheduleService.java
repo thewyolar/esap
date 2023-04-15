@@ -3,11 +3,10 @@ package ru.javavlsu.kb.esap.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.javavlsu.kb.esap.model.Appointment;
 import ru.javavlsu.kb.esap.model.Schedule;
 import ru.javavlsu.kb.esap.repository.ScheduleRepository;
 import ru.javavlsu.kb.esap.util.NotCreateException;
-import ru.javavlsu.kb.esap.util.ScheduleNotFoundException;
+import ru.javavlsu.kb.esap.util.NotFoundException;
 
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -39,7 +38,7 @@ public class ScheduleService {
 
     public Schedule get(long id){
         Optional<Schedule> schedule = scheduleRepository.findById(id);
-        return schedule.orElseThrow(() -> new ScheduleNotFoundException("Schedule not found"));
+        return schedule.orElseThrow(() -> new NotFoundException("Schedule not found"));
     }
 
 }

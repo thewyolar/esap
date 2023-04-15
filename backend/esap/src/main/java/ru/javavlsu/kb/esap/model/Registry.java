@@ -27,7 +27,7 @@ public class Registry {
     @Column(name = "email")
     private String email;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "clinic_id")
     private Clinic clinic;
 

@@ -1,10 +1,14 @@
 package ru.javavlsu.kb.esap.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -12,8 +16,9 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
-@Table(name = "medical_records")
+@Table(name = "medical_record")
 public class MedicalRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,15 +26,22 @@ public class MedicalRecord {
     @Column(name = "record")
     private String record;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "patient_id")
-    private Patient patient;
+    @Column(name = "doctor")
+    @NotBlank
+    @NotNull
+    private String FIOAndSpecializationDoctor;
+
+    @Column(name = "date")
+    @NotNull
+    private LocalDate date;
 
     @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
     private List<Analysis> analyzes;
 
-    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
-    private List<LabTest> labTests;
+    @ManyToOne
+    @JoinColumn(name = "medical_card_id", referencedColumnName = "id")
+    @NotNull
+    private MedicalCard medicalCard;
 
     @Override
     public boolean equals(Object o) {
@@ -45,4 +57,3 @@ public class MedicalRecord {
     }
 
 }
-

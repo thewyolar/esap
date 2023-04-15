@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
+import ru.javavlsu.kb.esap.mapper.PatientMapper;
 import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.util.NotCreateException;
 import ru.javavlsu.kb.esap.util.ResponseMessageError;
@@ -19,9 +20,11 @@ import java.util.List;
 public class PatientController {
 
     private final PatientService patientService;
+    private final PatientMapper patientMapper;
 
-    public PatientController(PatientService patientService) {
+    public PatientController(PatientService patientService, PatientMapper patientMapper) {
         this.patientService = patientService;
+        this.patientMapper = patientMapper;
     }
 
     @GetMapping
@@ -44,4 +47,5 @@ public class PatientController {
     private ResponseEntity<NotCreateException> notCreateException(NotCreateException e){
         return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
+
 }

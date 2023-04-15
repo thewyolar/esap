@@ -13,7 +13,7 @@ import ru.javavlsu.kb.esap.service.AppointmentService;
 import ru.javavlsu.kb.esap.service.ScheduleService;
 import ru.javavlsu.kb.esap.util.NotCreateException;
 import ru.javavlsu.kb.esap.util.ResponseMessageError;
-import ru.javavlsu.kb.esap.util.ScheduleNotFoundException;
+import ru.javavlsu.kb.esap.util.NotFoundException;
 
 import java.util.List;
 
@@ -73,7 +73,7 @@ public class ScheduleController {
     }
 
     @ExceptionHandler
-    private ResponseEntity<ScheduleNotFoundException> scheduleNotFoundException(ScheduleNotFoundException e) {
+    private ResponseEntity<NotFoundException> notFoundException(NotFoundException e) {
         return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 

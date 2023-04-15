@@ -12,6 +12,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @Table(name = "lab_tests")
+@Deprecated
 public class LabTest {
 
     @Id
@@ -24,9 +25,9 @@ public class LabTest {
 
     private String result;
 
-    @ManyToOne
-    @JoinColumn(name = "medical_record_id")
-    private MedicalRecord medicalRecord;
+//    @ManyToOne
+//    @JoinColumn(name = "medical_record_id")
+//    private MedicalCard medicalCard;
 
     @Override
     public boolean equals(Object o) {
