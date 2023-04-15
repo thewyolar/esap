@@ -1,0 +1,29 @@
+.schedule_times {
+  margin-top: 22px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+
+  .schedule_time {
+    border-radius: 4px;
+    background-color: #e5e5e5;
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.3);
+    text-decoration: line-through;
+    padding: 7px;
+    margin-bottom: 5px;
+  }
+
+  .schedule_time-active {
+    text-decoration: none;
+    background-color: rgba(141, 248, 141, 0.33);
+  }
+
+  .schedule_time-active:hover {
+    background-color: rgba(78, 248, 78, 0.61);
+  }
+}

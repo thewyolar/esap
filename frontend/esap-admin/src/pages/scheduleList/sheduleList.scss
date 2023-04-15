@@ -1,7 +1,22 @@
-.sheduleListPage {
+.scheduleListPage {
   flex: 4;
 
-  .sheduleListField {
+  .scheduleListPage {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .square {
+    width: 30px;
+    height: 30px;
+    margin: 2px;
+    display: inline-block;
+    border: 1px solid black;
+  }
+
+
+  .scheduleListField {
     display: flex;
     align-items: center;
     img {
@@ -21,7 +36,6 @@
     color: white;
     margin-right: 15px;
     cursor: pointer;
-
   }
 
   .deleteButton {

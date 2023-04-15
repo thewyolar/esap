@@ -1,7 +1,7 @@
 import { DoctorDTO } from "./dto/DoctorDTO";
 import {Appointment} from "./Appointment";
 
-export interface Shedule {
+export interface Schedule {
   id: number,
   doctor: DoctorDTO,
   date: string,

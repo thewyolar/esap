@@ -12,7 +12,7 @@ const AppointmentList: React.FC = () => {
   const [data, setData] = useState<Appointment[]>([]);
 
   useEffect(() => {
-    HttpService.getShedule(sheduleId)
+    HttpService.getSchedule(sheduleId)
       .then(response => setData(response.appointments))
       .catch(error => console.error(error));
   }, []);

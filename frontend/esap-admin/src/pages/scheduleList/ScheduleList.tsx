@@ -1,16 +1,26 @@
 import './sheduleList.scss';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import React, { useEffect, useState } from 'react';
-import { DeleteOutline } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import {DataGrid, GridColDef, ruRU} from '@mui/x-data-grid';
+import React, {useEffect, useState} from 'react';
+import {DeleteOutline} from '@mui/icons-material';
 import HttpService from "../../service/HttpService";
-import { Shedule } from "../../model/Shedule";
+import {Schedule} from "../../model/Schedule";
+import ScheduleModal from "../../components/scheduleModal/ScheduleModal";
 
-const SheduleList: React.FC = () => {
-  const [data, setData] = useState<Shedule[]>([]);
+const ScheduleList: React.FC = () => {
+  const [data, setData] = useState<Schedule[]>([]);
+  const [open, setOpen] = useState(false);
+  const [selectedSchedule, setSelectedSchedule] = useState<Schedule>();
+  const handleOpen = (schedule: Schedule) => {
+    setSelectedSchedule(schedule);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
-    HttpService.getShedulesList()
+    HttpService.getSchedulesList()
       .then(response => setData(response))
       .catch(error => console.error(error));
   }, []);
@@ -65,9 +75,7 @@ const SheduleList: React.FC = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/appointment/${params.row.id}`}>
-              <button className='editButton'>Изменить</button>
-            </Link>
+            <button className='editButton' onClick={() => handleOpen(params.row)}>Изменить</button>
             <DeleteOutline
               className='deleteButton'
               onClick={() => handleDelete(params.row.id)}
@@ -79,8 +87,9 @@ const SheduleList: React.FC = () => {
   ];
 
   return (
-    <div className='sheduleListPage'>
+    <div className='scheduleListPage'>
       <DataGrid
+        localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
         rows={data}
         disableSelectionOnClick
         columns={columns}
@@ -88,8 +97,15 @@ const SheduleList: React.FC = () => {
         rowsPerPageOptions={[5]}
         checkboxSelection
       />
+      {selectedSchedule && (
+        <ScheduleModal
+          schedule={selectedSchedule}
+          open={open}
+          onClose={handleClose}
+        />
+      )}
     </div>
   );
 };
 
-export default SheduleList;
+export default ScheduleList;
