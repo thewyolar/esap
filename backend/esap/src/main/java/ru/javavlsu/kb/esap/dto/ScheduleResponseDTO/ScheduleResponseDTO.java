@@ -22,6 +22,8 @@ public class ScheduleResponseDTO {
 
     private LocalTime endDoctorAppointment;
 
+    private int maxPatientPerDay;
+
     private List<AppointmentResponseDTO> appointments;
 
 }
