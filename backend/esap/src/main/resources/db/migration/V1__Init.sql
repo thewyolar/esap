@@ -25,12 +25,10 @@ create table patients
 (
     id           bigserial primary key,
     address      varchar(200),
-    birth_date   date    not null,
+    birth_date   date not null,
     email        varchar(100),
     first_name   varchar(100),
-    gender       integer not null
-        constraint patients_gender_check
-            check ((gender <= 2) AND (gender >= 1)),
+    gender       integer not null,
     last_name    varchar(100),
     patronymic   varchar(100),
     phone_number varchar(20),
@@ -58,7 +56,7 @@ alter table if exists registries
     add constraint clinic_id_fk
     foreign key (clinic_id) references clinics;
 
-create table shedules
+create table schedules
 (
     id                       bigserial primary key,
     date                     date,
@@ -89,8 +87,8 @@ create table appointments
     date        date,
     end_time    time,
     start_time  time,
-    doctor_id   bigint
-    patient_id  bigint
+    doctor_id   bigint,
+    patient_id  bigint,
     schedule_id bigint
 );
 
