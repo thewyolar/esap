@@ -37,6 +37,10 @@ public class ScheduleService {
         return scheduleRepository.findAll();
     }
 
+    public List<Schedule> getAllByDoctorId(Long doctorId) {
+        return scheduleRepository.findAllByDoctorId(doctorId);
+    }
+
     public Schedule get(long id){
         Optional<Schedule> schedule = scheduleRepository.findById(id);
         return schedule.orElseThrow(() -> new ScheduleNotFoundException("Schedule not found"));

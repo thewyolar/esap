@@ -38,6 +38,11 @@ public class ScheduleController {
         return scheduleService.getAll().stream().map(this::convertSchedule).toList();
     }
 
+    @GetMapping("/doctor/{doctorId}")
+    public List<ScheduleResponseDTO> getDoctorSchedule(@PathVariable("doctorId") Long doctorId) {
+        return scheduleService.getAllByDoctorId(doctorId).stream().map(this::convertSchedule).toList();
+    }
+
     @GetMapping("/{id}")
     public ScheduleResponseDTO getSchedule(@PathVariable("id") Long id) {
         return convertSchedule(scheduleService.get(id));
