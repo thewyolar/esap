@@ -81,6 +81,7 @@ const ScheduleList: React.FC = () => {
   return (
     <div className='sheduleListPage'>
       <DataGrid
+        localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
         rows={data}
         disableSelectionOnClick
         columns={columns}

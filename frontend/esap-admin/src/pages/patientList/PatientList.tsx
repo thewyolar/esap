@@ -1,5 +1,5 @@
 import './patientList.scss';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import {DataGrid, GridColDef, ruRU} from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import { DeleteOutline } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
@@ -100,6 +100,7 @@ const PatientList: React.FC = () => {
   return (
     <div className='patientListPage'>
       <DataGrid
+        localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
         rows={data}
         disableSelectionOnClick
         columns={columns}
