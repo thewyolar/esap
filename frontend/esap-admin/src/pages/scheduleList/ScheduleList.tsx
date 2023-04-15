@@ -1,16 +1,16 @@
 import './sheduleList.scss';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import {DataGrid, GridColDef, ruRU} from '@mui/x-data-grid';
 import React, { useEffect, useState } from 'react';
 import { DeleteOutline } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import HttpService from "../../service/HttpService";
-import { Shedule } from "../../model/Shedule";
+import { Schedule } from "../../model/Schedule";
 
-const SheduleList: React.FC = () => {
-  const [data, setData] = useState<Shedule[]>([]);
+const ScheduleList: React.FC = () => {
+  const [data, setData] = useState<Schedule[]>([]);
 
   useEffect(() => {
-    HttpService.getShedulesList()
+    HttpService.getSchedulesList()
       .then(response => setData(response))
       .catch(error => console.error(error));
   }, []);
@@ -92,4 +92,4 @@ const SheduleList: React.FC = () => {
   );
 };
 
-export default SheduleList;
+export default ScheduleList;

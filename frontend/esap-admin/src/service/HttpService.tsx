@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ClinicRegistrationDTO } from "../model/dto/ClinicRegistrationDTO";
 import { Patient } from "../model/Patient";
-import { Shedule } from "../model/Shedule";
+import { Schedule } from "../model/Schedule";
 
 class HttpService {
 
@@ -19,14 +19,14 @@ class HttpService {
           .catch((error) => error)
     }
 
-    public static async getShedulesList() {
-        return await axios.get<Shedule[]>(HttpService.url + "/api/schedule")
+    public static async getSchedulesList() {
+        return await axios.get<Schedule[]>(HttpService.url + "/api/schedule")
           .then((res) => res.data)
           .catch((error) => error)
     }
 
-    public static async getShedule(id: number) {
-        return await axios.get<Shedule>(HttpService.url + `/api/schedule/${id}`)
+    public static async getSchedule(id: number) {
+        return await axios.get<Schedule>(HttpService.url + `/api/schedule/${id}`)
           .then((res) => res.data)
           .catch((error) => error)
     }
