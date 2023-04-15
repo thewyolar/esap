@@ -1,13 +1,23 @@
 import './sheduleList.scss';
 import {DataGrid, GridColDef, ruRU} from '@mui/x-data-grid';
-import React, { useEffect, useState } from 'react';
-import { DeleteOutline } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {DeleteOutline} from '@mui/icons-material';
 import HttpService from "../../service/HttpService";
-import { Schedule } from "../../model/Schedule";
+import {Schedule} from "../../model/Schedule";
+import ScheduleModal from "../../components/scheduleModal/ScheduleModal";
 
 const ScheduleList: React.FC = () => {
   const [data, setData] = useState<Schedule[]>([]);
+  const [open, setOpen] = useState(false);
+  const [selectedSchedule, setSelectedSchedule] = useState<Schedule>();
+  const handleOpen = (schedule: Schedule) => {
+    setSelectedSchedule(schedule);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   useEffect(() => {
     HttpService.getSchedulesList()
@@ -65,9 +75,7 @@ const ScheduleList: React.FC = () => {
       renderCell: (params) => {
         return (
           <>
-            <Link to={`/appointment/${params.row.id}`}>
-              <button className='editButton'>Изменить</button>
-            </Link>
+            <button className='editButton' onClick={() => handleOpen(params.row)}>Изменить</button>
             <DeleteOutline
               className='deleteButton'
               onClick={() => handleDelete(params.row.id)}
@@ -79,7 +87,7 @@ const ScheduleList: React.FC = () => {
   ];
 
   return (
-    <div className='sheduleListPage'>
+    <div className='scheduleListPage'>
       <DataGrid
         localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
         rows={data}
@@ -89,6 +97,13 @@ const ScheduleList: React.FC = () => {
         rowsPerPageOptions={[5]}
         checkboxSelection
       />
+      {selectedSchedule && (
+        <ScheduleModal
+          schedule={selectedSchedule}
+          open={open}
+          onClose={handleClose}
+        />
+      )}
     </div>
   );
 };
