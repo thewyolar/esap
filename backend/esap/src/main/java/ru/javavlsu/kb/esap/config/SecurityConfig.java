@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 @Configuration
@@ -27,9 +28,9 @@ public class SecurityConfig {
                 .httpBasic()
                 .and()
                 .csrf().disable()
-                .authorizeHttpRequests((requests) -> requests
-                        .anyRequest().permitAll()
-                )
+                .authorizeHttpRequests()
+                .anyRequest().permitAll()
+                .and()
                 .formLogin((form) -> form
                         .defaultSuccessUrl("/")
                 )
@@ -43,10 +44,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUTCH", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type"));
-        configuration.setExposedHeaders(Arrays.asList("content-length"));
+        configuration.setExposedHeaders(List.of("content-length"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
