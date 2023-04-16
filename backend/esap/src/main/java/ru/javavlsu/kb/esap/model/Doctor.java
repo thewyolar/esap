@@ -38,7 +38,6 @@ public class Doctor {
     private String specialization;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
-    @JsonIgnore
     private List<Schedule> schedules;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -27,9 +27,6 @@ public class Appointment {
     @ManyToOne(fetch = FetchType.LAZY)
     private Patient patient;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Doctor doctor;
-
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate date;
 

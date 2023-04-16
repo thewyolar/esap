@@ -4,10 +4,15 @@ package ru.javavlsu.kb.esap.dto;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
+
+import java.util.List;
 
 @Getter
 @Setter
 public class DoctorDTO {
+
+    private Long id;
 
     private String password;
 
@@ -22,5 +27,5 @@ public class DoctorDTO {
 
     private String specialization;
 
-
+    private List<ScheduleResponseDTO> schedules;
 }

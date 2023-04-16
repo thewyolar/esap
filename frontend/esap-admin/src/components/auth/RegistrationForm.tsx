@@ -16,10 +16,12 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
     event.preventDefault();
 
     const doctorData: DoctorDTO = {
+      id: 0,
       firstName: doctorFirstName,
       patronymic: doctorPatronymic,
       lastName: doctorLastName,
-      specialization: doctorSpecialization
+      specialization: doctorSpecialization,
+      schedules: []
     };
 
     onSubmit(doctorData);

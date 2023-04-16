@@ -14,8 +14,6 @@ public class ScheduleResponseDTO {
 
     private Long id;
 
-    private DoctorDTO doctor;
-
     private LocalDate date;
 
     private LocalTime startDoctorAppointment;
