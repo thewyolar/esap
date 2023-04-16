@@ -1,5 +1,6 @@
 package ru.javavlsu.kb.esap.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,7 +30,7 @@ public class MedicalRecord {
     @Column(name = "doctor")
     @NotBlank
     @NotNull
-    private String FIOAndSpecializationDoctor;
+    private String fioAndSpecializationDoctor;
 
     @Column(name = "date")
     @NotNull
@@ -41,6 +42,7 @@ public class MedicalRecord {
     @ManyToOne
     @JoinColumn(name = "medical_card_id", referencedColumnName = "id")
     @NotNull
+    @JsonIgnore
     private MedicalCard medicalCard;
 
     @Override
