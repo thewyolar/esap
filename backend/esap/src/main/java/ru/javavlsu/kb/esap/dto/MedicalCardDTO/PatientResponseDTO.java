@@ -21,4 +21,6 @@ public class PatientResponseDTO {
 
     private String phoneNumber;
 
+    private String address;
+
 }
