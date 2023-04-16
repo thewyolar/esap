@@ -4,16 +4,18 @@ import {Appointment} from "../../model/Appointment";
 import moment from "moment";
 
 interface ScheduleTimesProps {
-  date: string,
-  times: string[],
-  appointments: Appointment[]
+  date: string;
+  times: string[];
+  appointments: Appointment[];
 }
 
-const ScheduleTimes: React.FC<ScheduleTimesProps> = ({ date, times, appointments }) => {
+const ScheduleTimes: React.FC<ScheduleTimesProps> = ({ date, times, appointments}) => {
   const hasAppointment = (time: string) => {
-    return appointments.some((appointment) => {
-      return appointment.date === date && appointment.startAppointments === moment(time, 'HH:mm').format('HH:mm:ss');
-    });
+    return appointments.some(
+      (appointment) =>
+        appointment.date === date &&
+        appointment.startAppointments === moment(time, "HH:mm").format("HH:mm:ss")
+    );
   };
 
   return (
@@ -28,4 +30,3 @@ const ScheduleTimes: React.FC<ScheduleTimesProps> = ({ date, times, appointments
 };
 
 export default ScheduleTimes;
-

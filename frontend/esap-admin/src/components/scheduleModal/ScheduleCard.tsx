@@ -13,18 +13,15 @@ interface ScheduleCardProps {
 
 const ScheduleCard: React.FC<ScheduleCardProps> = ({ date, startTime, endTime, appointments }) => {
   const formattedDate = moment(date).format("ddd, D MMMM");
+  const startTimeFormatted = moment(startTime, "HH:mm:ss").format("HH:mm");
+  const endTimeFormatted = moment(endTime, "HH:mm:ss").format("HH:mm");
   const times = [];
-  let currentTime = startTime;
-  while (currentTime < endTime) {
-    times.push(currentTime);
-    const [hour, minute] = currentTime.split(':');
-    const dateObj = new Date();
-    dateObj.setHours(Number(hour));
-    dateObj.setMinutes(Number(minute));
-    dateObj.setMinutes(dateObj.getMinutes() + 30);
-    currentTime = dateObj.toTimeString().slice(0, 5);
+  let currentTime = moment(startTimeFormatted, "HH:mm");
+  while (currentTime.isBefore(moment(endTimeFormatted, "HH:mm"))) {
+    times.push(currentTime.format("HH:mm"));
+    currentTime.add(30, "minutes");
   }
-  times.push(endTime);
+  times.push(endTimeFormatted);
 
   return (
     <Card>
@@ -33,7 +30,7 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ date, startTime, endTime, a
           {formattedDate}
         </Typography>
         <Typography variant="h5" component="div">
-          <ScheduleTimes date={date} times={times}  appointments={appointments} />
+          <ScheduleTimes date={date} times={times} appointments={appointments} />
         </Typography>
       </CardContent>
     </Card>
