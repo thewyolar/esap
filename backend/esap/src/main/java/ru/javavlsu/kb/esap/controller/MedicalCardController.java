@@ -36,7 +36,7 @@ public class MedicalCardController {
 
     @GetMapping("/patient/{id}")
     public MedicalCardResponseDTO getMedicalCard(@PathVariable("id") Long id){
-        return medicalCardMapper.convertMedicalCard(
+        return medicalCardMapper.toMedicalCard(
                 medicalCardService.getMedicalCardByPatient(patientService.getById(id)));
     }
 
@@ -47,7 +47,7 @@ public class MedicalCardController {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        medicalCardService.createMedicalRecord(medicalCardMapper.convertMedicalRecordRequestDTO(medicalRecordRequestDTO),
+        medicalCardService.createMedicalRecord(medicalCardMapper.toMedicalRecordRequestDTO(medicalRecordRequestDTO),
                 medicalCardService.getMedicalCardByPatient(patientService.getById(id)));
         return ResponseEntity.ok(HttpStatus.OK);
     }

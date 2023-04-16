@@ -16,12 +16,11 @@ public class MedicalCardMapper {
         this.modelMapper = modelMapper;
     }
 
-    public MedicalRecord convertMedicalRecordRequestDTO(MedicalRecordRequestDTO medicalRecordRequestDTO){
+    public MedicalRecord toMedicalRecordRequestDTO(MedicalRecordRequestDTO medicalRecordRequestDTO){
         return modelMapper.map(medicalRecordRequestDTO, MedicalRecord.class);
     }
 
-    public MedicalCardResponseDTO convertMedicalCard(MedicalCard medicalCard) {
+    public MedicalCardResponseDTO toMedicalCard(MedicalCard medicalCard) {
         return modelMapper.map(medicalCard, MedicalCardResponseDTO.class);
     }
-
 }
