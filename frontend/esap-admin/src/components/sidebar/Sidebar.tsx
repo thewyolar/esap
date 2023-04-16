@@ -29,10 +29,10 @@ const Sidebar: React.FC = () => {
             </Link>
           </ul>
           <ul>
-            <Link to='/shedules' className='link'>
+            <Link to='/doctors' className='link'>
               <li>
                 <PermIdentity className='icon'/>
-                Расписание врачей
+                Врачи
               </li>
             </Link>
           </ul>

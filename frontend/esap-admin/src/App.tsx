@@ -9,8 +9,7 @@ import React from "react";
 import RegistrationPage from "./pages/registration/Registration";
 import Queue from "./components/queue/Queue";
 import User from "./pages/user/User";
-import ScheduleList from "./pages/scheduleList/ScheduleList";
-import AppointmentList from "./pages/appointmentList/AppointmentList";
+import DoctorList from "./pages/doctorList/DoctorList";
 import MedicalCard from './pages/medicalCard/PatientMedicalCard';
 
 const App: React.FC = () => {
@@ -18,8 +17,8 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/shedules" element={<ScheduleList />} />
-        <Route path="/appointment/:id" element={<AppointmentList />} />
+        <Route path="/doctors" element={<DoctorList />} />
+        <Route path="/doctor/:doctorId" element={<User />} />
         <Route path="/patients" element={<PatientList />} />
         <Route path="/patient/:patientId" element={<User />} />
         <Route path="/medicalCard/:patientId" element={<MedicalCard />} />
