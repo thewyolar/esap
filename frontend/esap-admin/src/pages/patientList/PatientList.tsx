@@ -63,29 +63,22 @@ const PatientList: React.FC = () => {
       },
     },
     {
-      field: 'address',
-      headerName: 'Адрес',
-      width: 200,
-    },
-    {
       field: 'phoneNumber',
       headerName: 'Телефон',
       width: 130,
     },
     {
-      field: 'email',
-      headerName: 'Почта',
-      width: 180,
-    },
-    {
       field: 'action',
       headerName: 'Действие',
-      width: 150,
+      width: 250,
       renderCell: (params) => {
         return (
           <>
             <Link to={`/patient/${params.row.id}`}>
               <button className='editButton'>Изменить</button>
+            </Link>
+            <Link to={`/medicalCard/${params.row.id}`}>
+              <button className='editButton'>Карта</button>
             </Link>
             <DeleteOutline
               className='deleteButton'

@@ -30,6 +30,12 @@ class HttpService {
           .then((res) => res.data)
           .catch((error) => error)
     }
+
+    public static async getMedicalCard(id: number) {
+        return await axios.get<Schedule>(HttpService.url + `/api/medicalCard/patient/${id}`)
+          .then((res) => res.data)
+          .catch((error) => error)
+    }
 }
 
 export default HttpService;

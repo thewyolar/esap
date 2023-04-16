@@ -11,6 +11,7 @@ import Queue from "./components/queue/Queue";
 import User from "./pages/user/User";
 import ScheduleList from "./pages/scheduleList/ScheduleList";
 import AppointmentList from "./pages/appointmentList/AppointmentList";
+import MedicalCard from './pages/medicalCard/PatientMedicalCard';
 
 const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
         <Route path="/appointment/:id" element={<AppointmentList />} />
         <Route path="/patients" element={<PatientList />} />
         <Route path="/patient/:patientId" element={<User />} />
+        <Route path="/medicalCard/:patientId" element={<MedicalCard />} />
         <Route path="/newPatient" element={<NewPatient />} />
         <Route path="/queue" element={<Queue />} />
       </Route>
