@@ -14,19 +14,22 @@ interface ScheduleModalProps {
 
 const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedule }) => {
   const startOfWeek = moment(schedule.date).isoWeekday(1);
-  const endOfWeek = startOfWeek.clone().add(6, "days");
-  const weekRange = `${startOfWeek.format("D MMMM")} — ${endOfWeek.format("D MMMM YYYY")}`;
+  const weekRange = `${startOfWeek.format("D MMMM")} — ${startOfWeek.clone().add(6, "days").format("D MMMM YYYY")}`;
   const daysOfWeek = Array.from(Array(7)).map((_, index) => startOfWeek.clone().add(index, "days"));
 
   const renderScheduleCard = (day: Moment) => {
     const date = day.format("YYYY-MM-DD");
-    const { startDoctorAppointment, endDoctorAppointment, appointments } = schedule;
+    const { startDoctorAppointment, appointments } = schedule;
+    let endTime = moment('18:30', 'HH:mm').format('HH:mm');
+    if (day.isSame(moment(schedule.date), 'day')) {
+      endTime = schedule.endDoctorAppointment;
+    }
     return (
       <ScheduleCard
         key={day.toISOString()}
         date={date}
         startTime={startDoctorAppointment}
-        endTime={endDoctorAppointment}
+        endTime={endTime}
         appointments={appointments}
       />
     );
@@ -42,8 +45,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedule }
       <Box
         sx={{margin: "auto", mt: 12, p: 3,
           width: "70%", height: "80%", bgcolor: "background.paper",
-          borderRadius: "5px", overflow: "auto",
-        }}
+          borderRadius: "5px", overflow: "auto"}}
       >
         <Typography id="modal-modal-title" align="center" style={{ marginBottom: "10px" }}>
           {weekRange}
