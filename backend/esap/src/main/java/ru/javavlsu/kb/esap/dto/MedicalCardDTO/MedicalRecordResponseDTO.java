@@ -14,7 +14,7 @@ public class MedicalRecordResponseDTO {
 
     private String record;
 
-    private String FIOAndSpecializationDoctor;
+    private String fioAndSpecializationDoctor;
 
     private LocalDate date;
 

@@ -17,7 +17,7 @@ public class MedicalRecordRequestDTO {
 
     @NotBlank
     @NotNull
-    private String FIOAndSpecializationDoctor;
+    private String fioAndSpecializationDoctor;
 
     @NotNull
     private LocalDate date;
