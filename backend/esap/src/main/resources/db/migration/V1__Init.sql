@@ -29,6 +29,7 @@ create table doctors
     last_name varchar(255) not null,
     login varchar(255),
     password varchar(255),
+    role varchar(255),
     patronymic varchar(100) not null,
     specialization varchar(255) not null,
     clinic_id bigint, primary key (id),
@@ -105,11 +106,9 @@ create table appointments
     date date,
     end_time time,
     start_time time,
-    doctor_id bigint,
     patient_id bigint,
     schedule_id bigint,
     primary key (id),
-    FOREIGN KEY (doctor_id) REFERENCES doctors (id),
     FOREIGN KEY (patient_id) REFERENCES patients (id),
     FOREIGN KEY (schedule_id) REFERENCES schedules (id)
 );
