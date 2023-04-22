@@ -3,6 +3,7 @@ package ru.javavlsu.kb.esap.mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import ru.javavlsu.kb.esap.dto.DoctorDTO;
+import ru.javavlsu.kb.esap.dto.auth.DoctorRegistration;
 import ru.javavlsu.kb.esap.model.Doctor;
 
 import java.util.List;
@@ -18,6 +19,10 @@ public class DoctorMapper {
 
     public Doctor toDoctor(DoctorDTO doctorDTO){
         return modelMapper.map(doctorDTO, Doctor.class);
+    }
+
+    public Doctor toDoctor(DoctorRegistration doctorRegistration){
+        return modelMapper.map(doctorRegistration, Doctor.class);
     }
 
     public DoctorDTO toDoctorDTO(Doctor doctor) {

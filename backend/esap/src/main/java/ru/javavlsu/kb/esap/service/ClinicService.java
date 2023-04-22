@@ -25,14 +25,4 @@ public class ClinicService {
         return clinicRepository.findAll(); 
     }
 
-    @Transactional
-    public String[] save(Clinic clinic, Doctor doctor) {
-        doctor.setLogin("admin");
-        doctor.setPassword("admin");
-        doctor.setClinic(clinic);
-        clinic.setDoctors(Collections.singletonList(doctor));
-        clinicRepository.save(clinic);
-        return new String[] {doctor.getLogin(), doctor.getPassword()};
-    }
-
 }

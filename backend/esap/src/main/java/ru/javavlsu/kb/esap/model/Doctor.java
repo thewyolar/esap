@@ -2,6 +2,8 @@ package ru.javavlsu.kb.esap.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,9 +21,14 @@ public class Doctor {
     private Long id;
 
     @Column(name = "password")
+    @NotBlank
+    @NotNull
     private String password;
 
     @Column(name = "login")
+    @Size(min = 3, max = 255, message = "login должен быть от 3 до 255 символов")
+    @NotBlank
+    @NotNull
     private String login;
 
     @Column(name = "first_name", nullable = false)
@@ -44,6 +51,8 @@ public class Doctor {
     @JoinColumn(name = "clinic_id", referencedColumnName = "id")
     @JsonIgnore
     private Clinic clinic;
+
+    private String role;
 
     @Override
     public boolean equals(Object o) {
