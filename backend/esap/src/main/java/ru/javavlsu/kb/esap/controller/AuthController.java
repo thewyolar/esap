@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.auth.AuthenticationDTO;
@@ -54,7 +55,6 @@ public class AuthController {
     public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO){
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(), authenticationDTO.getPassword());
-        System.out.println(authenticationToken);
         authenticationManager.authenticate(authenticationToken);
         String token = jwtUtil.generateToken(authenticationDTO.getLogin());
         return Map.of("jwt", token);
@@ -67,6 +67,11 @@ public class AuthController {
 
     @ExceptionHandler
     private ResponseEntity<NotFoundException> notFoundException(NotFoundException e) {
+        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    private ResponseEntity<AuthenticationException> authenticationException(AuthenticationException e) {
         return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 
