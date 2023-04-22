@@ -14,6 +14,7 @@ import ru.javavlsu.kb.esap.dto.auth.ClinicRegistrationDTO;
 import ru.javavlsu.kb.esap.mapper.ClinicMapper;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.security.JWTUtil;
+import ru.javavlsu.kb.esap.service.DoctorService;
 import ru.javavlsu.kb.esap.service.RegistrationService;
 import ru.javavlsu.kb.esap.util.NotCreateException;
 import ru.javavlsu.kb.esap.util.NotFoundException;
@@ -31,13 +32,15 @@ public class AuthController {
     private final RegistrationService registrationService;
     private final ClinicMapper clinicMapper;
     private final DoctorMapper doctorMapper;
+    private final DoctorService doctorService;
 
-    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RegistrationService registrationService, ClinicMapper clinicMapper, DoctorMapper doctorMapper) {
+    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RegistrationService registrationService, ClinicMapper clinicMapper, DoctorMapper doctorMapper, DoctorService doctorService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.registrationService = registrationService;
         this.clinicMapper = clinicMapper;
         this.doctorMapper = doctorMapper;
+        this.doctorService = doctorService;
     }
 
     @PostMapping("/registration/clinic")
@@ -58,6 +61,13 @@ public class AuthController {
         authenticationManager.authenticate(authenticationToken);
         String token = jwtUtil.generateToken(authenticationDTO.getLogin());
         return Map.of("jwt", token);
+    }
+
+    //TODO Служебный запрос
+    @PostMapping("/password/reset/{id}")
+    public ResponseEntity<HttpStatus> passwordReset(@PathVariable("id") Long id){
+        registrationService.passwordReset(doctorService.getById(id));
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @ExceptionHandler
