@@ -3,13 +3,13 @@ import Modal from "@mui/material/Modal";
 import { DataGrid, GridColDef, ruRU } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import MedicalRecordModal from "../../components/medicalCardModal/MedicalRecordModal";
 import { MedicalCard } from "../../model/MedicalCard";
 import { MedicalRecord } from "../../model/MedicalRecord";
 import HttpService from "../../service/HttpService";
 import "./patientMedicalCard.scss";
 
 const PatientMedicalCard: React.FC = (onClose) => {
-
   let { patientId } = useParams();
   let patientIdInt = parseInt(patientId!);
   const [data, setData] = useState<MedicalCard>();
@@ -19,35 +19,46 @@ const PatientMedicalCard: React.FC = (onClose) => {
       .catch((error) => console.error(error));
   }, []);
 
-  // const [selectedMedicalRecord, setSelectedSchedule] = useState<MedicalRecord>();
+  const [selectedMedicalRecord, setSelectedMedicalRecord] =
+    useState<MedicalRecord>();
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = (medicalCard: MedicalRecord) => {
+    setSelectedMedicalRecord(medicalCard);
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const columns: GridColDef[] = [
     {
-      field: 'id',
-      headerName: 'ID',
+      field: "id",
+      headerName: "ID",
       width: 50,
     },
     {
-      field: 'fioandSpecializationDoctor',
-      headerName: 'Врач',
+      field: "fioAndSpecializationDoctor",
+      headerName: "Врач",
       width: 400,
     },
     {
-      field: 'date',
-      headerName: 'Дата',
+      field: "date",
+      headerName: "Дата",
       width: 140,
     },
     {
-      field: 'action',
-      headerName: 'Действие',
+      field: "action",
+      headerName: "Действие",
       width: 170,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <>
-            <button className='editButton' onClick={handleOpen}>Изменить</button>
+            <button
+              className="editButton"
+              onClick={() => handleOpen(params.row)}
+            >
+              Изменить
+            </button>
           </>
         );
       },
@@ -70,7 +81,9 @@ const PatientMedicalCard: React.FC = (onClose) => {
           </div>
           <div className="bottom">
             <div className="info">
-              <span className="infoTitle">{data?.patient.gender === 1 ? 'мужской' : 'женский'}</span>
+              <span className="infoTitle">
+                {data?.patient.gender === 1 ? "мужской" : "женский"}
+              </span>
             </div>
             <div className="info">
               <span className="infoTitle">{data?.patient.birthDate}</span>
@@ -85,37 +98,26 @@ const PatientMedicalCard: React.FC = (onClose) => {
           </div>
         </div>
         <div className="medicalCard">
-        <DataGrid
-        localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
-        rows={data?.medicalRecord || []}
-        disableSelectionOnClick
-        columns={columns}
-        pageSize={13}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        />
-        
+          <DataGrid
+            localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
+            rows={data?.medicalRecord || []}
+            disableSelectionOnClick
+            columns={columns}
+            pageSize={13}
+            rowsPerPageOptions={[5]}
+            checkboxSelection
+          />
         </div>
       </div>
-      {(
-      <Modal
-      open={open}
-      onClose={handleClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-      >
-        <Box>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
+      {selectedMedicalRecord && (
+        <MedicalRecordModal
+          open={open}
+          onClose={handleClose}
+          medicalRecord={selectedMedicalRecord}
+        />
       )}
     </div>
-  )
-}
+  );
+};
 
 export default PatientMedicalCard;
