@@ -1,20 +1,18 @@
 import React from 'react';
 import {Card, CardContent, Typography} from "@mui/material";
 import ScheduleTimes from "./ScheduleTimes";
-import {Appointment} from "../../model/Appointment";
 import moment from "moment";
+import {Schedule} from "../../model/Schedule";
 
 interface ScheduleCardProps {
   date: string,
-  startTime: string,
-  endTime: string,
-  appointments: Appointment[]
+  schedule: Schedule;
 }
 
-const ScheduleCard: React.FC<ScheduleCardProps> = ({ date, startTime, endTime, appointments }) => {
+const ScheduleCard: React.FC<ScheduleCardProps> = ({ date, schedule }) => {
   const formattedDate = moment(date).format("ddd, D MMMM");
-  const startTimeFormatted = moment(startTime, "HH:mm:ss").format("HH:mm");
-  const endTimeFormatted = moment(endTime, "HH:mm:ss").format("HH:mm");
+  const startTimeFormatted = moment('8:30', "HH:mm:ss").format("HH:mm");
+  const endTimeFormatted = moment('18:30', "HH:mm:ss").format("HH:mm");
   const times = [];
   let currentTime = moment(startTimeFormatted, "HH:mm");
   while (currentTime.isBefore(moment(endTimeFormatted, "HH:mm"))) {
@@ -25,12 +23,12 @@ const ScheduleCard: React.FC<ScheduleCardProps> = ({ date, startTime, endTime, a
 
   return (
     <Card>
-      <CardContent>
+      <CardContent style={{paddingBottom: '12px', height: '691px'}}>
         <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
           {formattedDate}
         </Typography>
         <Typography variant="h5" component="div">
-          <ScheduleTimes date={date} times={times} appointments={appointments} />
+          <ScheduleTimes date={date} times={times} schedule={schedule}/>
         </Typography>
       </CardContent>
     </Card>

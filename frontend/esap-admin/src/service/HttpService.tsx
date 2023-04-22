@@ -43,6 +43,12 @@ class HttpService {
           .then((res) => res.data)
           .catch((error) => error)
     }
+
+    public static async getPatient(id: number) {
+        return await axios.get<Patient>(HttpService.url + `/api/patient/${id}`)
+          .then((res) => res.data)
+          .catch((error) => error)
+    }
 }
 
 export default HttpService;
