@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
 import ru.javavlsu.kb.esap.mapper.PatientMapper;
+import ru.javavlsu.kb.esap.model.Patient;
 import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.util.NotCreateException;
 import ru.javavlsu.kb.esap.util.ResponseMessageError;
@@ -31,6 +32,12 @@ public class PatientController {
     public ResponseEntity<List<PatientResponseDTO>> getAllPatients() {
         List<PatientResponseDTO> patients = patientService.getAll();
         return ResponseEntity.ok(patients);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Patient> getPatient(@PathVariable("id") Long patientId) {
+        Patient patient = patientService.getById(patientId);
+        return ResponseEntity.ok(patient);
     }
 
     @PostMapping
