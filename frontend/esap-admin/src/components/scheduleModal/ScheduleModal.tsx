@@ -9,7 +9,7 @@ import 'moment/locale/ru';
 interface ScheduleModalProps {
   open: boolean,
   onClose: () => void,
-  schedules: Schedule[]
+  schedules: Schedule[];
 }
 
 const ITEMS_PER_PAGE = 1;
@@ -35,15 +35,12 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedules 
 
   const renderScheduleCard = (schedule: Schedule, day: Moment) => {
     const date = day.format("YYYY-MM-DD");
-    const {startDoctorAppointment, appointments} = schedule;
-    const endTime = day.isSame(moment(schedule.date), 'day') ? schedule.endDoctorAppointment : moment('18:30', 'HH:mm').format('HH:mm');
+
     return (
       <ScheduleCard
         key={day.toISOString()}
         date={date}
-        startTime={startDoctorAppointment}
-        endTime={endTime}
-        appointments={appointments}
+        schedule={schedule}
       />
     );
   };
@@ -69,7 +66,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedules 
             </Typography>
             <div style={{display: 'flex', justifyContent: 'center', marginBottom: '12px'}}>
               <Pagination count={Math.ceil(schedules.length / ITEMS_PER_PAGE)} page={activePage + 1}
-                          onChange={(_, page) => handlePageChange(page)}/>
+                          onChange={(_, page) => handlePageChange(page)} key={activePage} />
             </div>
             <Grid container spacing={2} columns={14} textAlign="center">
               {getDaysOfWeek(schedule).map((day) => (
