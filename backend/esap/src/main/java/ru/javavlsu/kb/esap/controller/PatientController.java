@@ -3,12 +3,16 @@ package ru.javavlsu.kb.esap.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
 import ru.javavlsu.kb.esap.mapper.PatientMapper;
+import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Patient;
+import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.util.NotCreateException;
 import ru.javavlsu.kb.esap.util.ResponseMessageError;
@@ -30,7 +34,8 @@ public class PatientController {
 
     @GetMapping
     public ResponseEntity<List<PatientResponseDTO>> getAllPatients() {
-        List<PatientResponseDTO> patients = patientService.getAll();
+        Doctor doctor = getDoctorDetails().getDoctor();
+        List<PatientResponseDTO> patients = patientService.getByClinic(doctor.getClinic());
         return ResponseEntity.ok(patients);
     }
 
@@ -48,6 +53,11 @@ public class PatientController {
         }
         patientService.create(patientRequestDTO);
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    private DoctorDetails getDoctorDetails(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (DoctorDetails) authentication.getPrincipal();
     }
 
     @ExceptionHandler

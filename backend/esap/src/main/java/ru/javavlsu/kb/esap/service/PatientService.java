@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
 import ru.javavlsu.kb.esap.mapper.PatientMapper;
+import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.MedicalCard;
 import ru.javavlsu.kb.esap.model.Patient;
 import ru.javavlsu.kb.esap.repository.MedicalCardRepository;
@@ -30,6 +31,11 @@ public class PatientService {
 
     public List<PatientResponseDTO> getAll() {
         List<Patient> patients = patientRepository.findAll();
+        return patientMapper.patientResponseDTOList(patients);
+    }
+
+    public List<PatientResponseDTO> getByClinic(Clinic clinic) {
+        List<Patient> patients = patientRepository.findByClinic(clinic);
         return patientMapper.patientResponseDTOList(patients);
     }
 

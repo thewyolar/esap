@@ -36,9 +36,15 @@ public class RegistrationService {
         doctor.setLogin(loginPassword[0]);
         doctor.setPassword(passwordEncoder.encode(loginPassword[1]));
         doctor.setClinic(clinic);
+        doctor.setRole("null");//TODO роль null
         clinic.setDoctors(Collections.singletonList(doctor));
         clinicRepository.save(clinic);
         return new String[] {doctor.getLogin(), loginPassword[1]};
+    }
+
+    @Transactional
+    public void passwordReset(Doctor doctor) {
+        doctor.setPassword(passwordEncoder.encode("123"));
     }
 
 }
