@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route} from 'react-router-dom';
 import Home from './pages/home/Home';
 import NewPatient from './pages/newPatient/NewPatient';
 import PatientList from './pages/patientList/PatientList';
@@ -11,11 +11,15 @@ import Queue from "./components/queue/Queue";
 import User from "./pages/user/User";
 import DoctorList from "./pages/doctorList/DoctorList";
 import MedicalCard from './pages/medicalCard/PatientMedicalCard';
+import { TokenStorageService } from './service/auth/TokenStorageService';
 
 const App: React.FC = () => {
+
+  const tokenStorageService: TokenStorageService = new TokenStorageService;
+  
   return (
     <Routes>
-      <Route path="/" element={<MainLayout />}>
+      {tokenStorageService.getToken() == null ? <Route path="/" element={<LoginForm />}/> : <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/doctors" element={<DoctorList />} />
         <Route path="/doctor/:doctorId" element={<User />} />
@@ -24,7 +28,7 @@ const App: React.FC = () => {
         <Route path="/medicalCard/:patientId" element={<MedicalCard />} />
         <Route path="/newPatient" element={<NewPatient />} />
         <Route path="/queue" element={<Queue />} />
-      </Route>
+      </Route>}
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegistrationPage />} />
     </Routes>

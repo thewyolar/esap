@@ -1,26 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
+import { InfoLogin } from "../../model/auth/InfoLogin";
+import AuthService from "../../service/auth/AuthService";
+import { TokenStorageService } from "../../service/auth/TokenStorageService";
 import "./auth.scss";
 
 const LoginForm: React.FC = () => {
+  
+  const tokenStorageService: TokenStorageService = new TokenStorageService
+  const roles: Array<string> = [];
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const infoLogin: InfoLogin = {
+      login: login,
+      password: password
+    };
+    AuthService.attemptAuth(infoLogin)
+    .then(response => {
+      tokenStorageService.saveToken(response.jwt);
+      tokenStorageService.saveLogin(login);
+      window.location.reload();
+    })
+    .catch(error => {
+      setError(error.response.data.message);
+    });
+
+  };
+
   return (
     <div className="Auth-form-container">
-      <form className="Auth-form">
+      {error && <div className="alert alert-danger">{error}</div>}
+      <form className="Auth-form" onSubmit={handleSubmit}>
         <div className="Auth-form-content">
           <h3 className="Auth-form-title">Вход в систему</h3>
           <div className="form-group mt-3">
-            <label>Email</label>
+            <label>Логин</label>
             <input
-              type="email"
-              className="form-control mt-1"
-              placeholder="Email"
+              id="login" type="text" className="form-control mt-1" placeholder="Логин" value={login}
+              onChange={(event) => setLogin(event.target.value)} required
             />
           </div>
           <div className="form-group mt-3">
             <label>Пароль</label>
             <input
-              type="password"
-              className="form-control mt-1"
-              placeholder="Пароль"
+              id="password" type="password" className="form-control mt-1" placeholder="Пароль" value={password}
+              onChange={(event) => setPassword(event.target.value)} required
             />
           </div>
           <div className="d-grid gap-2 mt-3">
