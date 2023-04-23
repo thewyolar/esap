@@ -12,12 +12,10 @@ interface ScheduleModalProps {
   schedules: Schedule[];
 }
 
-const ITEMS_PER_PAGE = 1;
+const WEEKS_PER_PAGE = 1;
 
 const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedules }) => {
-  const [activePage, setActivePage] = useState(0);
   const sortedSchedules = schedules.sort((a, b) => moment(a.date).diff(moment(b.date)));
-  const visibleSchedules = sortedSchedules.slice(activePage * ITEMS_PER_PAGE, (activePage + 1) * ITEMS_PER_PAGE);
 
   const handlePageChange = (pageNumber: number) => {
     setActivePage(pageNumber - 1);
@@ -29,34 +27,35 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedules 
     return `${startOfWeek.format("D MMMM")} — ${endOfWeek.format("D MMMM YYYY")}`;
   };
 
-  const getDays = (schedules: Schedule[]) => {
-    const x = moment(schedules[0].date).isoWeekday(1);
-    // let startOfWeek = moment(schedules[0].date).isoWeekday();
-    let days = Array.from(Array(7)).map((_, index) => {
-      const day = x.clone().add(index, 'days');
-      return { date: day.toISOString() } as Schedule;
-    });
-    // let days: Schedule[] = Array(7).fill({}).map((index) => ({ date: x.clone().add().isoWeekday(index + 1).toISOString()}) as Schedule);
-    schedules.map(schedule => {
-      let startOfWeek = moment(schedule.date).isoWeekday();
-      if (moment(schedule.date).isoWeek() === moment(days[0].date).isoWeek()) {
-        console.log(schedule);
-        console.log(startOfWeek);
-        days[startOfWeek - 1] = schedule;
+  const getWeeks = (schedules: Schedule[]) => {
+    const weeks: Schedule[][] = [];
+    const firstDayOfWeek = moment(schedules[0].date).isoWeekday(1);
+    const lastDayOfWeek = moment(schedules[schedules.length - 1].date).isoWeekday(7);
+    let week: Schedule[] = [];
+    let currentDay = firstDayOfWeek;
+
+    while (currentDay <= lastDayOfWeek) {
+      const schedule = schedules.find(s => moment(s.date).isSame(currentDay, 'day'));
+
+      if (schedule) {
+        week.push(schedule);
+      } else {
+        week.push({ date: currentDay.toISOString() } as Schedule);
       }
-      console.log(days);
-      console.log(startOfWeek);
-    });
 
-    return Array(days);
+      if (currentDay.isoWeekday() === 7) {
+        weeks.push(week);
+        week = [];
+      }
+      currentDay = currentDay.add(1, 'day');
+    }
+
+    if (week.length > 0) {
+      weeks.push(week);
+    }
+
+    return weeks;
   }
-
-  console.log(visibleSchedules)
-
-  // const getDaysOfWeek = (schedules: Schedule[]) => {
-  //   const startOfWeek = moment(schedule.date).isoWeekday(1);
-  //   return Array.from(Array(7)).map((_, index) => startOfWeek.clone().add(index, "days"));
-  // };
 
   const renderScheduleCard = (schedule: Schedule, day: Moment) => {
     const date = day.format("YYYY-MM-DD");
@@ -69,6 +68,15 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedules 
       />
     );
   };
+
+  const weeks = getWeeks(sortedSchedules);
+  const totalPages = Math.ceil(weeks.length / WEEKS_PER_PAGE);
+  const currentWeekIndex = weeks.findIndex((week) =>
+    week.some((schedule) => moment(schedule.date).isSame(moment(), 'week'))
+  );
+  const defaultPage = currentWeekIndex === -1 ? 0 : Math.floor(currentWeekIndex / WEEKS_PER_PAGE);
+  const [activePage, setActivePage] = useState(defaultPage);
+  const visibleSchedules = weeks.slice(activePage * WEEKS_PER_PAGE, (activePage + 1) * WEEKS_PER_PAGE);
 
   return (
     <Modal
@@ -84,18 +92,25 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedules 
           borderRadius: "5px", overflow: "auto", marginTop: "30px"
         }}
       >
-        {getDays(sortedSchedules).map((week) => (
-          <div>
+        {visibleSchedules.map((week) => (
+          <div key={getWeekRange(week[0])}>
             <Typography align="center" style={{marginBottom: "12px"}}>
-              {/*{getWeekRange(schedule)}*/}
+              {getWeekRange(week[0])}
             </Typography>
-            <div style={{display: 'flex', justifyContent: 'center', marginBottom: '12px'}}>
-              <Pagination count={Math.ceil(schedules.length / ITEMS_PER_PAGE)} page={activePage + 1}
-                          onChange={(_, page) => handlePageChange(page)} key={activePage} />
-            </div>
+            {totalPages > 1 && (
+              <div style={{display: 'flex', justifyContent: 'center', marginBottom: '12px'}}>
+                <Pagination
+                  count={totalPages}
+                  page={activePage + 1}
+                  onChange={(_, page) => handlePageChange(page)}
+                  siblingCount={0} boundaryCount={1}
+                  key={activePage}
+                />
+              </div>
+            )}
             <Grid container spacing={2} columns={14} textAlign="center">
               {week.map((day) => (
-                <Grid key={day.id} item xs={2}>
+                <Grid key={day.date} item xs={2}>
                   {renderScheduleCard(day, moment(day.date))}
                 </Grid>
               ))}
