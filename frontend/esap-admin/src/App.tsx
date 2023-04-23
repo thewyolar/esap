@@ -11,25 +11,28 @@ import Queue from "./components/queue/Queue";
 import User from "./pages/user/User";
 import DoctorList from "./pages/doctorList/DoctorList";
 import MedicalCard from './pages/medicalCard/PatientMedicalCard';
-import { TokenStorageService } from './service/auth/TokenStorageService';
+import {TokenStorageService} from './service/auth/TokenStorageService';
 
 const App: React.FC = () => {
+  const tokenStorageService = new TokenStorageService();
+  const isAuthenticated = Boolean(tokenStorageService.getToken());
 
-  const tokenStorageService: TokenStorageService = new TokenStorageService;
-  
   return (
     <Routes>
-      {tokenStorageService.getToken() == null ? <Route path="/" element={<LoginForm />}/> : <Route path="/" element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/doctors" element={<DoctorList />} />
-        <Route path="/doctor/:doctorId" element={<User />} />
-        <Route path="/patients" element={<PatientList />} />
-        <Route path="/patient/:patientId" element={<User />} />
-        <Route path="/medicalCard/:patientId" element={<MedicalCard />} />
-        <Route path="/newPatient" element={<NewPatient />} />
-        <Route path="/queue" element={<Queue />} />
-      </Route>}
-      <Route path="/login" element={<LoginForm />} />
+      {isAuthenticated ? (
+        <Route path="/" element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/doctors" element={<DoctorList />} />
+          <Route path="/doctor/:doctorId" element={<User />} />
+          <Route path="/patients" element={<PatientList />} />
+          <Route path="/patient/:patientId" element={<User />} />
+          <Route path="/medicalCard/:patientId" element={<MedicalCard />} />
+          <Route path="/newPatient" element={<NewPatient />} />
+          <Route path="/queue" element={<Queue />} />
+        </Route>
+      ) : (
+        <Route path="/" element={<LoginForm />} />
+      )}
       <Route path="/register" element={<RegistrationPage />} />
     </Routes>
   );

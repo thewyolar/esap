@@ -98,7 +98,7 @@ const PatientList: React.FC = () => {
         disableSelectionOnClick
         columns={columns}
         pageSize={13}
-        rowsPerPageOptions={[5]}
+        rowsPerPageOptions={[13]}
         checkboxSelection
       />
     </div>

@@ -14,13 +14,19 @@
     justify-content: space-between;
 
     .left {
-      span{
+
+      a {
+        text-decoration: none;
+      }
+
+      span {
         font-weight:bold;
         font-size: 30px;
         color: darkblue;
         cursor: pointer;
       }
     }
+
     .right {
       display: flex;
       align-items: center;
