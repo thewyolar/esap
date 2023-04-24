@@ -1,12 +1,12 @@
-import Chart from '../../components/chart/Chart';
-import FeaturedInfo from '../../components/featuredInfo/FeaturedInfo';
-import WidgetLg from '../../components/widgetLg/WidgetLg';
-import WidgetSm from '../../components/widgetSm/WidgetSm';
-import './home.scss';
+import Chart from "../../components/chart/Chart";
+import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
+import WidgetLg from "../../components/widgetLg/WidgetLg";
+import WidgetSm from "../../components/widgetSm/WidgetSm";
+import "./home.scss";
 
 const Home = () => {
   return (
-    <div className='homePage'>
+    <div className="homePage">
       <FeaturedInfo />
       {/*<Chart*/}
       {/*    data={userData}*/}
@@ -19,7 +19,7 @@ const Home = () => {
       {/*    <WidgetLg />*/}
       {/*</div>*/}
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

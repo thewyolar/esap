@@ -14,10 +14,10 @@ const Topbar = () => {
                         <NotificationsNone style={{fontSize: "25px"}} />
                         <span style={{fontSize: "12px"}}>2</span>
                     </div>
-                    {/*<div className="icon">*/}
-                    {/*  <Language />*/}
-                    {/*  <span>2</span>*/}
-                    {/*</div>*/}
+                    {/* <div className="icon">
+                     <Language />
+                     <span>2</span>
+                    </div> */}
                     <div className="icon">
                         <Settings style={{fontSize: "25px"}} />
                     </div>

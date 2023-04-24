@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Card, CardContent, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText } from "@mui/material";
-import { QueueItem } from "../../model/QueueItem";
+import { useParams } from 'react-router-dom';
+import { Schedule } from '../../model/Schedule';
+import HttpService from '../../service/HttpService';
 
 const queue = [
   { name: 'Иван Иванов', appointmentTime: '10:00' },
@@ -8,9 +10,19 @@ const queue = [
   { name: 'Сидор Сидоров', appointmentTime: '11:00' },
 ];
 
+
 const Queue: React.FC = () => {
+  let { schedulesId } = useParams();
+  let schedulesIdInt = parseInt(schedulesId!);
+  const [schedual, setData] = useState<Schedule>();
+  useEffect(() => {
+    HttpService.getSchedualByDoctorAndId(schedulesIdInt)
+      .then((response) => setData(response))
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
-    <Grid container spacing={2}>
+    <Grid className="queue" container spacing={0}>
       <Grid item xs={12} sm={6} md={4}>
         <Card>
           <CardContent>
@@ -18,12 +30,12 @@ const Queue: React.FC = () => {
               Электронная очередь
             </Typography>
             <List>
-              {queue.map((item, index) => (
+              {schedual?.appointments.map((item, index) => (
                 <ListItem key={index}>
                   <ListItemAvatar>
                     <Avatar>{index + 1}</Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={item.name} secondary={`Время записи: ${item.appointmentTime}`} />
+                  <ListItemText primary={item.patient.firstName + " " + item.patient.lastName} secondary={`Время записи: ${item.startAppointments}`} />
                 </ListItem>
               ))}
             </List>

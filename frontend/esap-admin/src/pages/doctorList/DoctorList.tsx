@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import HttpService from "../../service/HttpService";
 import {DataGrid, GridColDef, ruRU} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
-import {DeleteOutline} from "@mui/icons-material";
+import {BorderAll, DeleteOutline} from "@mui/icons-material";
 import {DoctorDTO} from "../../model/dto/DoctorDTO";
 import ScheduleModal from "../../components/scheduleModal/ScheduleModal";
 import './doctorList.scss';
@@ -105,6 +105,7 @@ const DoctorList: React.FC = () => {
         pageSize={13}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        sx={{border: "none"}}
       />
       {selectedDoctor && (
         <ScheduleModal

@@ -100,6 +100,7 @@ const PatientList: React.FC = () => {
         pageSize={13}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        sx={{border: "none"}}
       />
     </div>
   );

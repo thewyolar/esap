@@ -19,7 +19,7 @@ const App: React.FC = () => {
   
   return (
     <Routes>
-      {tokenStorageService.getToken() == null ? <Route path="/" element={<LoginForm />}/> : <Route path="/" element={<MainLayout />}>
+      {tokenStorageService.getToken() == null ? <Route path="/login" element={<LoginForm />}/> : <Route path="/" element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/doctors" element={<DoctorList />} />
         <Route path="/doctor/:doctorId" element={<User />} />
@@ -27,7 +27,7 @@ const App: React.FC = () => {
         <Route path="/patient/:patientId" element={<User />} />
         <Route path="/medicalCard/:patientId" element={<MedicalCard />} />
         <Route path="/newPatient" element={<NewPatient />} />
-        <Route path="/queue" element={<Queue />} />
+        <Route path="/queue/:schedulesId" element={<Queue />} />
       </Route>}
       <Route path="/login" element={<LoginForm />} />
       <Route path="/register" element={<RegistrationPage />} />
