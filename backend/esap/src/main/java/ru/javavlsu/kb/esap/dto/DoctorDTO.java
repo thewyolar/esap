@@ -14,8 +14,6 @@ public class DoctorDTO {
 
     private Long id;
 
-    private String password;
-
     private String login;
 
     private String firstName;
