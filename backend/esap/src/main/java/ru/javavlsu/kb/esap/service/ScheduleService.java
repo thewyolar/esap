@@ -3,11 +3,13 @@ package ru.javavlsu.kb.esap.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Schedule;
 import ru.javavlsu.kb.esap.repository.ScheduleRepository;
 import ru.javavlsu.kb.esap.util.NotCreateException;
 import ru.javavlsu.kb.esap.util.NotFoundException;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -32,17 +34,18 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
     }
 
-    public List<Schedule> getAll(){
-        return scheduleRepository.findAll();
-    }
-
     public List<Schedule> getAllByDoctorId(Long doctorId) {
         return scheduleRepository.findAllByDoctorId(doctorId);
     }
 
-    public Schedule get(long id){
-        Optional<Schedule> schedule = scheduleRepository.findById(id);
+    public Schedule getByIdAndDoctor(long id, Doctor doctor){
+        Optional<Schedule> schedule = scheduleRepository.findByIdAndDoctor(id, doctor);
         return schedule.orElseThrow(() -> new NotFoundException("Schedule not found"));
+    }
+
+    public Schedule getByDateAndDoctor(LocalDate date, Doctor doctor) throws NotCreateException{
+        return scheduleRepository.findByDateAndDoctor(date, doctor)
+                .orElseThrow(() -> new NotFoundException("Schedule not found"));
     }
 
 }
