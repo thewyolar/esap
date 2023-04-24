@@ -2,9 +2,16 @@
   display: flex;
   justify-content: space-between;
 
+  a:active,
+  a:hover,
+  a {
+    text-decoration: none;
+    color: #212529;
+  }
+
   .item {
     flex: 1;
-    margin: 0px 20px;
+    margin: 21px 21px;
     padding: 30px;
     border-radius: 10px;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
@@ -20,22 +27,15 @@
       display: flex;
       align-items: center;
       gap: 20px;
+
       .money {
         font-size: 30px;
         font-weight: 600;
       }
+
       .moneyRate {
         display: flex;
         align-items: center;
-
-        .icon {
-          font-size: 14px;
-          margin-left: 5px;
-          color: green;
-          &.negative {
-            color: red;
-          }
-        }
       }
     }
 
@@ -43,5 +43,8 @@
       font-size: 15px;
       color: gray;
     }
+
   }
+
+
 }
