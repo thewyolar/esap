@@ -1,44 +1,70 @@
-import './featuredInfo.scss'
-
-import { ArrowDownward, ArrowUpward } from '@mui/icons-material'
+import "./featuredInfo.scss";
+import HttpService from "../../service/HttpService";
+import { useEffect, useState } from "react";
+import { DoctorDTO } from "../../model/dto/DoctorDTO";
+import { Link } from "react-router-dom";
 
 const FeaturedInfo = () => {
+  const [doctor, setData] = useState<DoctorDTO>();
+  const [error, setError] = useState<DoctorDTO>();
+  useEffect(() => {
+    HttpService.getDoctor()
+      .then((response) => {
+        setData(response);
+      })
+      .catch((error) => setError(error));
+  }, []);
+  console.log(doctor);
+  const schedulesForToday =
+    doctor &&
+    doctor.schedules.filter((schedule) => {
+      const today = new Date();
+      console.log(today);
+      const scheduleDate = new Date(schedule.date);
+      return (
+        scheduleDate.getFullYear() === today.getFullYear() &&
+        scheduleDate.getMonth() === today.getMonth() &&
+        scheduleDate.getDate() === today.getDate()
+      );
+    });
+
   return (
-    <div className='featuredInfo'>
-      <div className='item'>
-        <span className='title'>Записей на сегодня</span>
+    <div className="featuredInfo">
+      <Link
+        className="item"
+        to={`queue/${schedulesForToday && schedulesForToday[0]?.id}`}
+      >
+        <span className="title">Записей на сегодня</span>
         <div>
-          <span className='money'>100</span>
-          {/*<span className='moneyRate'>*/}
-          {/*   -11 <ArrowDownward className='icon negative'/>*/}
-          {/*</span>*/}
+          <span className="money">
+            {!schedulesForToday || schedulesForToday.length === 0
+              ? 0
+              : schedulesForToday[0].appointments.length}
+          </span>
         </div>
-        {/*<span className='sub'>По сравнению со вчера</span>*/}
+      </Link>
+
+      <div className="item">
+        <span className="title">Lorem ipsum</span>
+        <div>
+          <span className="money">Lorem ipsum</span>
+          <span className="moneyRate"></span>
+        </div>
       </div>
 
-      <div className='item'>
-        <span className='title'>Lorem ipsum</span>
+      <div className="item">
+        <span className="title">Lorem ipsum</span>
         <div>
-          <span className='money'>Lorem ipsum</span>
-          {/*<span className='moneyRate'>*/}
-          {/*   -1,4 <ArrowDownward className='icon negative' />*/}
-          {/*</span>*/}
+          <span className="money">Lorem ipsum</span>
+          <span className="moneyRate"></span>
         </div>
-        {/*<span className='sub'>Lorem ipsum</span>*/}
-      </div>
-
-      <div className='item'>
-        <span className='title'>Lorem ipsum</span>
-        <div>
-          <span className='money'>Lorem ipsum</span>
-          {/*<span className='moneyRate'>*/}
-          {/*   +12,4 <ArrowUpward className='icon' />*/}
-          {/*</span>*/}
-        </div>
-        {/*<span className='sub'>Lorem ipsum</span>*/}
+        <span className="sub">Lorem ipsum</span>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FeaturedInfo
+export default FeaturedInfo;
+function setData(response: any): any {
+  throw new Error("Function not implemented.");
+}
