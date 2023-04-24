@@ -1,5 +1,6 @@
 package ru.javavlsu.kb.esap.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -56,7 +57,8 @@ public class SecurityConfig {
                 )
                 .logout((logout) -> logout
                         .logoutSuccessUrl("/")
-                );
+                )
+                .exceptionHandling().authenticationEntryPoint((request, response, e) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"));
 
         return http.build();
     }
