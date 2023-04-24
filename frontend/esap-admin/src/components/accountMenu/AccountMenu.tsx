@@ -70,20 +70,20 @@ const AccountMenu: React.FC = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose} style={{fontFamily: "inherit"}}>
           <ListItemIcon>
             <Avatar sx={{width: 25, height: 25}} />
           </ListItemIcon>
           Мой аккаунт
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleClose} style={{fontFamily: "inherit"}}>
           <ListItemIcon>
             <Settings style={{fontSize: "25px"}} />
           </ListItemIcon>
           Настройки
         </MenuItem>
-        <MenuItem onClick={signOut}>
+        <MenuItem onClick={signOut} style={{fontFamily: "inherit"}}>
           <ListItemIcon>
             <Logout style={{fontSize: "25px"}} />
           </ListItemIcon>
