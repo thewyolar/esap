@@ -39,7 +39,7 @@ public class Schedule {
 
     private int maxPatientPerDay;
 
-    @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "schedule", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
     @Override

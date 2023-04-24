@@ -1,6 +1,7 @@
 package ru.javavlsu.kb.esap.service;
 
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.model.Doctor;
@@ -48,4 +49,9 @@ public class ScheduleService {
                 .orElseThrow(() -> new NotFoundException("Schedule not found"));
     }
 
+    @Transactional
+    @Scheduled(fixedDelay = 1000 * 60 * 60 * 24 * 7)
+    public void deleteOverdueSchedules() {
+        scheduleRepository.deleteScheduleByDateBefore(LocalDate.now());
+    }
 }
