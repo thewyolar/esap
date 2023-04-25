@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import HttpService from "../../service/HttpService";
 import {DataGrid, GridColDef, ruRU} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
-import {BorderAll, DeleteOutline} from "@mui/icons-material";
+import {DeleteOutline} from "@mui/icons-material";
 import {Doctor} from "../../model/Doctor";
 import ScheduleModal from "../../components/scheduleModal/ScheduleModal";
 import './doctorList.scss';
@@ -109,6 +109,7 @@ const DoctorList: React.FC = () => {
       />
       {selectedDoctor && (
         <ScheduleModal
+          doctor={selectedDoctor}
           schedules={selectedDoctor.schedules}
           open={open}
           onClose={handleClose}

@@ -6,16 +6,18 @@ import ScheduleCard from "./ScheduleCard";
 import moment, {Moment} from 'moment';
 import 'moment/locale/ru';
 import CloseIcon from '@mui/icons-material/Close';
+import {Doctor} from "../../model/Doctor";
 
 interface ScheduleModalProps {
   open: boolean,
   onClose: () => void,
+  doctor: Doctor,
   schedules: Schedule[];
 }
 
 const WEEKS_PER_PAGE = 1;
 
-const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedules }) => {
+const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, doctor, schedules }) => {
   const sortedSchedules = schedules.sort((a, b) => moment(a.date).diff(moment(b.date)));
 
   const handlePageChange = (pageNumber: number) => {
@@ -65,6 +67,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedules 
       <ScheduleCard
         key={day.toISOString()}
         date={date}
+        doctor={doctor}
         schedule={schedule}
       />
     );
@@ -96,7 +99,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedules 
         {visibleSchedules.map((week) => (
           <div key={getWeekRange(week[0])}>
             <Typography align="center" style={{marginBottom: "12px", display: 'flex', alignItems: 'center'}}>
-              <span style={{flex: 1}}>{getWeekRange(week[0])}</span>
+              <span style={{flex: 1, fontSize: '18px'}}>{getWeekRange(week[0])}</span>
               <IconButton onClick={onClose}>
                 <CloseIcon />
               </IconButton>

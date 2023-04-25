@@ -1,16 +1,22 @@
-import React from "react";
+import React, {useState} from "react";
 import './schedule.scss';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import moment from "moment";
 import {Schedule} from "../../model/Schedule";
+import AppointmentModal from "../appointmentModal/AppointmentModal";
+import {Doctor} from "../../model/Doctor";
 
 interface ScheduleTimesProps {
   date: string,
   times: string[],
+  doctor: Doctor,
   schedule: Schedule;
 }
 
-const ScheduleTimes: React.FC<ScheduleTimesProps> = ({ date, times, schedule }) => {
+const ScheduleTimes: React.FC<ScheduleTimesProps> = ({ date, times, doctor, schedule }) => {
+  const [open, setOpen] = useState(false);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+
   const hasAppointment = (time: string) => {
     const currentTime = moment(time, "HH:mm");
     if (currentTime.isBefore(moment(schedule.startDoctorAppointment, "HH:mm")) || currentTime.isAfter(moment(schedule.endDoctorAppointment, "HH:mm"))) {
@@ -27,11 +33,24 @@ const ScheduleTimes: React.FC<ScheduleTimesProps> = ({ date, times, schedule }) 
     return 'schedule_time schedule_time-active';
   };
 
+  const handleOpen = (time: string) => {
+    setSelectedTime(time);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  }
+
   return (
     <div className="schedule_times">
       {schedule.date === date ? (
         times.map((time) => (
-          <div className={`${hasAppointment(time)}`} key={time}>
+          <div
+            className={`${hasAppointment(time)}`}
+            key={time}
+            onClick={() => handleOpen(time)}
+          >
             {time}
           </div>
         ))
@@ -42,6 +61,16 @@ const ScheduleTimes: React.FC<ScheduleTimesProps> = ({ date, times, schedule }) 
             В этот день приема нет
           </div>
         </div>
+      )}
+      {selectedTime && (
+        <AppointmentModal
+          onClose={handleClose}
+          open={open}
+          scheduleId={schedule.id}
+          date={date}
+          doctor={doctor}
+          time={selectedTime}
+        />
       )}
     </div>
   );

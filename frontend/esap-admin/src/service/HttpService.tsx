@@ -3,6 +3,7 @@ import {MedicalCard} from "../model/MedicalCard";
 import {Patient} from "../model/Patient";
 import {Schedule} from "../model/Schedule";
 import Api from "./auth/Api";
+import {AppointmentDTO} from "../model/dto/AppointmentDTO";
 
 class HttpService {
   private static url = "http://localhost:8080";
@@ -59,8 +60,16 @@ class HttpService {
       });
   }
 
-  public static async getSchedualByDoctorAndId(id: number) {
+  public static async getScheduleByIdAndDoctor(id: number) {
     return await Api.get<Schedule>(HttpService.url + `/api/schedule/${id}`)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  public static async makeDoctorAppointment(id: number, body: AppointmentDTO) {
+    return await Api.post<AppointmentDTO>(HttpService.url + `/api/schedule/${id}/appointment`, body)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
