@@ -23,8 +23,8 @@ import ru.javavlsu.kb.esap.util.ResponseMessageError;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/auth")
 @CrossOrigin
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -64,9 +64,9 @@ public class AuthController {
     }
 
     //TODO Служебный запрос
-    @PostMapping("/password/reset/{id}")
-    public ResponseEntity<HttpStatus> passwordReset(@PathVariable("id") Long id){
-        registrationService.passwordReset(doctorService.getById(id));
+    @PostMapping("/password/reset")
+    public ResponseEntity<HttpStatus> passwordReset(@RequestBody AuthenticationDTO authenticationDTO){
+        registrationService.passwordReset(authenticationDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

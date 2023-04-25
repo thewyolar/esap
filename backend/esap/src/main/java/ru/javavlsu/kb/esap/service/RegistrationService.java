@@ -3,10 +3,12 @@ package ru.javavlsu.kb.esap.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javavlsu.kb.esap.dto.auth.AuthenticationDTO;
 import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.repository.ClinicRepository;
 import ru.javavlsu.kb.esap.repository.DoctorRepository;
+import ru.javavlsu.kb.esap.util.NotFoundException;
 
 import java.util.Collections;
 import java.util.Random;
@@ -43,8 +45,11 @@ public class RegistrationService {
     }
 
     @Transactional
-    public void passwordReset(Doctor doctor) {
-        doctor.setPassword(passwordEncoder.encode("123"));
-    }
+    public void passwordReset(AuthenticationDTO authenticationDTO) {
+        Doctor doctor = doctorRepository.findByLogin(authenticationDTO.getLogin())
+                .orElseThrow(() -> new NotFoundException("Doctor not found"));
 
+        doctor.setPassword(passwordEncoder.encode(authenticationDTO.getPassword()));
+        doctorRepository.save(doctor);
+    }
 }
