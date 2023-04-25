@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import RegistrationForm from '../../components/auth/RegistrationForm';
 import ClinicRegistrationForm from '../../components/auth/ClinicRegistrationForm';
-import { DoctorDTO } from "../../model/dto/DoctorDTO";
 import { ClinicDTO } from "../../model/dto/ClinicDTO";
 import {ClinicRegistrationDTO} from "../../model/dto/ClinicRegistrationDTO";
-import HttpService from "../../service/HttpService";
-import axios from "axios";
+import AuthService from "../../service/auth/AuthService";
+import {DoctorDTO} from "../../model/dto/DoctorDTO";
+import {Alert} from "@mui/material";
+import {InfoLogin} from "../../model/auth/InfoLogin";
 
 const RegistrationPage: React.FC = () => {
   const [doctorData, setDoctorData] = useState<DoctorDTO>();
+  const [response, setResponse] = useState<InfoLogin>();
   const [showClinicForm, setShowClinicForm] = useState<boolean>(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
   const handleDoctorSubmit = (data: DoctorDTO) => {
     setDoctorData(data);
@@ -18,18 +21,22 @@ const RegistrationPage: React.FC = () => {
 
   const handleClinicSubmit = (clinicData: ClinicDTO) => {
     if (doctorData && clinicData) {
-      const requestData: ClinicRegistrationDTO = {
+      const clinicRegistration: ClinicRegistrationDTO = {
         clinic: clinicData,
         doctor: doctorData,
       };
-      HttpService.registrationClinics(requestData)
-        .then((response) => console.log(response))
-        .catch((error) => console.error(error))
+      AuthService.registrationClinics(clinicRegistration)
+        .then((response) => {
+          setRegistrationSuccess(true);
+          setResponse(response);
+        })
+        .catch((error) => console.error(error));
     }
   };
 
   return (
     <div>
+      {registrationSuccess && <Alert severity="success" sx={{ mt: 2 }}>Вы успешно зарегистрировались! Логин: {response?.login}, пароль {response?.password}.</Alert>}
       {!showClinicForm && <RegistrationForm onSubmit={handleDoctorSubmit} />}
       {showClinicForm && <ClinicRegistrationForm onSubmit={handleClinicSubmit} />}
     </div>

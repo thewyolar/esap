@@ -7,17 +7,6 @@ import Api from "./auth/Api";
 class HttpService {
   private static url = "http://localhost:8080";
 
-  public static async registrationClinics(body: ClinicRegistrationDTO) {
-    return await Api.post<ClinicRegistrationDTO>(
-      HttpService.url + "/api/clinic",
-      body
-    )
-      .then((res) => res.data)
-      .catch((error) => {
-        throw error;
-      });
-  }
-
   public static async getPatientList() {
     return await Api.get<Patient[]>(HttpService.url + "/api/patient")
       .then((res) => res.data)

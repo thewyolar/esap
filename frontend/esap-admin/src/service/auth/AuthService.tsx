@@ -17,6 +17,15 @@ class AuthService {
       .then((res) => res.data)
       .catch((error) => {throw error});
   }
+
+  public static async registrationClinics(body: ClinicRegistrationDTO) {
+    return await Api.post<InfoLogin>(this.url + "/registration/clinic", body)
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error.request)
+        throw error;
+      });
+  }
 }
 
 export default AuthService;
