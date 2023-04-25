@@ -4,19 +4,13 @@ import { useParams } from 'react-router-dom';
 import { Schedule } from '../../model/Schedule';
 import HttpService from '../../service/HttpService';
 
-const queue = [
-  { name: 'Иван Иванов', appointmentTime: '10:00' },
-  { name: 'Петр Петров', appointmentTime: '10:30' },
-  { name: 'Сидор Сидоров', appointmentTime: '11:00' },
-];
-
-
 const Queue: React.FC = () => {
   let { schedulesId } = useParams();
   let schedulesIdInt = parseInt(schedulesId!);
-  const [schedual, setData] = useState<Schedule>();
+  const [schedule, setData] = useState<Schedule>();
+
   useEffect(() => {
-    HttpService.getSchedualByDoctorAndId(schedulesIdInt)
+    HttpService.getScheduleByIdAndDoctor(schedulesIdInt)
       .then((response) => setData(response))
       .catch((error) => console.error(error));
   }, []);
@@ -30,7 +24,7 @@ const Queue: React.FC = () => {
               Электронная очередь
             </Typography>
             <List>
-              {schedual?.appointments.map((item, index) => (
+              {schedule?.appointments.map((item, index) => (
                 <ListItem key={index}>
                   <ListItemAvatar>
                     <Avatar>{index + 1}</Avatar>
