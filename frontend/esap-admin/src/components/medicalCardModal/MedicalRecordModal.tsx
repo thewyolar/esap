@@ -8,17 +8,8 @@ interface MedicalRecordModalProps {
   medicalRecord: MedicalRecord;
 }
 
-const ITEMS_PER_PAGE = 1;
 
-const MedicalRecordModal: React.FC<MedicalRecordModalProps> = ({
-  open,
-  onClose,
-  medicalRecord,
-}) => {
-  const [activePage, setActivePage] = useState(0);
-  const handlePageChange = (pageNumber: number) => {
-    setActivePage(pageNumber - 1);
-  };
+const MedicalRecordModal: React.FC<MedicalRecordModalProps> = ({open, onClose, medicalRecord}) => {
 
   return (
     <Modal
