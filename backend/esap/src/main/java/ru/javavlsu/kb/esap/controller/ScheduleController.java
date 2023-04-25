@@ -7,9 +7,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.javavlsu.kb.esap.dto.AppointmentDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
+import ru.javavlsu.kb.esap.mapper.AppointmentMapper;
 import ru.javavlsu.kb.esap.mapper.ScheduleMapper;
-import ru.javavlsu.kb.esap.model.Appointment;
 import ru.javavlsu.kb.esap.model.Schedule;
 import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.service.AppointmentService;
@@ -29,12 +30,13 @@ public class ScheduleController {
     private final ScheduleService scheduleService;
     private final AppointmentService appointmentService;
     private final ScheduleMapper scheduleMapper;
+    private final AppointmentMapper appointmentMapper;
 
-
-    public ScheduleController(ScheduleService scheduleService, AppointmentService appointmentService, ScheduleMapper scheduleMapper) {
+    public ScheduleController(ScheduleService scheduleService, AppointmentService appointmentService, ScheduleMapper scheduleMapper, AppointmentMapper appointmentMapper) {
         this.scheduleService = scheduleService;
         this.appointmentService = appointmentService;
         this.scheduleMapper = scheduleMapper;
+        this.appointmentMapper = appointmentMapper;
     }
 
     @GetMapping("/doctor/{doctorId}")
@@ -58,12 +60,12 @@ public class ScheduleController {
     }
 
     @PostMapping("/{id}/appointment")
-    public ResponseEntity<HttpStatus> addAppointment(@PathVariable("id") Long id, @RequestBody @Valid Appointment appointment,
+    public ResponseEntity<HttpStatus> addAppointment(@PathVariable("id") Long id, @RequestBody @Valid AppointmentDTO appointmentDTO,
                                                      BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        appointmentService.create(appointment, id);
+        appointmentService.create(appointmentDTO, id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
