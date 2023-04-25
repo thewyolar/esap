@@ -6,7 +6,7 @@ const tokenStorageService = new TokenStorageService();
 const Api: AxiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${tokenStorageService.getToken()}`,
+    Authorization: `Bearer ${tokenStorageService.getToken() ?? ""}`,
   },
 });
 
