@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import "./auth.scss";
 import {Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {Link} from "react-router-dom";
