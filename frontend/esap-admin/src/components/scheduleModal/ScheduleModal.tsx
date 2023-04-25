@@ -1,10 +1,11 @@
-import {Modal, Box, Grid, Typography, Pagination} from '@mui/material';
+import {Modal, Box, Grid, Typography, Pagination, IconButton} from '@mui/material';
 import React, {useState} from "react";
 import {Schedule} from "../../model/Schedule";
 import './schedule.scss';
 import ScheduleCard from "./ScheduleCard";
 import moment, {Moment} from 'moment';
 import 'moment/locale/ru';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface ScheduleModalProps {
   open: boolean,
@@ -94,8 +95,11 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, schedules 
       >
         {visibleSchedules.map((week) => (
           <div key={getWeekRange(week[0])}>
-            <Typography align="center" style={{marginBottom: "12px"}}>
-              {getWeekRange(week[0])}
+            <Typography align="center" style={{marginBottom: "12px", display: 'flex', alignItems: 'center'}}>
+              <span style={{flex: 1}}>{getWeekRange(week[0])}</span>
+              <IconButton onClick={onClose}>
+                <CloseIcon />
+              </IconButton>
             </Typography>
             {totalPages > 1 && (
               <div style={{display: 'flex', justifyContent: 'center', marginBottom: '12px'}}>
