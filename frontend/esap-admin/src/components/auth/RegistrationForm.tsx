@@ -1,5 +1,8 @@
 import React, {useState} from 'react';
 import "./auth.scss";
+import {Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography} from "@mui/material";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import {Link} from "react-router-dom";
 import {DoctorDTO} from "../../model/dto/DoctorDTO";
 
 interface RegistrationFormProps {
@@ -7,59 +10,126 @@ interface RegistrationFormProps {
 }
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
-  const [doctorFirstName, setDoctorFirstName] = useState('');
-  const [doctorPatronymic, setDoctorPatronymic] = useState('');
-  const [doctorLastName, setDoctorLastName] = useState('');
-  const [doctorSpecialization, setDoctorSpecialization] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [patronymic, setPatronymic] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [specialization, setSpecialization] = useState('');
+
+  const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFirstName(event.target.value);
+  };
+
+  const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLastName(event.target.value);
+  };
+
+  const handlePatronymicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPatronymic(event.target.value);
+  };
+
+  const handleSpecializationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSpecialization(event.target.value);
+  };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const doctorData: DoctorDTO = {
-      id: 0,
-      firstName: doctorFirstName,
-      patronymic: doctorPatronymic,
-      lastName: doctorLastName,
-      specialization: doctorSpecialization,
-      schedules: []
+      firstName: firstName,
+      patronymic: patronymic,
+      lastName: lastName,
+      specialization: specialization
     };
 
     onSubmit(doctorData);
   };
 
   return (
-    <div className="Auth-form-container">
-      <form className="Auth-form" onSubmit={handleSubmit}>
-        <div className="Auth-form-content">
-          <h3 className="Auth-form-title">Регистрация</h3>
-          <div className="form-group mt-3">
-            <label htmlFor="doctorName">Имя</label>
-            <input id="doctorName" type="text" className="form-control mt-1" placeholder="Имя" value={doctorFirstName}
-                   onChange={(e) => setDoctorFirstName(e.target.value)} required />
-          </div>
-          <div className="form-group mt-3">
-            <label htmlFor="doctorLastName">Фамилия</label>
-            <input id="doctorLastName" type="text" className="form-control mt-1" placeholder="Фамилия" value={doctorLastName}
-                   onChange={(e) => setDoctorLastName(e.target.value)} required />
-          </div>
-          <div className="form-group mt-3">
-            <label htmlFor="doctorPatronymic">Отчество</label>
-            <input id="doctorPatronymic" type="text" className="form-control mt-1" placeholder="Отчество" value={doctorPatronymic}
-                   onChange={(e) => setDoctorPatronymic(e.target.value)} />
-          </div>
-          <div className="form-group mt-3">
-            <label htmlFor="doctorSpecialization">Специализация</label>
-            <input id="doctorSpecialization" type="text" className="form-control mt-1" placeholder="Специализация" value={doctorSpecialization}
-                   onChange={(e) => setDoctorSpecialization(e.target.value)} required />
-          </div>
-          <div className="d-grid gap-2 my-3">
-            <button type="submit" className="btn btn-primary">
-              Зарегистрироваться
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
+    <Container maxWidth="sm">
+      <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
+        <Card>
+          <CardContent>
+            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px'}}>
+              <Avatar sx={{ m: 1, bgcolor: 'rgba(217,2,2,0.92)' }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5" sx={{fontWeight: "700"}}>
+                Регистрация
+              </Typography>
+              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      autoComplete="given-name"
+                      name="firstName"
+                      required
+                      fullWidth
+                      id="firstName"
+                      label="Имя"
+                      autoFocus
+                      value={firstName}
+                      onChange={handleFirstNameChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="patronymic"
+                      label="Отчество"
+                      name="patronymic"
+                      autoComplete="patronymic"
+                      value={patronymic}
+                      onChange={handlePatronymicChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="lastName"
+                      label="Фамилия"
+                      name="lastName"
+                      autoComplete="family-name"
+                      value={lastName}
+                      onChange={handleLastNameChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      name="specialization"
+                      label="Специализация"
+                      id="specialization"
+                      autoComplete="specialization"
+                      value={specialization}
+                      onChange={handleSpecializationChange}
+                    />
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                  disabled={firstName === "" || lastName === "" || patronymic === "" || specialization === ""}
+                >
+                  Зарегистрироваться
+                </Button>
+                <Grid container justifyContent="flex-end">
+                  <Grid item>
+                    <Link to="/">
+                      {"Уже есть аккаунт? Войдите"}
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+          </CardContent>
+        </Card>
+      </Box>
+    </Container>
   );
 };
 
