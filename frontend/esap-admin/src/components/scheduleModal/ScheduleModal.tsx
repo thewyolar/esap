@@ -32,8 +32,8 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, doctor, sc
 
   const getWeeks = (schedules: Schedule[]) => {
     const weeks: Schedule[][] = [];
-    const firstDayOfWeek = moment(schedules[0].date).isoWeekday(1);
-    const lastDayOfWeek = moment(schedules[schedules.length - 1].date).isoWeekday(7);
+    const firstDayOfWeek = schedules.length > 0 ? moment(schedules[0].date).isoWeekday(1) : moment().isoWeekday(1);
+    const lastDayOfWeek = schedules.length > 0 ? moment(schedules[schedules.length - 1].date).isoWeekday(7) : moment().isoWeekday(7);
     let week: Schedule[] = [];
     let currentDay = firstDayOfWeek;
 
