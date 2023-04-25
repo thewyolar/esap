@@ -1,9 +1,9 @@
-import { DoctorDTO } from "./dto/DoctorDTO";
+import { Doctor } from "./Doctor";
 import {Appointment} from "./Appointment";
 
 export interface Schedule {
   id: number,
-  doctor: DoctorDTO,
+  doctor: Doctor,
   date: string,
   startDoctorAppointment: string,
   endDoctorAppointment: string,

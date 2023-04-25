@@ -1,12 +1,12 @@
 import "./featuredInfo.scss";
 import HttpService from "../../service/HttpService";
-import { useEffect, useState } from "react";
-import { DoctorDTO } from "../../model/dto/DoctorDTO";
-import { Link } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Doctor} from "../../model/Doctor";
+import {Link} from "react-router-dom";
 
 const FeaturedInfo = () => {
-  const [doctor, setData] = useState<DoctorDTO>();
-  const [error, setError] = useState<DoctorDTO>();
+  const [doctor, setData] = useState<Doctor>();
+  const [error, setError] = useState<Doctor>();
   useEffect(() => {
     HttpService.getDoctor()
       .then((response) => {

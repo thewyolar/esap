@@ -1,9 +1,7 @@
-import axios, { AxiosInstance } from "axios";
-import { ClinicRegistrationDTO } from "../model/dto/ClinicRegistrationDTO";
-import { DoctorDTO } from "../model/dto/DoctorDTO";
-import { MedicalCard } from "../model/MedicalCard";
-import { Patient } from "../model/Patient";
-import { Schedule } from "../model/Schedule";
+import {Doctor} from "../model/Doctor";
+import {MedicalCard} from "../model/MedicalCard";
+import {Patient} from "../model/Patient";
+import {Schedule} from "../model/Schedule";
 import Api from "./auth/Api";
 
 class HttpService {
@@ -29,7 +27,7 @@ class HttpService {
   }
 
   public static async getDoctorList() {
-    return await Api.get<DoctorDTO[]>(HttpService.url + "/api/doctor")
+    return await Api.get<Doctor[]>(HttpService.url + "/api/doctor")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -65,7 +63,7 @@ class HttpService {
   }
 
   public static async getDoctor() {
-    return await Api.get<DoctorDTO>(HttpService.url + `/api/doctor/home`)
+    return await Api.get<Doctor>(HttpService.url + `/api/doctor/home`)
       .then((res) => res.data)
       .catch((error) => {
         throw error;

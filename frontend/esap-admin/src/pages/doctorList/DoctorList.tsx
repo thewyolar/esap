@@ -3,14 +3,14 @@ import HttpService from "../../service/HttpService";
 import {DataGrid, GridColDef, ruRU} from "@mui/x-data-grid";
 import {Link} from "react-router-dom";
 import {BorderAll, DeleteOutline} from "@mui/icons-material";
-import {DoctorDTO} from "../../model/dto/DoctorDTO";
+import {Doctor} from "../../model/Doctor";
 import ScheduleModal from "../../components/scheduleModal/ScheduleModal";
 import './doctorList.scss';
 
 const DoctorList: React.FC = () => {
-  const [data, setData] = useState<DoctorDTO[]>([]);
+  const [data, setData] = useState<Doctor[]>([]);
   const [open, setOpen] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState<DoctorDTO>();
+  const [selectedDoctor, setSelectedDoctor] = useState<Doctor>();
 
   useEffect(() => {
     HttpService.getDoctorList()
@@ -18,7 +18,7 @@ const DoctorList: React.FC = () => {
       .catch(error => console.error(error));
   }, []);
 
-  const handleOpen = (doctor: DoctorDTO) => {
+  const handleOpen = (doctor: Doctor) => {
     setSelectedDoctor(doctor);
     setOpen(true);
   };
