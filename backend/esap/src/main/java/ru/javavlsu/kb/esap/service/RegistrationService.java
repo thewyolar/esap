@@ -8,10 +8,10 @@ import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.repository.ClinicRepository;
 import ru.javavlsu.kb.esap.repository.DoctorRepository;
+import ru.javavlsu.kb.esap.util.LoginPasswordGenerator;
 import ru.javavlsu.kb.esap.util.NotFoundException;
 
 import java.util.Collections;
-import java.util.Random;
 
 @Service
 @Transactional(readOnly = true)
@@ -29,19 +29,15 @@ public class RegistrationService {
 
     @Transactional
     public String[] registrationClinic(Clinic clinic, Doctor doctor) {
-        Random random = new Random();
-        String[] loginPassword = new String[2];
-        loginPassword[1] = "123";
-        do {
-            loginPassword[0] = String.valueOf(random.nextInt(10)) + random.nextInt(10) + random.nextInt(10);//TODO генератор паролей
-        } while (doctorRepository.findByLogin(loginPassword[0]).isPresent());
-        doctor.setLogin(loginPassword[0]);
-        doctor.setPassword(passwordEncoder.encode(loginPassword[1]));
+        String login = LoginPasswordGenerator.generateLogin();
+        String password = LoginPasswordGenerator.generatePassword();
+        doctor.setLogin(login);
+        doctor.setPassword(passwordEncoder.encode(password));
         doctor.setClinic(clinic);
         doctor.setRole("null");//TODO роль null
         clinic.setDoctors(Collections.singletonList(doctor));
         clinicRepository.save(clinic);
-        return new String[] {doctor.getLogin(), loginPassword[1]};
+        return new String[] {login, password};
     }
 
     @Transactional
