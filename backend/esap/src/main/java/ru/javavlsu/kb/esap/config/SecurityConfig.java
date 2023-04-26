@@ -41,23 +41,25 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic()
-                .and()
+                    .and()
                 .csrf().disable()
                 .authorizeHttpRequests()
 //                .anyRequest().permitAll()
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/auth/login", "/error", "/api/auth/registration/clinic", "/api/auth/password/reset/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                    .requestMatchers("/api/auth/login", "/error", "/api/auth/registration/clinic", "/api/auth/password/reset/**").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+                    .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin((form) -> form
-                        .defaultSuccessUrl("/")
-                )
-                .logout((logout) -> logout
-                        .logoutSuccessUrl("/")
-                )
+                .formLogin()
+                    .loginPage("/")
+                    .defaultSuccessUrl("/")
+                    .and()
+                .logout()
+                    .logoutUrl("/")
+                    .logoutSuccessUrl("/")
+                    .and()
                 .exceptionHandling().authenticationEntryPoint((request, response, e) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized"));
 
         return http.build();
