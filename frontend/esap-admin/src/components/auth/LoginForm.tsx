@@ -14,6 +14,7 @@ const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const handleLoginChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLogin(event.target.value);
@@ -37,7 +38,10 @@ const LoginForm: React.FC = () => {
       .then(response => {
         tokenStorageService.saveToken(response.jwt);
         tokenStorageService.saveLogin(login);
-        window.location.reload();
+        setSuccess(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       })
       .catch(error => {
         setError(error.response.data.message);
@@ -58,6 +62,7 @@ const LoginForm: React.FC = () => {
               </Typography>
               <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                 {error && <Alert severity="error">{error}</Alert>}
+                {success && <Alert severity="success">Вы успешно вошли в систему!</Alert>}
                 <TextField
                   margin="normal"
                   required

@@ -1,4 +1,4 @@
-import {Routes, Route} from 'react-router-dom';
+import {Routes, Route, Navigate} from 'react-router-dom';
 import Home from './pages/home/Home';
 import NewPatient from './pages/newPatient/NewPatient';
 import PatientList from './pages/patientList/PatientList';
@@ -32,8 +32,9 @@ const App: React.FC = () => {
           <Route path="/queue/:schedulesId" element={<Queue />} />
         </Route>
       ) : (
-        <Route path="/" element={<LoginForm />} />
+        <Route path="*" element={<Navigate to="/" />} />
       )}
+      <Route path="/" element={<LoginForm />} />
       <Route path="/register" element={<RegistrationPage />} />
       <Route path="/password/reset" element={<ResetPasswordForm />} />
     </Routes>
