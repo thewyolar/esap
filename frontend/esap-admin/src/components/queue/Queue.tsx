@@ -3,35 +3,38 @@ import {Grid, Card, CardContent, Typography, List, ListItem, ListItemAvatar, Ava
 import {useParams} from 'react-router-dom';
 import {Schedule} from '../../model/Schedule';
 import HttpService from '../../service/HttpService';
+import {Appointment} from "../../model/Appointment";
 
 const Queue: React.FC = () => {
-  let { scheduleId } = useParams();
-  let scheduleIdInt = parseInt(scheduleId!);
-  const [schedule, setData] = useState<Schedule>();
+  const { scheduleId } = useParams<{ scheduleId: string }>();
+  const [schedule, setSchedule] = useState<Schedule>();
 
   useEffect(() => {
-    if (scheduleIdInt) { // Добавлено условие
-      HttpService.getScheduleByIdAndDoctor(scheduleIdInt)
-        .then((response) => setData(response))
+    if (scheduleId) {
+      HttpService.getScheduleByIdAndDoctor(parseInt(scheduleId))
+        .then((response) => setSchedule(response))
         .catch((error) => console.error(error));
     }
-  }, [scheduleIdInt]);
+  }, [scheduleId]);
 
   return (
-    <Grid className="queue" container spacing={0}>
-      <Grid item xs={12} sm={6} md={4}>
-        <Card>
+    <Grid container className="queue" spacing={2} justifyContent="center">
+      <Grid item xs={12} sm={8} md={6}>
+        <Card raised>
           <CardContent>
-            <Typography variant="h5" component="h2">
+            <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
               Электронная очередь
             </Typography>
             <List>
-              {schedule?.appointments.map((item, index) => (
-                <ListItem key={index}>
+              {schedule?.appointments.map((appointment: Appointment, index: number) => (
+                <ListItem key={index} disablePadding>
                   <ListItemAvatar>
-                    <Avatar>{index + 1}</Avatar>
+                    <Avatar sx={{ bgcolor: 'primary.main' }}>{index + 1}</Avatar>
                   </ListItemAvatar>
-                  <ListItemText primary={item.patient.firstName + " " + item.patient.lastName} secondary={`Время записи: ${item.startAppointments}`} />
+                  <ListItemText
+                    primary={`${appointment.patient.lastName} ${appointment.patient.firstName}`}
+                    secondary={`Время записи: ${appointment.startAppointments}`}
+                  />
                 </ListItem>
               ))}
             </List>
