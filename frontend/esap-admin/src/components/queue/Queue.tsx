@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Grid, Card, CardContent, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText } from "@mui/material";
-import { useParams } from 'react-router-dom';
-import { Schedule } from '../../model/Schedule';
+import React, {useEffect, useState} from 'react';
+import {Grid, Card, CardContent, Typography, List, ListItem, ListItemAvatar, Avatar, ListItemText} from "@mui/material";
+import {useParams} from 'react-router-dom';
+import {Schedule} from '../../model/Schedule';
 import HttpService from '../../service/HttpService';
 
 const Queue: React.FC = () => {
-  let { schedulesId } = useParams();
-  let schedulesIdInt = parseInt(schedulesId!);
+  let { scheduleId } = useParams();
+  let scheduleIdInt = parseInt(scheduleId!);
   const [schedule, setData] = useState<Schedule>();
 
   useEffect(() => {
-    HttpService.getScheduleByIdAndDoctor(schedulesIdInt)
-      .then((response) => setData(response))
-      .catch((error) => console.error(error));
-  }, []);
+    if (scheduleIdInt) { // Добавлено условие
+      HttpService.getScheduleByIdAndDoctor(scheduleIdInt)
+        .then((response) => setData(response))
+        .catch((error) => console.error(error));
+    }
+  }, [scheduleIdInt]);
 
   return (
     <Grid className="queue" container spacing={0}>
