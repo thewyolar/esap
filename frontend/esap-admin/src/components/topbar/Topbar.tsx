@@ -1,10 +1,23 @@
 import './topbar.scss';
-import {NotificationsNone} from '@mui/icons-material/';
-import React from "react";
-import AccountMenu from "../accountMenu/AccountMenu";
+import React, {useEffect, useState} from "react";
+import AccountMenu from "../account/AccountMenu";
 import {Link} from "react-router-dom";
+import {Doctor} from "../../model/Doctor";
+import HttpService from "../../service/HttpService";
+import DoctorInfo from "../account/DoctorInfo";
 
 const Topbar: React.FC = () => {
+  const [doctor, setDoctor] = useState<Doctor>();
+  const [error, setError] = useState<Doctor>();
+
+  useEffect(() => {
+    HttpService.getDoctor()
+      .then((response) => {
+        setDoctor(response);
+      })
+      .catch((error) => setError(error));
+  }, []);
+
   return (
     <div className={'topbar'}>
       <div className={"wrapper"}>
@@ -14,10 +27,8 @@ const Topbar: React.FC = () => {
           </Link>
         </div>
         <div className={"right"}>
-          <div className={"icon"}>
-            <NotificationsNone style={{fontSize: "25px"}} />
-            <span style={{fontSize: "12px"}}>2</span>
-          </div>
+          {doctor &&
+            <DoctorInfo doctor={doctor} />}
           <AccountMenu />
         </div>
       </div>
@@ -25,4 +36,4 @@ const Topbar: React.FC = () => {
   );
 };
 
-export default Topbar
+export default Topbar;
