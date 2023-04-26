@@ -1,6 +1,8 @@
 package ru.javavlsu.kb.esap.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Schedule;
 
@@ -15,7 +17,11 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     Optional<Schedule> findByDateAndDoctor(LocalDate date, Doctor doctor);
 
-    Optional<Schedule> findByIdAndDoctor(Long id, Doctor doctor);
+//    @Query("SELECT s FROM Schedule s JOIN s.appointments a WHERE s.doctor = :doctor AND s.id = :id ORDER BY a.startAppointments ASC")
+//    Optional<Schedule> findByIdAndDoctorOrderByAppointmentStartAppointmentsAsc(@Param("id") Long id, @Param("doctor") Doctor doctor);
+
+    @Query("SELECT s FROM Schedule s JOIN FETCH s.appointments a WHERE s.doctor = :doctor AND s.id = :id ORDER BY a.startAppointments ASC")
+    Optional<Schedule> findByIdAndDoctorOrderByAppointmentStartAppointmentsAsc(@Param("id") Long id, @Param("doctor") Doctor doctor);
 
     void deleteScheduleByDateBefore(LocalDate date);
 }

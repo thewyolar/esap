@@ -40,7 +40,7 @@ public class ScheduleService {
     }
 
     public Schedule getByIdAndDoctor(long id, Doctor doctor){
-        Optional<Schedule> schedule = scheduleRepository.findByIdAndDoctor(id, doctor);
+        Optional<Schedule> schedule = scheduleRepository.findByIdAndDoctorOrderByAppointmentStartAppointmentsAsc(id, doctor);
         return schedule.orElseThrow(() -> new NotFoundException("Schedule not found"));
     }
 
