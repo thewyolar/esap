@@ -5,21 +5,21 @@ import {Doctor} from "../../model/Doctor";
 import {Link} from "react-router-dom";
 
 const FeaturedInfo = () => {
-  const [doctor, setData] = useState<Doctor>();
+  const [doctor, setDoctor] = useState<Doctor>();
   const [error, setError] = useState<Doctor>();
+
   useEffect(() => {
     HttpService.getDoctor()
       .then((response) => {
-        setData(response);
+        setDoctor(response);
       })
       .catch((error) => setError(error));
   }, []);
-  console.log(doctor);
+
   const schedulesForToday =
     doctor &&
     doctor.schedules.filter((schedule) => {
       const today = new Date();
-      console.log(today);
       const scheduleDate = new Date(schedule.date);
       return (
         scheduleDate.getFullYear() === today.getFullYear() &&
@@ -65,6 +65,3 @@ const FeaturedInfo = () => {
 };
 
 export default FeaturedInfo;
-function setData(response: any): any {
-  throw new Error("Function not implemented.");
-}
