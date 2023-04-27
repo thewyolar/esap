@@ -1,6 +1,7 @@
 const TOKEN_KEY = "AuthToken";
 const USERNAME_KEY = "AuthUsername";
 const AUTHORITIES_KEY = "AuthAuthorities";
+const FIO_DOCTOR_KEY = 'fio'
 
 export class TokenStorageService {
   private roles: Array<string> = [];

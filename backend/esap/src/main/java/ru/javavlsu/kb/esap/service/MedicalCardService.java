@@ -29,6 +29,7 @@ public class MedicalCardService {
     @Transactional
     public void createMedicalRecord(MedicalRecord medicalRecord, MedicalCard medicalCard) {
         medicalRecord.setMedicalCard(medicalCard);
+        medicalRecord.getAnalyzes().stream().forEach(analysis -> analysis.setMedicalRecord(medicalRecord));
         medicalRecordRepository.save(medicalRecord);
     }
 

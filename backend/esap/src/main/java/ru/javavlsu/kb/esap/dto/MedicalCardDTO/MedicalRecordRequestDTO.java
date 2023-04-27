@@ -19,7 +19,6 @@ public class MedicalRecordRequestDTO {
     @NotNull
     private String fioAndSpecializationDoctor;
 
-    @NotNull
     private LocalDate date;
 
     private List<Analysis> analyzes;

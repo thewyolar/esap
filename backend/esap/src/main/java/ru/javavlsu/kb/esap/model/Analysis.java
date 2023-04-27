@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -34,6 +35,7 @@ public class Analysis {
     @ManyToOne
     @JoinColumn(name = "medical_record_id")
     @JsonIgnore
+    @Cascade(org.hibernate.annotations.CascadeType.PERSIST)
     private MedicalRecord medicalRecord;
 
     @Override

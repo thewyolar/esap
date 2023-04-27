@@ -36,7 +36,7 @@ public class DoctorController {
     @GetMapping("/home")
     public DoctorDTO getDoctor() {
         Doctor doctor = getDoctorDetails().getDoctor();
-        doctor = doctorService.getById(doctor.getId());
+        doctor = doctorService.refreshDoctor(doctor);
         return doctorMapper.toDoctorDTO(doctor);
     }
 

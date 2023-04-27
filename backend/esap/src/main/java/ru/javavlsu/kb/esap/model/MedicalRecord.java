@@ -36,7 +36,7 @@ public class MedicalRecord {
     @NotNull
     private LocalDate date;
 
-    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "medicalRecord", cascade = {CascadeType.PERSIST})
     private List<Analysis> analyzes;
 
     @ManyToOne

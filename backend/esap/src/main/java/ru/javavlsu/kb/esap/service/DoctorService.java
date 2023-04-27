@@ -1,5 +1,6 @@
 package ru.javavlsu.kb.esap.service;
 
+import jakarta.persistence.EntityManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,9 @@ import java.util.List;
 public class DoctorService {
 
     @Autowired
+    private EntityManager em;
+
+    @Autowired
     private DoctorRepository doctorRepository;
 
     public List<Doctor> getAll() { return doctorRepository.findAll(); }
@@ -26,6 +30,10 @@ public class DoctorService {
 
     public Doctor getById(long id){
         return doctorRepository.findById(id).orElseThrow(() -> new NotFoundException("Doctor not found"));
+    }
+
+    public Doctor refreshDoctor(Doctor doctor) {
+        return em.merge(doctor);
     }
     
     @Transactional

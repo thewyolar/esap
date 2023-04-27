@@ -4,6 +4,7 @@ import {Patient} from "../model/Patient";
 import {Schedule} from "../model/Schedule";
 import Api from "./auth/Api";
 import {AppointmentDTO} from "../model/dto/AppointmentDTO";
+import { MedicalRecord } from "../model/MedicalRecord";
 
 class HttpService {
   private static url = "http://localhost:8080";
@@ -27,6 +28,16 @@ class HttpService {
   public static async getMedicalCard(id: number) {
     return await Api.get<MedicalCard>(
       HttpService.url + `/api/medicalCard/patient/${id}`
+    )
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  public static async saveMedicalRecord(id: number, body: MedicalRecord) {
+    return await Api.post<MedicalCard>(
+      HttpService.url + `/api/medicalCard/patient/${id}`, body
     )
       .then((res) => res.data)
       .catch((error) => {

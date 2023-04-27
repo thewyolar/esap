@@ -4,6 +4,7 @@ import {useParams} from 'react-router-dom';
 import {Schedule} from '../../model/Schedule';
 import HttpService from '../../service/HttpService';
 import {Appointment} from "../../model/Appointment";
+import { Link } from 'react-router-dom';
 
 const Queue: React.FC = () => {
   const { scheduleId } = useParams<{ scheduleId: string }>();
@@ -25,7 +26,7 @@ const Queue: React.FC = () => {
             <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
               Электронная очередь
             </Typography>
-            <List>
+            <List sx={{ display: 'flex' }}>
               {schedule?.appointments.map((appointment: Appointment, index: number) => (
                 <ListItem key={index} disablePadding>
                   <ListItemAvatar>
@@ -35,6 +36,7 @@ const Queue: React.FC = () => {
                     primary={`${appointment.patient.lastName} ${appointment.patient.firstName}`}
                     secondary={`Время записи: ${appointment.startAppointments}`}
                   />
+                  <Link to={`/editingMedicalCard/${appointment.patient.id}`}>Карта</Link>
                 </ListItem>
               ))}
             </List>
