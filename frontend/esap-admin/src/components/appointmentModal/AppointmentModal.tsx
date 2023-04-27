@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Alert, Box, Button, IconButton, MenuItem, Modal, Select, Typography} from "@mui/material";
+import {Alert, Autocomplete, Box, Button, IconButton, Modal, TextField, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import {Doctor} from "../../model/Doctor";
 import moment from "moment/moment";
@@ -37,7 +37,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ open, onClose, sche
         date: date,
         startAppointments: time
       };
-      console.log(appointment);
+
       HttpService.makeDoctorAppointment(scheduleId, appointment)
         .then(response => {
           setSuccess(true);
@@ -79,16 +79,31 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ open, onClose, sche
           <span> {formattedDate}, {time}</span>
         </Typography>
         <Typography gutterBottom>
-          <b>Выберите пациента:</b>
+          <b>Пациент:</b>
         </Typography>
-        <Select value={selectedPatient} onChange={(e) => setSelectedPatient(e.target.value as number)} fullWidth>
-          <MenuItem value={0}>Не выбрано</MenuItem>s
-          {patients.map((patient) => (
-            <MenuItem key={patient.id} value={patient.id}>
-              {patient.firstName} {patient.patronymic} {patient.lastName}
-            </MenuItem>
-          ))}
-        </Select>
+        <Autocomplete
+          options={patients}
+          noOptionsText="Нет пациентов"
+          getOptionLabel={(option) =>
+            `${option.firstName} ${option.patronymic} ${option.lastName}`
+          }
+          value={patients.find((patient) => patient.id === selectedPatient) || null}
+          onChange={(event, newValue) => {
+            if (newValue) {
+              setSelectedPatient(newValue.id);
+            } else {
+              setSelectedPatient(0);
+            }
+          }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              label="Выберите пациента"
+              margin="normal"
+              fullWidth
+            />
+          )}
+        />
         <Button
           type="submit"
           fullWidth
