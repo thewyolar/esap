@@ -36,7 +36,7 @@ const RegistrationPage: React.FC = () => {
 
   return (
     <div>
-      {registrationSuccess && <Alert severity="success" sx={{ mt: 2 }}>Вы успешно зарегистрировались! Логин: {response?.login}, пароль {response?.password}.</Alert>}
+      {registrationSuccess && <Alert severity="success" sx={{ mt: 2 }}>Вы успешно зарегистрировались! Логин: {response?.login}, пароль {response?.password}</Alert>}
       {!showClinicForm && <RegistrationForm onSubmit={handleDoctorSubmit} />}
       {showClinicForm && <ClinicRegistrationForm onSubmit={handleClinicSubmit} />}
     </div>

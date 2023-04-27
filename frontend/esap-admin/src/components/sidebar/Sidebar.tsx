@@ -1,6 +1,6 @@
 import './sidebar.scss';
-import { LineStyle, PermIdentity } from '@mui/icons-material';
-import { Link } from 'react-router-dom';
+import {Apps, GroupOutlined, LineStyle, LocalHospital, PeopleOutline, PermIdentity} from '@mui/icons-material';
+import {Link} from 'react-router-dom';
 import React from "react";
 
 const Sidebar: React.FC = () => {
@@ -12,7 +12,7 @@ const Sidebar: React.FC = () => {
           <ul>
             <Link to='/' className='link'>
               <li>
-                <LineStyle className='icon'/>
+                <Apps className='icon'/>
                 Домашняя
               </li>
             </Link>
@@ -23,7 +23,7 @@ const Sidebar: React.FC = () => {
           <ul>
             <Link to='/patients' className='link'>
               <li>
-                <PermIdentity className='icon'/>
+                <PeopleOutline className={'icon'} />
                 Пациенты
               </li>
             </Link>
@@ -31,7 +31,7 @@ const Sidebar: React.FC = () => {
           <ul>
             <Link to='/doctors' className='link'>
               <li>
-                <PermIdentity className='icon'/>
+                <LocalHospital className='icon'/>
                 Врачи
               </li>
             </Link>
@@ -39,7 +39,7 @@ const Sidebar: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Sidebar;

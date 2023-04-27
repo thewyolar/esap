@@ -17,9 +17,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
 
     Optional<Schedule> findByDateAndDoctor(LocalDate date, Doctor doctor);
 
-//    @Query("SELECT s FROM Schedule s JOIN s.appointments a WHERE s.doctor = :doctor AND s.id = :id ORDER BY a.startAppointments ASC")
-//    Optional<Schedule> findByIdAndDoctorOrderByAppointmentStartAppointmentsAsc(@Param("id") Long id, @Param("doctor") Doctor doctor);
-
     @Query("SELECT s FROM Schedule s JOIN FETCH s.appointments a WHERE s.doctor = :doctor AND s.id = :id ORDER BY a.startAppointments ASC")
     Optional<Schedule> findByIdAndDoctorOrderByAppointmentStartAppointmentsAsc(@Param("id") Long id, @Param("doctor") Doctor doctor);
 
