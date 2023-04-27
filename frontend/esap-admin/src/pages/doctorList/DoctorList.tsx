@@ -6,6 +6,7 @@ import {DeleteOutline} from "@mui/icons-material";
 import {Doctor} from "../../model/Doctor";
 import ScheduleModal from "../../components/scheduleModal/ScheduleModal";
 import './doctorList.scss';
+import {Button} from "@mui/material";
 
 const DoctorList: React.FC = () => {
   const [data, setData] = useState<Doctor[]>([]);
@@ -77,22 +78,28 @@ const DoctorList: React.FC = () => {
     {
       field: 'action',
       headerName: 'Действие',
-      width: 250,
+      width: 270,
       renderCell: (params) => {
         return (
           <>
             <Link to={`/doctor/${params.row.id}`}>
-              <button className='editButton'>Изменить</button>
+              <Button variant='contained' color='primary' style={{ marginRight: '10px' }} size="small">
+                Изменить
+              </Button>
             </Link>
-            <button className='editButton' onClick={() => handleOpen(params.row)}>Расписание</button>
+            <Link to='#'>
+              <Button variant='contained' color='primary' style={{ marginRight: '10px' }} size="small" onClick={() => handleOpen(params.row)}>
+                Расписание
+              </Button>
+            </Link>
             <DeleteOutline
               className='deleteButton'
               onClick={() => handleDelete(params.row.id)}
             />
           </>
         );
-      },
-    },
+      }
+    }
   ];
 
   return (
