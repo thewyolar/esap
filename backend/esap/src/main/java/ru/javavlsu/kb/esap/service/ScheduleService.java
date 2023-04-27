@@ -31,7 +31,7 @@ public class ScheduleService {
         if(minutesBetweenStartAndEnd <= 0 && minutesBetweenStartAndEnd % 30 != 0){
             throw new NotCreateException("Invalid schedule time");
         }
-        schedule.setMaxPatientPerDay((int)minutesBetweenStartAndEnd / 30);
+        schedule.setMaxPatientPerDay(((int)minutesBetweenStartAndEnd / 30) + 1);
         scheduleRepository.save(schedule);
     }
 
