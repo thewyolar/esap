@@ -2,6 +2,7 @@ package ru.javavlsu.kb.esap.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.MedicalCard;
 import ru.javavlsu.kb.esap.model.MedicalRecord;
 import ru.javavlsu.kb.esap.model.Patient;
@@ -27,9 +28,10 @@ public class MedicalCardService {
     }
 
     @Transactional
-    public void createMedicalRecord(MedicalRecord medicalRecord, MedicalCard medicalCard) {
+    public void createMedicalRecord(MedicalRecord medicalRecord, MedicalCard medicalCard, Doctor doctor) {
+        medicalRecord.setFioAndSpecializationDoctor(doctor.getSpecialization() + ": " + doctor.getFio());
         medicalRecord.setMedicalCard(medicalCard);
-        medicalRecord.getAnalyzes().stream().forEach(analysis -> analysis.setMedicalRecord(medicalRecord));
+        medicalRecord.getAnalyzes().forEach(analysis -> analysis.setMedicalRecord(medicalRecord));
         medicalRecordRepository.save(medicalRecord);
     }
 

@@ -25,5 +25,7 @@ public class DoctorDTO {
 
     private String specialization;
 
+    private int gender;
+
     private List<ScheduleResponseDTO> schedules;
 }

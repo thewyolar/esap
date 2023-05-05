@@ -4,11 +4,14 @@ package ru.javavlsu.kb.esap.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.MedicalCardDTO.MedicalCardResponseDTO;
 import ru.javavlsu.kb.esap.dto.MedicalCardDTO.MedicalRecordRequestDTO;
 import ru.javavlsu.kb.esap.mapper.MedicalCardMapper;
+import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.service.MedicalCardService;
 import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.util.NotCreateException;
@@ -49,8 +52,13 @@ public class MedicalCardController {
         }
         System.out.println(medicalRecordRequestDTO);
         medicalCardService.createMedicalRecord(medicalCardMapper.toMedicalRecordRequestDTO(medicalRecordRequestDTO),
-                medicalCardService.getMedicalCardByPatient(patientService.getById(id)));
+                medicalCardService.getMedicalCardByPatient(patientService.getById(id)), getDoctorDetails().getDoctor());
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    private DoctorDetails getDoctorDetails(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return (DoctorDetails) authentication.getPrincipal();
     }
 
     @ExceptionHandler

@@ -5,9 +5,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.javavlsu.kb.esap.model.Doctor;
+import ru.javavlsu.kb.esap.model.Role;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.stream.Collectors;
 
 public class DoctorDetails implements UserDetails {
 
@@ -20,7 +23,8 @@ public class DoctorDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList((new SimpleGrantedAuthority((doctor.getRole()))));
+        return new HashSet<GrantedAuthority>((doctor.getRole().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList())));
     }
 
     @Override

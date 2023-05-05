@@ -86,13 +86,6 @@ const PatientMedicalCard: React.FC = (onClose) => {
             <div className="info">
               <span className="infoTitle">{data?.patient.birthDate}</span>
             </div>
-            <span className="title">{data?.patient.address}</span>
-            <div className="info">
-              <span className="infoTitle">{data?.patient.phoneNumber}</span>
-            </div>
-            <div className="info">
-              <span className="infoTitle">{data?.patient.email}</span>
-            </div>
           </div>
         </div>
         <div className="medicalCard">

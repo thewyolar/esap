@@ -37,7 +37,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
       firstName: firstName,
       patronymic: patronymic,
       lastName: lastName,
-      specialization: specialization
+      specialization: specialization,
+      gender: 1//TODO ну ты понял
     };
 
     onSubmit(doctorData);

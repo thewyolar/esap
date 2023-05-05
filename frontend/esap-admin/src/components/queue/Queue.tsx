@@ -26,7 +26,7 @@ const Queue: React.FC = () => {
             <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
               Электронная очередь
             </Typography>
-            <List sx={{ display: 'flex' }}>
+            <List sx={{ display: 'flex', flexDirection: 'column'}}>
               {schedule?.appointments.map((appointment: Appointment, index: number) => (
                 <ListItem key={index} disablePadding>
                   <ListItemAvatar>

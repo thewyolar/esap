@@ -14,6 +14,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @Table(name = "employees")
+// TODO возможно бесполезный класс
 public class Employee {
 
     @Id

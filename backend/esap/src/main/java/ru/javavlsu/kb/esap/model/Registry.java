@@ -12,6 +12,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @Table(name = "registries")
+//TODO возможно бесполезный класс
 public class Registry {
 
     @Id

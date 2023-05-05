@@ -2,20 +2,20 @@ package ru.javavlsu.kb.esap.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "doctors")
 public class Doctor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -52,7 +52,15 @@ public class Doctor {
     @JsonIgnore
     private Clinic clinic;
 
-    private String role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "role_doctor",
+            joinColumns = {@JoinColumn(name = "doctor_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Role> role;
+
+    @Max(value = 2, message = "Не верно указан пол")
+    @Min(value = 1, message = "Не верно указан пол")
+    private int gender;
 
     @Override
     public boolean equals(Object o) {
@@ -65,6 +73,10 @@ public class Doctor {
     @Override
     public int hashCode() {
         return Objects.hash(id, login);
+    }
+
+    public String getFio(){
+        return this.lastName + " " + this.firstName + " " + this.patronymic;
     }
 }
 

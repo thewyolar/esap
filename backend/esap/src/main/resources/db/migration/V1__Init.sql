@@ -29,7 +29,7 @@ create table doctors
     last_name varchar(255) not null,
     login varchar(255),
     password varchar(255),
-    role varchar(255),
+    gender integer not null check (gender<=2 AND gender>=1),
     patronymic varchar(100) not null,
     specialization varchar(255) not null,
     clinic_id bigint, primary key (id),
@@ -111,4 +111,17 @@ create table appointments
     primary key (id),
     FOREIGN KEY (patient_id) REFERENCES patients (id),
     FOREIGN KEY (schedule_id) REFERENCES schedules (id)
+);
+create table role (
+    id bigserial not null,
+    name varchar(255) not null,
+    primary key (id)
+);
+create table role_doctor (
+    id bigserial not null,
+    role_id bigint not null,
+    doctor_id bigint not null,
+    FOREIGN KEY (role_id) REFERENCES role (id),
+    FOREIGN KEY (doctor_id) REFERENCES doctors (id),
+    primary key (id)
 );
