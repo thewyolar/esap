@@ -38,6 +38,7 @@ const LoginForm: React.FC = () => {
       .then(response => {
         tokenStorageService.saveToken(response.jwt);
         tokenStorageService.saveLogin(login);
+        tokenStorageService.saveRoles(response.roles)
         setSuccess(true);
         setTimeout(() => {
           window.location.reload();

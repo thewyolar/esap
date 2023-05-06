@@ -60,7 +60,7 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(), authenticationDTO.getPassword());
         authenticationManager.authenticate(authenticationToken);
         String token = jwtUtil.generateToken(authenticationDTO.getLogin());
-        return Map.of("jwt", token);
+        return Map.of("jwt", token, "roles", String.join(";", doctorService.getRoles(authenticationDTO.getLogin())));
     }
 
     //TODO Служебный запрос

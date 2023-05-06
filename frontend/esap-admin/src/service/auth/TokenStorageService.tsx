@@ -1,10 +1,9 @@
 const TOKEN_KEY = "AuthToken";
 const USERNAME_KEY = "AuthUsername";
 const AUTHORITIES_KEY = "AuthAuthorities";
-const FIO_DOCTOR_KEY = 'fio'
+const ROLE_KEY = 'Role'
 
 export class TokenStorageService {
-  private roles: Array<string> = [];
 
   constructor() {}
 
@@ -28,6 +27,15 @@ export class TokenStorageService {
 
   public getLogin(): string {
     return localStorage.getItem(USERNAME_KEY)!;
+  }
+
+  public saveRoles(roles: string) {
+    window.localStorage.removeItem(ROLE_KEY);
+    window.localStorage.setItem(ROLE_KEY, roles);
+  }
+
+  public getRoles(): string {
+    return localStorage.getItem(ROLE_KEY)!;
   }
 
   public saveAuthorities(authorities: string) {

@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.Doctor;
+import ru.javavlsu.kb.esap.model.Role;
 import ru.javavlsu.kb.esap.repository.DoctorRepository;
 import ru.javavlsu.kb.esap.util.NotFoundException;
 
@@ -34,6 +35,12 @@ public class DoctorService {
 
     public Doctor refreshDoctor(Doctor doctor) {
         return em.merge(doctor);
+    }
+
+    public List<String> getRoles(String login){
+        return doctorRepository.findByLogin(login)
+                .orElseThrow(() -> new NotFoundException("Doctor not found"))
+                .getRole().stream().map(Role::getName).toList();
     }
     
     @Transactional
