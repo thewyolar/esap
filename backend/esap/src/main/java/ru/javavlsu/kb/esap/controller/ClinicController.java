@@ -1,13 +1,9 @@
 package ru.javavlsu.kb.esap.controller;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.service.ClinicService;
-import ru.javavlsu.kb.esap.util.NotCreateException;
 
 import java.util.List;
 
@@ -25,13 +21,7 @@ public class ClinicController {
     }
 
     @GetMapping
-    public List<Clinic> getAllClinics() { 
+    public List<Clinic> getAllClinics() {
         return clinicService.getAll();
     }
-
-    @ExceptionHandler
-    private ResponseEntity<NotCreateException> notCreateException(NotCreateException e){
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
 }

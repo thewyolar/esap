@@ -8,7 +8,7 @@ import ru.javavlsu.kb.esap.model.MedicalRecord;
 import ru.javavlsu.kb.esap.model.Patient;
 import ru.javavlsu.kb.esap.repository.MedicalCardRepository;
 import ru.javavlsu.kb.esap.repository.MedicalRecordRepository;
-import ru.javavlsu.kb.esap.util.NotFoundException;
+import ru.javavlsu.kb.esap.exception.NotFoundException;
 
 @Service
 @Transactional(readOnly = true)

@@ -14,9 +14,8 @@ import ru.javavlsu.kb.esap.mapper.MedicalCardMapper;
 import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.service.MedicalCardService;
 import ru.javavlsu.kb.esap.service.PatientService;
-import ru.javavlsu.kb.esap.util.NotCreateException;
-import ru.javavlsu.kb.esap.util.NotFoundException;
-import ru.javavlsu.kb.esap.util.ResponseMessageError;
+import ru.javavlsu.kb.esap.exception.NotCreateException;
+import ru.javavlsu.kb.esap.exception.ResponseMessageError;
 
 @RestController
 @CrossOrigin
@@ -38,7 +37,7 @@ public class MedicalCardController {
 
 
     @GetMapping("/patient/{id}")
-    public MedicalCardResponseDTO getMedicalCard(@PathVariable("id") Long id){
+    public MedicalCardResponseDTO getMedicalCard(@PathVariable("id") Long id) {
         return medicalCardMapper.toMedicalCard(
                 medicalCardService.getMedicalCardByPatient(patientService.getById(id)));
     }
@@ -46,7 +45,7 @@ public class MedicalCardController {
     @PostMapping("/patient/{id}")
     public ResponseEntity<HttpStatus> saveMedicalRecord(@PathVariable("id") Long id,
                                                         @Valid @RequestBody MedicalRecordRequestDTO medicalRecordRequestDTO,
-                                                        BindingResult bindingResult){
+                                                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
@@ -56,19 +55,8 @@ public class MedicalCardController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    private DoctorDetails getDoctorDetails(){
+    private DoctorDetails getDoctorDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (DoctorDetails) authentication.getPrincipal();
     }
-
-    @ExceptionHandler
-    private ResponseEntity<NotCreateException> notCreateException(NotCreateException e){
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<NotFoundException> notFoundException(NotFoundException e) {
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
 }

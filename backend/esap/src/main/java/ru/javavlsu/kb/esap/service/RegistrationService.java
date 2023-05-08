@@ -10,7 +10,7 @@ import ru.javavlsu.kb.esap.repository.ClinicRepository;
 import ru.javavlsu.kb.esap.repository.DoctorRepository;
 import ru.javavlsu.kb.esap.repository.RoleRepository;
 import ru.javavlsu.kb.esap.util.LoginPasswordGenerator;
-import ru.javavlsu.kb.esap.util.NotFoundException;
+import ru.javavlsu.kb.esap.exception.NotFoundException;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -43,7 +43,7 @@ public class RegistrationService {
                 .orElseThrow(() -> new NotFoundException("Role not found")));
         clinic.setDoctors(Collections.singletonList(doctor));
         clinicRepository.save(clinic);
-        return new String[] {login, password};
+        return new String[]{login, password};
     }
 
     @Transactional

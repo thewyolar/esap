@@ -6,7 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.auth.AuthenticationDTO;
@@ -16,9 +15,8 @@ import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.security.JWTUtil;
 import ru.javavlsu.kb.esap.service.DoctorService;
 import ru.javavlsu.kb.esap.service.RegistrationService;
-import ru.javavlsu.kb.esap.util.NotCreateException;
-import ru.javavlsu.kb.esap.util.NotFoundException;
-import ru.javavlsu.kb.esap.util.ResponseMessageError;
+import ru.javavlsu.kb.esap.exception.NotCreateException;
+import ru.javavlsu.kb.esap.exception.ResponseMessageError;
 
 import java.util.Map;
 
@@ -45,8 +43,8 @@ public class AuthController {
 
     @PostMapping("/registration/clinic")
     public Map<String, String> registrationClinic(@RequestBody @Valid ClinicRegistrationDTO clinicRegistrationDTO,
-                                                   BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+                                                  BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
         String[] loginPassword = registrationService.registrationClinic(clinicMapper.toClinic(clinicRegistrationDTO.getClinic()),
@@ -55,7 +53,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO){
+    public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(), authenticationDTO.getPassword());
         authenticationManager.authenticate(authenticationToken);
@@ -65,24 +63,8 @@ public class AuthController {
 
     //TODO Служебный запрос
     @PostMapping("/password/reset")
-    public ResponseEntity<HttpStatus> passwordReset(@RequestBody AuthenticationDTO authenticationDTO){
+    public ResponseEntity<HttpStatus> passwordReset(@RequestBody AuthenticationDTO authenticationDTO) {
         registrationService.passwordReset(authenticationDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
-
-    @ExceptionHandler
-    private ResponseEntity<NotCreateException> notCreateException(NotCreateException e){
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<NotFoundException> notFoundException(NotFoundException e) {
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<AuthenticationException> authenticationException(AuthenticationException e) {
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
 }

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.repository.DoctorRepository;
 import ru.javavlsu.kb.esap.security.DoctorDetails;
-import ru.javavlsu.kb.esap.util.NotFoundException;
+import ru.javavlsu.kb.esap.exception.NotFoundException;
 
 import java.util.Optional;
 
@@ -26,7 +26,7 @@ public class DoctorDetailsService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws NotFoundException {
         Optional<Doctor> doctor = doctorRepository.findByLogin(username);
-        if(doctor.isEmpty()){
+        if (doctor.isEmpty()) {
             throw new NotFoundException("User not found");
         }
         return new DoctorDetails(doctor.get());
