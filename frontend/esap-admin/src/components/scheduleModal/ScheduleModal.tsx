@@ -7,6 +7,9 @@ import moment, {Moment} from 'moment';
 import 'moment/locale/ru';
 import CloseIcon from '@mui/icons-material/Close';
 import {Doctor} from "../../model/Doctor";
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import AppointmentModal from "../appointmentModal/AppointmentModal";
+import NewScheduleModal from "./NewScheduleModal";
 
 interface ScheduleModalProps {
   open: boolean,
@@ -17,11 +20,20 @@ interface ScheduleModalProps {
 
 const WEEKS_PER_PAGE = 1;
 
-const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, doctor, schedules }) => {
+const ScheduleModal: React.FC<ScheduleModalProps> = ({open, onClose, doctor, schedules}) => {
+  const [openNew, setOpenNew] = useState(false);
   const sortedSchedules = schedules.sort((a, b) => moment(a.date).diff(moment(b.date)));
 
   const handlePageChange = (pageNumber: number) => {
     setActivePage(pageNumber - 1);
+  };
+
+  const handleOpenNew = () => {
+    setOpenNew(true);
+  };
+
+  const handleCloseNew = () => {
+    setOpenNew(false);
   };
 
   const getWeekRange = (schedule: Schedule) => {
@@ -43,7 +55,7 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, doctor, sc
       if (schedule) {
         week.push(schedule);
       } else {
-        week.push({ date: currentDay.toISOString() } as Schedule);
+        week.push({date: currentDay.toISOString()} as Schedule);
       }
 
       if (currentDay.isoWeekday() === 7) {
@@ -83,49 +95,63 @@ const ScheduleModal: React.FC<ScheduleModalProps> = ({ open, onClose, doctor, sc
   const visibleSchedules = weeks.slice(activePage * WEEKS_PER_PAGE, (activePage + 1) * WEEKS_PER_PAGE);
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      aria-labelledby="modal-modal-title"
-      aria-describedby="modal-modal-description"
-    >
-      <Box
-        sx={{
-          margin: "auto", padding: 3,
-          width: "70%", height: "90%", bgcolor: "background.paper",
-          borderRadius: "5px", overflow: "auto", marginTop: "30px"
-        }}
+    <>
+      <Modal
+        open={open}
+        onClose={onClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        {visibleSchedules.map((week) => (
-          <div key={getWeekRange(week[0])}>
-            <Typography align="center" style={{marginBottom: "12px", display: 'flex', alignItems: 'center'}}>
-              <span style={{flex: 1, fontSize: '18px'}}>{getWeekRange(week[0])}</span>
-              <IconButton onClick={onClose}>
-                <CloseIcon />
-              </IconButton>
-            </Typography>
-            {totalPages > 1 && (
-              <div style={{display: 'flex', justifyContent: 'center', marginBottom: '12px'}}>
-                <Pagination
-                  count={totalPages}
-                  page={activePage + 1}
-                  onChange={(_, page) => handlePageChange(page)}
-                  siblingCount={0} boundaryCount={1}
-                  key={activePage}
-                />
+        <Box
+          sx={{
+            margin: "auto", padding: 3,
+            width: "70%", height: "90%", bgcolor: "background.paper",
+            borderRadius: "5px", overflow: "auto", marginTop: "30px"
+          }}
+        >
+          {visibleSchedules.map((week) => (
+            <div key={getWeekRange(week[0])}>
+              <div style={{display: 'flex', alignItems: 'center', marginBottom: "12px"}}>
+                <IconButton color="primary" aria-label="add schedule" component="label" onClick={handleOpenNew}>
+                  <AddBoxIcon/>
+                </IconButton>
+                <Typography align="center" style={{flex: 1, fontSize: '18px', marginLeft: '12px'}}>
+                  <span style={{flex: 1, fontSize: '18px'}}>{getWeekRange(week[0])}</span>
+                </Typography>
+                <IconButton onClick={onClose}>
+                  <CloseIcon/>
+                </IconButton>
               </div>
-            )}
-            <Grid container spacing={2} columns={14} textAlign="center">
-              {week.map((day) => (
-                <Grid key={day.date} item xs={2}>
-                  {renderScheduleCard(day, moment(day.date))}
-                </Grid>
-              ))}
-            </Grid>
-          </div>
-        ))}
-      </Box>
-    </Modal>
+              {totalPages > 1 && (
+                <div style={{display: 'flex', justifyContent: 'center', marginBottom: '12px'}}>
+                  <Pagination
+                    count={totalPages}
+                    page={activePage + 1}
+                    onChange={(_, page) => handlePageChange(page)}
+                    siblingCount={0} boundaryCount={1}
+                    key={activePage}
+                  />
+                </div>
+              )}
+              <Grid container spacing={2} columns={14} textAlign="center">
+                {week.map((day) => (
+                  <Grid key={day.date} item xs={2}>
+                    {renderScheduleCard(day, moment(day.date))}
+                  </Grid>
+                ))}
+              </Grid>
+            </div>
+          ))}
+        </Box>
+      </Modal>
+      {openNew && (
+        <NewScheduleModal
+          onClose={handleCloseNew}
+          open={open}
+          doctor={doctor}
+        />
+      )}
+    </>
   );
 };
 

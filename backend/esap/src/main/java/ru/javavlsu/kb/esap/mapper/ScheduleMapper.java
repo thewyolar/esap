@@ -2,6 +2,7 @@ package ru.javavlsu.kb.esap.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import ru.javavlsu.kb.esap.dto.ScheduleDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
 import ru.javavlsu.kb.esap.model.Schedule;
 
@@ -15,9 +16,11 @@ public class ScheduleMapper {
         this.modelMapper = modelMapper;
     }
 
-
     public ScheduleResponseDTO toScheduleResponseDTO(Schedule schedule) {
         return modelMapper.map(schedule, ScheduleResponseDTO.class);
     }
 
+    public Schedule toSchedule(ScheduleDTO scheduleDTO) {
+        return modelMapper.map(scheduleDTO, Schedule.class);
+    }
 }

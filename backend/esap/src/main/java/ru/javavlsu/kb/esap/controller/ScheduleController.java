@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.AppointmentDTO;
+import ru.javavlsu.kb.esap.dto.ScheduleDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
 import ru.javavlsu.kb.esap.mapper.AppointmentMapper;
 import ru.javavlsu.kb.esap.mapper.ScheduleMapper;
@@ -17,7 +18,6 @@ import ru.javavlsu.kb.esap.service.AppointmentService;
 import ru.javavlsu.kb.esap.service.ScheduleService;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.ResponseMessageError;
-import ru.javavlsu.kb.esap.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -50,12 +50,12 @@ public class ScheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> createSchedule(@RequestBody @Valid Schedule schedule,
+    public ResponseEntity<HttpStatus> createSchedule(@RequestBody @Valid ScheduleDTO scheduleDTO,
                                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        scheduleService.create(schedule);
+        scheduleService.create(scheduleDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
