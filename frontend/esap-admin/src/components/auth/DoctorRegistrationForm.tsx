@@ -1,18 +1,19 @@
 import React, {useState} from 'react';
-import {Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography} from "@mui/material";
+import {Alert, Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import {Link} from "react-router-dom";
 import {DoctorDTO} from "../../model/dto/DoctorDTO";
+import AuthService from '../../service/auth/AuthService';
+import { InfoLogin } from '../../model/auth/InfoLogin';
 
-interface RegistrationFormProps {
-  onSubmit: (doctorData: DoctorDTO) => void;
-}
 
-const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
+const DoctorRegistrationForm: React.FC = () => {
   const [firstName, setFirstName] = useState('');
   const [patronymic, setPatronymic] = useState('');
   const [lastName, setLastName] = useState('');
   const [specialization, setSpecialization] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [response, setResponse] = useState<InfoLogin>();
 
   const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(event.target.value);
@@ -30,6 +31,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
     setSpecialization(event.target.value);
   };
 
+  //TODO Запрос на все роли.
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -38,15 +41,23 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
       patronymic: patronymic,
       lastName: lastName,
       specialization: specialization,
-      role: '',
-      gender: 1//TODO поле для пола
+      role: "DOCTOR",
+      gender: 1//TODO поле для роли и пола
     };
 
-    onSubmit(doctorData);
+    AuthService.registrationDoctor(doctorData)
+    .then(response => {
+      setRegistrationSuccess(true);
+      setResponse(response);
+    })
+    .catch(error => {
+      setError(error.response.data.message);
+    });
   };
 
   return (
     <Container maxWidth="sm">
+       {registrationSuccess && <Alert severity="success" sx={{ mt: 2 }}>Вы успешно зарегистрировались! Логин: {response?.login}, пароль {response?.password}</Alert>}
       <Box sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}>
         <Card>
           <CardContent>
@@ -116,13 +127,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
                   sx={{ mt: 3, mb: 2 }}
                   disabled={firstName === "" || lastName === "" || patronymic === "" || specialization === ""}
                 >
-                  Зарегистрироваться
+                  Зарегистрировать
                 </Button>
                 <Grid container justifyContent="flex-end">
                   <Grid item>
-                    <Link to="/">
-                      {"Уже есть аккаунт? Войдите"}
-                    </Link>
                   </Grid>
                 </Grid>
               </Box>
@@ -134,4 +142,4 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
   );
 };
 
-export default RegistrationForm;
+export default DoctorRegistrationForm;

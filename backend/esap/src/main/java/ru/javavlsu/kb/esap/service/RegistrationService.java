@@ -4,6 +4,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.dto.auth.AuthenticationDTO;
+import ru.javavlsu.kb.esap.dto.auth.DoctorRegistration;
+import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.repository.ClinicRepository;
@@ -23,12 +25,14 @@ public class RegistrationService {
     private final PasswordEncoder passwordEncoder;
     private final DoctorRepository doctorRepository;
     private final RoleRepository roleRepository;
+    private final DoctorMapper doctorMapper;
 
-    public RegistrationService(ClinicRepository clinicRepository, PasswordEncoder passwordEncoder, DoctorRepository doctorRepository, RoleRepository roleRepository) {
+    public RegistrationService(ClinicRepository clinicRepository, PasswordEncoder passwordEncoder, DoctorRepository doctorRepository, RoleRepository roleRepository, DoctorMapper doctorMapper) {
         this.clinicRepository = clinicRepository;
         this.passwordEncoder = passwordEncoder;
         this.doctorRepository = doctorRepository;
         this.roleRepository = roleRepository;
+        this.doctorMapper = doctorMapper;
     }
 
     @Transactional
@@ -43,6 +47,21 @@ public class RegistrationService {
                 .orElseThrow(() -> new NotFoundException("Role not found")));
         clinic.setDoctors(Collections.singletonList(doctor));
         clinicRepository.save(clinic);
+        return new String[] {login, password};
+    }
+
+    @Transactional
+    public String[] registrationDoctor(DoctorRegistration doctorDTO, Clinic clinic) throws NotFoundException {
+        String login = LoginPasswordGenerator.generateLogin();
+        String password = LoginPasswordGenerator.generatePassword();
+        Doctor doctor = doctorMapper.toDoctor(doctorDTO);
+        doctor.setLogin(login);
+        doctor.setPassword(passwordEncoder.encode(password));
+        doctor.setClinic(clinic);
+        doctor.setRole(new HashSet<>());
+        doctor.getRole().add(roleRepository.findByName("ROLE_" + doctorDTO.getRole())
+                .orElseThrow(() -> new NotFoundException("Role not found")));
+        doctorRepository.save(doctor);
         return new String[] {login, password};
     }
 

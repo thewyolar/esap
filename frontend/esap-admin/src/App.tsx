@@ -14,6 +14,7 @@ import MedicalCard from './pages/medicalCard/PatientMedicalCard';
 import {TokenStorageService} from './service/auth/TokenStorageService';
 import ResetPasswordForm from "./components/auth/ResetPasswordForm";
 import EditingMedicalRecord from './pages/editingMedicalRecord/EditingMedicalRecord';
+import DoctorRegistrationForm from './components/auth/DoctorRegistrationForm';
 
 const App: React.FC = () => {
   const [tokenStorageService] = useState<TokenStorageService>(new TokenStorageService());
@@ -32,6 +33,7 @@ const App: React.FC = () => {
           <Route path="/editingMedicalCard/:patientId" element={<EditingMedicalRecord />} />
           <Route path="/newPatient" element={<NewPatient />} />
           <Route path="/queue/:scheduleId" element={<Queue />} />
+          <Route path="/register/doctor" element={<DoctorRegistrationForm />} />
         </Route>
       ) : (
         <Route path="*" element={<Navigate to="/" />} />

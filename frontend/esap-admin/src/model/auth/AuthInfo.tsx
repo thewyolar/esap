@@ -1,4 +1,4 @@
-export interface JwtToken {
+export interface AuthInfo {
   jwt: string;
   roles: string;
 }

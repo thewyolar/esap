@@ -28,4 +28,6 @@ public class DoctorRegistration {
     private int gender;
 
     private List<ScheduleResponseDTO> schedules;
+
+    private String role;
 }

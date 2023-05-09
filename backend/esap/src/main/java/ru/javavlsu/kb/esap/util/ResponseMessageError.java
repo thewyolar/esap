@@ -6,7 +6,7 @@ import org.springframework.validation.FieldError;
 
 import java.util.List;
 
-public class ResponseMessageError {
+public abstract class ResponseMessageError {
 
     @Getter
     @Setter

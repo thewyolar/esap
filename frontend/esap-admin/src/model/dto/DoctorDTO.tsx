@@ -3,5 +3,6 @@ export interface DoctorDTO {
   patronymic: string;
   lastName: string;
   gender: number;
+  role: string;
   specialization: string;
 }
