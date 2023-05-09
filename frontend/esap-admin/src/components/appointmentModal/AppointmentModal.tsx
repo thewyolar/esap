@@ -38,7 +38,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ open, onClose, sche
         startAppointments: time
       };
 
-      HttpService.makeDoctorAppointment(scheduleId, appointment)
+      HttpService.addDoctorAppointment(scheduleId, appointment)
         .then(response => {
           setSuccess(true);
         })
@@ -58,8 +58,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ open, onClose, sche
       <Box
         sx={{
           margin: "auto", padding: 3,
-          width: "30%", height: "45%", bgcolor: "background.paper",
-          borderRadius: "5px", overflow: "auto", marginTop: "60px"
+          width: "30%", height: success || error ? "55%" : "45%",
+          bgcolor: "background.paper", borderRadius: "5px", overflow: "hidden", marginTop: "60px"
         }}
       >
         <Typography align="center" style={{marginBottom: "12px", display: 'flex', alignItems: 'center'}}>
@@ -68,8 +68,8 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ open, onClose, sche
             <CloseIcon />
           </IconButton>
         </Typography>
-        {success && <Alert severity="success" sx={{ mt: 2 }}>Пациент успешно записан на прием!</Alert>}
-        {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
+        {success && <Alert severity="success" sx={{ my: 2 }}>Пациент успешно записан на прием!</Alert>}
+        {error && <Alert severity="error" sx={{ my: 2 }}>{error}</Alert>}
         <Typography gutterBottom>
           <span><b>Врач: </b></span>
           <span>{doctor.firstName} {doctor.patronymic} {doctor.lastName}</span>

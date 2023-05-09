@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.AppointmentDTO;
+import ru.javavlsu.kb.esap.dto.ScheduleDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
 import ru.javavlsu.kb.esap.mapper.AppointmentMapper;
 import ru.javavlsu.kb.esap.mapper.ScheduleMapper;
@@ -15,9 +16,8 @@ import ru.javavlsu.kb.esap.model.Schedule;
 import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.service.AppointmentService;
 import ru.javavlsu.kb.esap.service.ScheduleService;
-import ru.javavlsu.kb.esap.util.NotCreateException;
-import ru.javavlsu.kb.esap.util.ResponseMessageError;
-import ru.javavlsu.kb.esap.util.NotFoundException;
+import ru.javavlsu.kb.esap.exception.NotCreateException;
+import ru.javavlsu.kb.esap.exception.ResponseMessageError;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -50,19 +50,19 @@ public class ScheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> createSchedule(@RequestBody @Valid Schedule schedule,
+    public ResponseEntity<HttpStatus> createSchedule(@RequestBody @Valid ScheduleDTO scheduleDTO,
                                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        scheduleService.create(schedule);
+        scheduleService.create(scheduleDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PostMapping("/{id}/appointment")
     public ResponseEntity<HttpStatus> addAppointment(@PathVariable("id") Long id, @RequestBody @Valid AppointmentDTO appointmentDTO,
                                                      BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
         appointmentService.create(appointmentDTO, id);
@@ -74,19 +74,8 @@ public class ScheduleController {
         return scheduleMapper.toScheduleResponseDTO(scheduleService.getByDateAndDoctor(data, getDoctorDetails().getDoctor()));
     }
 
-    private DoctorDetails getDoctorDetails(){
+    private DoctorDetails getDoctorDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (DoctorDetails) authentication.getPrincipal();
     }
-
-    @ExceptionHandler
-    private ResponseEntity<NotCreateException> notCreateException(NotCreateException e) {
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<NotFoundException> notFoundException(NotFoundException e) {
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
 }

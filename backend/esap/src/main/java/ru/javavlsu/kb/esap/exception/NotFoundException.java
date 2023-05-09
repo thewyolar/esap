@@ -1,4 +1,4 @@
-package ru.javavlsu.kb.esap.util;
+package ru.javavlsu.kb.esap.exception;
 
 public class NotFoundException extends RuntimeException{
 

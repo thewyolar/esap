@@ -22,7 +22,6 @@ import ru.javavlsu.kb.esap.security.JWTUtil;
 import ru.javavlsu.kb.esap.service.DoctorService;
 import ru.javavlsu.kb.esap.service.RegistrationService;
 import ru.javavlsu.kb.esap.util.NotCreateException;
-import ru.javavlsu.kb.esap.util.NotFoundException;
 import ru.javavlsu.kb.esap.util.ResponseMessageError;
 
 import java.util.Map;
@@ -50,8 +49,8 @@ public class AuthController {
 
     @PostMapping("/registration/clinic")
     public Map<String, String> registrationClinic(@RequestBody @Valid ClinicRegistrationDTO clinicRegistrationDTO,
-                                                   BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+                                                  BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
         String[] loginPassword = registrationService.registrationClinic(clinicMapper.toClinic(clinicRegistrationDTO.getClinic()),
@@ -60,7 +59,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO){
+    public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(), authenticationDTO.getPassword());
         authenticationManager.authenticate(authenticationToken);
@@ -70,7 +69,7 @@ public class AuthController {
 
     //TODO Служебный запрос
     @PostMapping("/password/reset")
-    public ResponseEntity<HttpStatus> passwordReset(@RequestBody AuthenticationDTO authenticationDTO){
+    public ResponseEntity<HttpStatus> passwordReset(@RequestBody AuthenticationDTO authenticationDTO) {
         registrationService.passwordReset(authenticationDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
@@ -85,21 +84,6 @@ public class AuthController {
     private DoctorDetails getDoctorDetails(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (DoctorDetails) authentication.getPrincipal();
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<NotCreateException> notCreateException(NotCreateException e){
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<NotFoundException> notFoundException(NotFoundException e) {
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    private ResponseEntity<AuthenticationException> authenticationException(AuthenticationException e) {
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
     }
 
 }

@@ -6,7 +6,9 @@ import {DeleteOutline} from "@mui/icons-material";
 import {Doctor} from "../../model/Doctor";
 import ScheduleModal from "../../components/scheduleModal/ScheduleModal";
 import './doctorList.scss';
-import {Button} from "@mui/material";
+import {IconButton} from "@mui/material";
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import EditIcon from '@mui/icons-material/Edit';
 
 const DoctorList: React.FC = () => {
   const [data, setData] = useState<Doctor[]>([]);
@@ -83,19 +85,21 @@ const DoctorList: React.FC = () => {
         return (
           <>
             <Link to={`/doctor/${params.row.id}`}>
-              <Button variant='contained' color='primary' style={{ marginRight: '10px' }} size="small">
-                Изменить
-              </Button>
+              <IconButton color="primary" aria-label="edit doctor" component="label">
+                <EditIcon />
+              </IconButton>
             </Link>
             <Link to='#'>
-              <Button variant='contained' color='primary' style={{ marginRight: '10px' }} size="small" onClick={() => handleOpen(params.row)}>
-                Расписание
-              </Button>
+              <IconButton color="primary" aria-label="doctor schedule" component="label" onClick={() => handleOpen(params.row)}>
+                <CalendarMonthIcon />
+              </IconButton>
             </Link>
-            <DeleteOutline
-              className='deleteButton'
-              onClick={() => handleDelete(params.row.id)}
-            />
+            <IconButton color="primary" aria-label="delete doctor" component="label">
+              <DeleteOutline
+                className='deleteButton'
+                onClick={() => handleDelete(params.row.id)}
+              />
+            </IconButton>
           </>
         );
       }

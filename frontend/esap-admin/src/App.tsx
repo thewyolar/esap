@@ -8,12 +8,12 @@ import LoginForm from "./components/auth/LoginForm";
 import React, {useState} from "react";
 import RegistrationPage from "./pages/registration/Registration";
 import Queue from "./components/queue/Queue";
-import User from "./pages/user/User";
 import DoctorList from "./pages/doctorList/DoctorList";
 import MedicalCard from './pages/medicalCard/PatientMedicalCard';
 import {TokenStorageService} from './service/auth/TokenStorageService';
 import ResetPasswordForm from "./components/auth/ResetPasswordForm";
 import EditingMedicalRecord from './pages/editingMedicalRecord/EditingMedicalRecord';
+import Patient from "./pages/patient/Patient";
 import DoctorRegistrationForm from './components/auth/DoctorRegistrationForm';
 
 const App: React.FC = () => {
@@ -26,9 +26,9 @@ const App: React.FC = () => {
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/doctors" element={<DoctorList />} />
-          <Route path="/doctor/:doctorId" element={<User />} />
+          <Route path="/doctor/:doctorId" element={<Patient />} />
           <Route path="/patients" element={<PatientList />} />
-          <Route path="/patient/:patientId" element={<User />} />
+          <Route path="/patient/:patientId" element={<Patient />} />
           <Route path="/medicalCard/:patientId" element={<MedicalCard />} />
           <Route path="/editingMedicalCard/:patientId" element={<EditingMedicalRecord />} />
           <Route path="/newPatient" element={<NewPatient />} />

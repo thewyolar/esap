@@ -14,8 +14,8 @@ import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Patient;
 import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.service.PatientService;
-import ru.javavlsu.kb.esap.util.NotCreateException;
-import ru.javavlsu.kb.esap.util.ResponseMessageError;
+import ru.javavlsu.kb.esap.exception.NotCreateException;
+import ru.javavlsu.kb.esap.exception.ResponseMessageError;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class PatientController {
 
     @PostMapping
     public ResponseEntity<HttpStatus> createPatient(@Valid @RequestBody PatientRequestDTO patientRequestDTO,
-                                                    BindingResult bindingResult){
+                                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
@@ -55,14 +55,8 @@ public class PatientController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    private DoctorDetails getDoctorDetails(){
+    private DoctorDetails getDoctorDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return (DoctorDetails) authentication.getPrincipal();
     }
-
-    @ExceptionHandler
-    private ResponseEntity<NotCreateException> notCreateException(NotCreateException e){
-        return new ResponseEntity<>(e, HttpStatus.BAD_REQUEST);
-    }
-
 }

@@ -5,7 +5,10 @@ import {Clear, DeleteOutline, Search} from '@mui/icons-material';
 import {Link} from 'react-router-dom';
 import {Patient} from "../../model/Patient";
 import HttpService from "../../service/HttpService";
-import {Box, Button, IconButton, InputAdornment, TextField} from "@mui/material";
+import {Box, IconButton, InputAdornment, TextField, Typography} from "@mui/material";
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from '@mui/icons-material/Add';
 
 const PatientList: React.FC = () => {
   const [data, setData] = useState<Patient[]>([]);
@@ -81,33 +84,29 @@ const PatientList: React.FC = () => {
         return (
           <>
             <Link to={`/patient/${params.row.id}`}>
-              <Button variant='contained' color='primary' style={{ marginRight: '10px' }} size="small">
-                Изменить
-              </Button>
+              <IconButton color="primary" aria-label="edit patient" component="label">
+                <EditIcon />
+              </IconButton>
             </Link>
             <Link to={`/medicalCard/${params.row.id}`}>
-              <Button variant='contained' color='primary' style={{ marginRight: '10px' }} size="small">
-                Карта
-              </Button>
+              <IconButton color="primary" aria-label="patient card" component="label">
+                <MedicalInformationIcon />
+              </IconButton>
             </Link>
-            <DeleteOutline
-              className='deleteButton'
-              onClick={() => handleDelete(params.row.id)}
-            />
+            <IconButton color="primary" aria-label="delete patient" component="label">
+              <DeleteOutline
+                className='deleteButton'
+                onClick={() => handleDelete(params.row.id)}
+              />
+            </IconButton>
           </>
         );
       }
     }
   ];
 
-  const filteredData = data.filter(
-    item =>
-      item.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.lastName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   return (
-    <div className='patientListPage'>
+    <div className='patientListPage' style={{ backgroundColor: '#f2f2f2' }}>
       <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
         <TextField
           value={searchTerm}
@@ -129,14 +128,9 @@ const PatientList: React.FC = () => {
           }}
           sx={{ marginRight: '10px' }}
         />
-        <Button
-          variant='contained'
-          color='primary'
-          onClick={handleAddPatient}
-          sx={{ marginLeft: '10px' }}
-        >
-          Добавить пациента
-        </Button>
+        <IconButton color="primary" aria-label="add patient" component="label" onClick={handleAddPatient}>
+          <AddIcon />
+        </IconButton>
       </Box>
       <DataGrid
         localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}

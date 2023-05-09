@@ -1,4 +1,4 @@
-package ru.javavlsu.kb.esap.util;
+package ru.javavlsu.kb.esap.exception;
 
 import lombok.Getter;
 import lombok.Setter;
