@@ -8,21 +8,20 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.auth.AuthenticationDTO;
 import ru.javavlsu.kb.esap.dto.auth.ClinicRegistrationDTO;
 import ru.javavlsu.kb.esap.dto.auth.DoctorRegistration;
+import ru.javavlsu.kb.esap.exception.NotCreateException;
+import ru.javavlsu.kb.esap.exception.ResponseMessageError;
 import ru.javavlsu.kb.esap.mapper.ClinicMapper;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.security.JWTUtil;
 import ru.javavlsu.kb.esap.service.DoctorService;
 import ru.javavlsu.kb.esap.service.RegistrationService;
-import ru.javavlsu.kb.esap.util.NotCreateException;
-import ru.javavlsu.kb.esap.util.ResponseMessageError;
 
 import java.util.Map;
 
