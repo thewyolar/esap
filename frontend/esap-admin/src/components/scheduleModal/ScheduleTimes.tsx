@@ -34,6 +34,9 @@ const ScheduleTimes: React.FC<ScheduleTimesProps> = ({ date, times, doctor, sche
   };
 
   const handleOpen = (time: string) => {
+    if (hasAppointment(time) !== 'schedule_time schedule_time-active') {
+      return;
+    }
     setSelectedTime(time);
     setOpen(true);
   };
