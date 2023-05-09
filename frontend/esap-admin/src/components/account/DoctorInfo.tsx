@@ -10,10 +10,10 @@ const DoctorInfo: React.FC<DoctorInfoProps> = ({ doctor }) => {
   return (
     <Box display="flex" alignItems="center">
       <Box marginLeft={1} textAlign="right">
-        <Typography fontSize={15} component="div" lineHeight={0.8}>
+        <Typography fontSize={15} component="div" lineHeight={0.8} color={"white"}>
           <span>{`${doctor.lastName} ${doctor.firstName}`}</span>
         </Typography>
-        <Typography fontSize={13} color="textSecondary" component="div" lineHeight={1.2}>
+        <Typography fontSize={13} component="div" lineHeight={1.2} color={"white"} fontWeight={"bold"}>
           <span>{doctor.specialization}</span>
         </Typography>
       </Box>

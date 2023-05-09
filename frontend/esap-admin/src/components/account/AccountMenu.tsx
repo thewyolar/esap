@@ -2,6 +2,8 @@ import React, {MouseEvent, useState} from 'react';
 import {Avatar, Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Tooltip} from '@mui/material';
 import {Settings, Logout} from '@mui/icons-material';
 import {TokenStorageService} from "../../service/auth/TokenStorageService";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 
 const AccountMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -33,7 +35,10 @@ const AccountMenu: React.FC = () => {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{width: 25, height: 25}} />
+            {/*<Avatar sx={{width: 24, height: 24}}>*/}
+            {/*  <AccountCircleIcon />*/}
+            {/*</Avatar>*/}
+            <AccountCircleIcon sx={{width: 24, height: 24, color: "white"}} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -72,7 +77,7 @@ const AccountMenu: React.FC = () => {
       >
         <MenuItem onClick={handleClose} style={{fontFamily: "inherit"}}>
           <ListItemIcon>
-            <Avatar sx={{width: 25, height: 25}} />
+            <Avatar sx={{width: 24, height: 24}} />
           </ListItemIcon>
           Мой аккаунт
         </MenuItem>
