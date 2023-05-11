@@ -26,40 +26,36 @@ const FeaturedInfo = () => {
         scheduleDate.getMonth() === today.getMonth() &&
         scheduleDate.getDate() === today.getDate()
       );
-    });
+    }
+  );
 
   return (
     <div className="featuredInfo">
-      <Link
-        className="item"
-        to={`queue/${schedulesForToday && schedulesForToday[0]?.id}`}
-      >
-        <span className="title">Записей на сегодня</span>
-        <div>
-          <span className="money">
-            {!schedulesForToday || schedulesForToday.length === 0
-              ? 0
-              : schedulesForToday[0].appointments.length}
-          </span>
-        </div>
-      </Link>
 
-      <div className="item">
-        <span className="title">Lorem ipsum</span>
-        <div>
-          <span className="money">Lorem ipsum</span>
-          <span className="moneyRate"></span>
-        </div>
-      </div>
-
-      <div className="item">
-        <span className="title">Lorem ipsum</span>
-        <div>
-          <span className="money">Lorem ipsum</span>
-          <span className="moneyRate"></span>
-        </div>
-        <span className="sub">Lorem ipsum</span>
-      </div>
+      {doctor && (
+        <>
+          <FeaturedInfoItem
+            title={doctor.clinic.name}
+            description={doctor.clinic.address}
+          />
+          <Link to={`queue/${schedulesForToday && schedulesForToday[0]?.id}`}>
+            <FeaturedInfoItem
+              title={"Записей на сегодня"}
+              description={!schedulesForToday || schedulesForToday.length === 0
+                ? 0
+                : schedulesForToday[0].appointments.length}
+            />
+          </Link>
+          <FeaturedInfoItem
+            title={"Общее кол-во врачей"}
+            description={doctorsCount}
+          />
+          <FeaturedInfoItem
+            title={"Общее кол-во пациентов"}
+            description={patientsCount}
+          />
+        </>
+      )}
     </div>
   );
 };
