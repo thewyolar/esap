@@ -24,7 +24,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
   const [firstName, setFirstName] = useState('');
   const [patronymic, setPatronymic] = useState('');
   const [lastName, setLastName] = useState('');
-  const [gender, setGender] = useState(0);
+  const [gender, setGender] = useState(1);
   const [specialization, setSpecialization] = useState('');
 
   const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,6 +54,8 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
       role: '',
       gender: gender
     };
+
+    console.log(doctorData);
 
     onSubmit(doctorData);
   };
