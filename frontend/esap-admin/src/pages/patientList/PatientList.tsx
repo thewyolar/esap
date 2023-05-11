@@ -112,7 +112,7 @@ const PatientList: React.FC = () => {
   ];
 
   return (
-    <div className='patientListPage' style={{ backgroundColor: '#f2f2f2' }}>
+    <div className='patientListPage'>
       <Box sx={{display: 'flex', alignItems: 'center', my: '9px'}}>
         <TextField
           value={searchTerm}
