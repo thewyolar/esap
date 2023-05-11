@@ -1,12 +1,15 @@
 import "./featuredInfo.scss";
 import HttpService from "../../service/HttpService";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Doctor} from "../../model/Doctor";
 import {Link} from "react-router-dom";
+import FeaturedInfoItem from "./FeaturedInfoItem";
 
 const FeaturedInfo = () => {
   const [doctor, setDoctor] = useState<Doctor>();
   const [error, setError] = useState<Doctor>();
+  const [doctorsCount, setDoctorsCount] = useState(0);
+  const [patientsCount, setPatientsCount] = useState(0);
 
   useEffect(() => {
     HttpService.getDoctor()
@@ -14,6 +17,20 @@ const FeaturedInfo = () => {
         setDoctor(response);
       })
       .catch((error) => setError(error));
+  }, []);
+
+  useEffect(() => {
+    HttpService.getDoctorCount()
+      .then((response) => {
+      setDoctorsCount(response);
+    });
+  }, []);
+
+  useEffect(() => {
+    HttpService.getPatientCount()
+      .then((response) => {
+        setPatientsCount(response);
+      });
   }, []);
 
   const schedulesForToday =

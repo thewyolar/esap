@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 public class PatientService {
 
     private final PatientRepository patientRepository;
-
     private final MedicalCardRepository medicalCardRepository;
     private final PatientMapper patientMapper;
 
@@ -33,6 +32,10 @@ public class PatientService {
     public List<PatientResponseDTO> getAll() {
         List<Patient> patients = patientRepository.findAll();
         return patientMapper.patientResponseDTOList(patients);
+    }
+
+    public Long getPatientCountByClinic(Clinic clinic) {
+        return patientRepository.countPatientByClinic(clinic);
     }
 
     public List<PatientResponseDTO> getByClinic(String firstName, String patronymic, String lastName, Clinic clinic) {

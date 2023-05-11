@@ -32,15 +32,8 @@ public class PatientController {
         this.patientMapper = patientMapper;
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<PatientResponseDTO>> getAllPatients() {
-//        Doctor doctor = getDoctorDetails().getDoctor();
-//        List<PatientResponseDTO> patients = patientService.getByClinic(doctor.getClinic());
-//        return ResponseEntity.ok(patients);
-//    }
-
     @GetMapping("")
-    public ResponseEntity<List<PatientResponseDTO>> getPatients(
+    public ResponseEntity<List<PatientResponseDTO>> getAllPatients(
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String patronymic,
             @RequestParam(required = false) String lastName
@@ -50,10 +43,16 @@ public class PatientController {
         return ResponseEntity.ok(patients);
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getPatientsCount() {
+        Doctor doctor = getDoctorDetails().getDoctor();
+        return ResponseEntity.ok(patientService.getPatientCountByClinic(doctor.getClinic()));
+    }
+
     @GetMapping("/{id}")
-    public PatientResponseDTO getPatient(@PathVariable("id") Long patientId) {
+    public ResponseEntity<PatientResponseDTO> getPatient(@PathVariable("id") Long patientId) {
         Patient patient = patientService.getById(patientId);
-        return patientMapper.toPatientResponseDTO(patient);
+        return ResponseEntity.ok(patientMapper.toPatientResponseDTO(patient));
     }
 
     @PostMapping

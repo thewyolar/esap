@@ -18,6 +18,14 @@ class HttpService {
       });
   }
 
+  public static async getPatientCount() {
+    return await Api.get<number>(HttpService.url + "/api/patient/count")
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
   public static async searchPatientList(firstName: string, patronymic: string, lastName: string) {
     return await Api.get<Patient[]>(HttpService.url + "/api/patient", {
       params: {
@@ -34,6 +42,14 @@ class HttpService {
 
   public static async getDoctorList() {
     return await Api.get<Doctor[]>(HttpService.url + "/api/doctor")
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  public static async getDoctorCount() {
+    return await Api.get<number>(HttpService.url + "/api/doctor/count")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
