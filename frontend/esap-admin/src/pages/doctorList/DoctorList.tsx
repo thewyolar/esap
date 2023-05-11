@@ -94,11 +94,9 @@ const DoctorList: React.FC = () => {
                 <CalendarMonthIcon />
               </IconButton>
             </Link>
-            <IconButton color="primary" aria-label="delete doctor" component="label">
-              <DeleteOutline
-                className='deleteButton'
-                onClick={() => handleDelete(params.row.id)}
-              />
+            <IconButton color="primary" aria-label="delete doctor" component="label"
+                        onClick={() => handleDelete(params.row.id)}>
+              <DeleteOutline className='deleteButton' />
             </IconButton>
           </>
         );

@@ -32,10 +32,21 @@ public class PatientController {
         this.patientMapper = patientMapper;
     }
 
-    @GetMapping
-    public ResponseEntity<List<PatientResponseDTO>> getAllPatients() {
+//    @GetMapping
+//    public ResponseEntity<List<PatientResponseDTO>> getAllPatients() {
+//        Doctor doctor = getDoctorDetails().getDoctor();
+//        List<PatientResponseDTO> patients = patientService.getByClinic(doctor.getClinic());
+//        return ResponseEntity.ok(patients);
+//    }
+
+    @GetMapping("")
+    public ResponseEntity<List<PatientResponseDTO>> getPatients(
+            @RequestParam(required = false) String firstName,
+            @RequestParam(required = false) String patronymic,
+            @RequestParam(required = false) String lastName
+    ) {
         Doctor doctor = getDoctorDetails().getDoctor();
-        List<PatientResponseDTO> patients = patientService.getByClinic(doctor.getClinic());
+        List<PatientResponseDTO> patients = patientService.getByClinic(firstName, patronymic, lastName, doctor.getClinic());
         return ResponseEntity.ok(patients);
     }
 

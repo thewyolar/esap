@@ -20,6 +20,14 @@ const PatientList: React.FC = () => {
       .catch(error => console.error(error));
   }, []);
 
+  const handleSearch = () => {
+    const [name, lastName, patronymic] = searchTerm.trim().split(/\s+/);
+    HttpService.searchPatientList(name, lastName, patronymic)
+      .then(response => setData(response))
+      .catch(error => console.error(error));
+  };
+
+
   const handleDelete = (id: number) => {
     setData(data.filter(item => item.id !== id));
   };
@@ -93,11 +101,9 @@ const PatientList: React.FC = () => {
                 <MedicalInformationIcon />
               </IconButton>
             </Link>
-            <IconButton color="primary" aria-label="delete patient" component="label">
-              <DeleteOutline
-                className='deleteButton'
-                onClick={() => handleDelete(params.row.id)}
-              />
+            <IconButton color="primary" aria-label="delete patient" component="label"
+                        onClick={() => handleDelete(params.row.id)}>
+              <DeleteOutline className='deleteButton' />
             </IconButton>
           </>
         );
@@ -107,7 +113,7 @@ const PatientList: React.FC = () => {
 
   return (
     <div className='patientListPage' style={{ backgroundColor: '#f2f2f2' }}>
-      <Box sx={{display: 'flex', alignItems: 'center', marginBottom: '10px'}}>
+      <Box sx={{display: 'flex', alignItems: 'center', my: '9px'}}>
         <TextField
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
@@ -117,7 +123,7 @@ const PatientList: React.FC = () => {
           InputProps={{
             startAdornment: (
               <InputAdornment position='start'>
-                <Search />
+                <Search onClick={handleSearch} />
               </InputAdornment>
             ),
             endAdornment: (
@@ -128,9 +134,9 @@ const PatientList: React.FC = () => {
           }}
           sx={{ marginRight: '10px' }}
         />
-        <IconButton color="primary" aria-label="add patient" component="label" onClick={handleAddPatient}>
-          <AddIcon />
-        </IconButton>
+        {/*<IconButton color="primary" aria-label="add patient" component="label" onClick={handleAddPatient}>*/}
+        {/*  <AddIcon />*/}
+        {/*</IconButton>*/}
       </Box>
       <DataGrid
         localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}

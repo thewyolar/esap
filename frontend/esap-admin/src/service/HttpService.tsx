@@ -18,6 +18,20 @@ class HttpService {
       });
   }
 
+  public static async searchPatientList(firstName: string, patronymic: string, lastName: string) {
+    return await Api.get<Patient[]>(HttpService.url + "/api/patient", {
+      params: {
+        firstName: firstName,
+        patronymic: patronymic,
+        lastName: lastName
+      }
+    })
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
   public static async getDoctorList() {
     return await Api.get<Doctor[]>(HttpService.url + "/api/doctor")
       .then((res) => res.data)

@@ -10,4 +10,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     List<Patient> findByClinic(Clinic clinic);
 
+    List<Patient> findAllByFirstNameContainingIgnoreCaseAndPatronymicContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndClinic(
+            String firstName, String patronymic, String lastName, Clinic clinic);
 }
