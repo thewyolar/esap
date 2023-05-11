@@ -12,6 +12,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
   const [firstName, setFirstName] = useState('');
   const [patronymic, setPatronymic] = useState('');
   const [lastName, setLastName] = useState('');
+  const [gender, setGender] = useState('');
   const [specialization, setSpecialization] = useState('');
 
   const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +25,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
 
   const handlePatronymicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPatronymic(event.target.value);
+  };
+
+  const handleGenderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGender(event.target.value);
   };
 
   const handleSpecializationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,8 +44,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
       lastName: lastName,
       specialization: specialization,
       role: '',
-      gender: 1//TODO поле для пола
+      gender: gender === "мужской" || gender === "Мужской" ? 1 : 2
     };
+
+    console.log(doctorData);
 
     onSubmit(doctorData);
   };
@@ -94,6 +101,18 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
                       autoComplete="family-name"
                       value={lastName}
                       onChange={handleLastNameChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="gender"
+                      label="Пол"
+                      name="gender"
+                      autoComplete="family-name"
+                      value={gender}
+                      onChange={handleGenderChange}
                     />
                   </Grid>
                   <Grid item xs={12}>
