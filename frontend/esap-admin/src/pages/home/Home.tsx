@@ -14,10 +14,10 @@ const Home = () => {
       {/*    grid={true}*/}
       {/*    title={'Статистика пользователей'}*/}
       {/*/>*/}
-      {/*<div className="widgets">*/}
-      {/*    <WidgetSm />*/}
-      {/*    <WidgetLg />*/}
-      {/*</div>*/}
+      <div className="widgets">
+          <WidgetSm />
+          <WidgetLg />
+      </div>
     </div>
   );
 };
