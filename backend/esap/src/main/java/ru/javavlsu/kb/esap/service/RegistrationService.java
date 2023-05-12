@@ -26,19 +26,21 @@ public class RegistrationService {
     private final DoctorRepository doctorRepository;
     private final RoleRepository roleRepository;
     private final DoctorMapper doctorMapper;
+    private final LoginPasswordGenerator lpg;
 
-    public RegistrationService(ClinicRepository clinicRepository, PasswordEncoder passwordEncoder, DoctorRepository doctorRepository, RoleRepository roleRepository, DoctorMapper doctorMapper) {
+    public RegistrationService(ClinicRepository clinicRepository, PasswordEncoder passwordEncoder, DoctorRepository doctorRepository, RoleRepository roleRepository, DoctorMapper doctorMapper, LoginPasswordGenerator lpg) {
         this.clinicRepository = clinicRepository;
         this.passwordEncoder = passwordEncoder;
         this.doctorRepository = doctorRepository;
         this.roleRepository = roleRepository;
         this.doctorMapper = doctorMapper;
+        this.lpg = lpg;
     }
 
     @Transactional
     public String[] registrationClinic(Clinic clinic, Doctor doctor) throws NotFoundException {
-        String login = LoginPasswordGenerator.generateLogin();
-        String password = LoginPasswordGenerator.generatePassword();
+        String login = lpg.generateLogin();
+        String password = lpg.generatePassword();
         doctor.setLogin(login);
         doctor.setPassword(passwordEncoder.encode(password));
         doctor.setClinic(clinic);
@@ -52,8 +54,8 @@ public class RegistrationService {
 
     @Transactional
     public String[] registrationDoctor(DoctorRegistration doctorDTO, Clinic clinic) throws NotFoundException {
-        String login = LoginPasswordGenerator.generateLogin();
-        String password = LoginPasswordGenerator.generatePassword();
+        String login = lpg.generateLogin();
+        String password = lpg.generatePassword();
         Doctor doctor = doctorMapper.toDoctor(doctorDTO);
         doctor.setLogin(login);
         doctor.setPassword(passwordEncoder.encode(password));

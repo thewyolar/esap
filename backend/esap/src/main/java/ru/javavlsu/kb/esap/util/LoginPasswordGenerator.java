@@ -1,14 +1,18 @@
 package ru.javavlsu.kb.esap.util;
 
-import ru.javavlsu.kb.esap.model.Doctor;
+import org.springframework.stereotype.Component;
+import ru.javavlsu.kb.esap.service.DoctorService;
 
 import java.security.SecureRandom;
 import java.util.Random;
 
+@Component
 public class LoginPasswordGenerator {
 
-    private static final int PASSWORD_LENGTH = 8;
-    private static final String PASSWORD_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+={}[]:;\"'<>,.?/|\\";
+    private final int PASSWORD_LENGTH = 8;
+    private final String PASSWORD_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+={}[]:;\"'<>,.?/|\\";
+
+    private final DoctorService doctorService;
 
     public static String generateLogin() {
         String login = "";
@@ -22,7 +26,7 @@ public class LoginPasswordGenerator {
         return login.toLowerCase();
     }
 
-    public static String generatePassword() {
+    public String generatePassword() {
         Random random = new SecureRandom();
         StringBuilder password = new StringBuilder();
         for (int i = 0; i < PASSWORD_LENGTH; i++) {
