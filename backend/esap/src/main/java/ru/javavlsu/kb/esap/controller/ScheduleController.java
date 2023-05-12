@@ -9,9 +9,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.AppointmentDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleDTO;
+import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.AppointmentResponseDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
 import ru.javavlsu.kb.esap.mapper.AppointmentMapper;
 import ru.javavlsu.kb.esap.mapper.ScheduleMapper;
+import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Schedule;
 import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.service.AppointmentService;
@@ -72,6 +74,12 @@ public class ScheduleController {
     @GetMapping("/day")
     public ScheduleResponseDTO scheduleByDayForDoctor(@RequestParam LocalDate data) {
         return scheduleMapper.toScheduleResponseDTO(scheduleService.getByDateAndDoctor(data, getDoctorDetails().getDoctor()));
+    }
+
+    @GetMapping("/appointment/latest")
+    public List<AppointmentResponseDTO> getLatestAppointments(@RequestParam(name = "count", defaultValue = "4") Integer count) {
+        Doctor doctor = getDoctorDetails().getDoctor();
+        return appointmentService.getLatestAppointments(count, doctor);
     }
 
     private DoctorDetails getDoctorDetails() {
