@@ -49,6 +49,12 @@ public class PatientController {
         return ResponseEntity.ok(patientService.getPatientCountByClinic(doctor.getClinic()));
     }
 
+    @GetMapping("/latest")
+    public ResponseEntity<List<PatientResponseDTO>> getLatestPatients(@RequestParam(name = "count", defaultValue = "4") Integer count) {
+        Doctor doctor = getDoctorDetails().getDoctor();
+        return ResponseEntity.ok(patientService.getLatestPatients(count, doctor.getClinic()));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PatientResponseDTO> getPatient(@PathVariable("id") Long patientId) {
         Patient patient = patientService.getById(patientId);
