@@ -1,4 +1,5 @@
 import {Schedule} from "./Schedule";
+import {ClinicDTO} from "./dto/ClinicDTO";
 
 export interface Doctor {
     id: number;
@@ -6,5 +7,6 @@ export interface Doctor {
     patronymic: string;
     lastName: string;
     specialization: string;
+    clinic: ClinicDTO;
     schedules: Schedule[];
 }

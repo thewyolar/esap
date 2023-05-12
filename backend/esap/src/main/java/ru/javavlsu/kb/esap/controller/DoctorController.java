@@ -1,5 +1,6 @@
 package ru.javavlsu.kb.esap.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,13 +34,18 @@ public class DoctorController {
         return doctorMapper.toDoctorDTOList(doctorService.getByClinic(doctor.getClinic()));
     }
 
+    @GetMapping("/count")
+    public ResponseEntity<Long> getPatientsCount() {
+        Doctor doctor = getDoctorDetails().getDoctor();
+        return ResponseEntity.ok(doctorService.getDoctorCountByClinic(doctor.getClinic()));
+    }
+
     @GetMapping("/home")
     public DoctorDTO getDoctor() {
         Doctor doctor = getDoctorDetails().getDoctor();
         doctor = doctorService.refreshDoctor(doctor);
         return doctorMapper.toDoctorDTO(doctor);
     }
-
 
     private DoctorDetails getDoctorDetails(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

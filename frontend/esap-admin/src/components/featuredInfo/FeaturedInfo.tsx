@@ -1,12 +1,15 @@
 import "./featuredInfo.scss";
 import HttpService from "../../service/HttpService";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Doctor} from "../../model/Doctor";
 import {Link} from "react-router-dom";
+import FeaturedInfoItem from "./FeaturedInfoItem";
 
 const FeaturedInfo = () => {
   const [doctor, setDoctor] = useState<Doctor>();
   const [error, setError] = useState<Doctor>();
+  const [doctorsCount, setDoctorsCount] = useState(0);
+  const [patientsCount, setPatientsCount] = useState(0);
 
   useEffect(() => {
     HttpService.getDoctor()
@@ -14,6 +17,20 @@ const FeaturedInfo = () => {
         setDoctor(response);
       })
       .catch((error) => setError(error));
+  }, []);
+
+  useEffect(() => {
+    HttpService.getDoctorCount()
+      .then((response) => {
+      setDoctorsCount(response);
+    });
+  }, []);
+
+  useEffect(() => {
+    HttpService.getPatientCount()
+      .then((response) => {
+        setPatientsCount(response);
+      });
   }, []);
 
   const schedulesForToday =
@@ -26,40 +43,36 @@ const FeaturedInfo = () => {
         scheduleDate.getMonth() === today.getMonth() &&
         scheduleDate.getDate() === today.getDate()
       );
-    });
+    }
+  );
 
   return (
     <div className="featuredInfo">
-      <Link
-        className="item"
-        to={`queue/${schedulesForToday && schedulesForToday[0]?.id}`}
-      >
-        <span className="title">Записей на сегодня</span>
-        <div>
-          <span className="money">
-            {!schedulesForToday || schedulesForToday.length === 0
-              ? 0
-              : schedulesForToday[0].appointments.length}
-          </span>
-        </div>
-      </Link>
 
-      <div className="item">
-        <span className="title">Lorem ipsum</span>
-        <div>
-          <span className="money">Lorem ipsum</span>
-          <span className="moneyRate"></span>
-        </div>
-      </div>
-
-      <div className="item">
-        <span className="title">Lorem ipsum</span>
-        <div>
-          <span className="money">Lorem ipsum</span>
-          <span className="moneyRate"></span>
-        </div>
-        <span className="sub">Lorem ipsum</span>
-      </div>
+      {doctor && (
+        <>
+          <FeaturedInfoItem
+            title={doctor.clinic.name}
+            description={doctor.clinic.address}
+          />
+          <Link to={`queue/${schedulesForToday && schedulesForToday[0]?.id}`}>
+            <FeaturedInfoItem
+              title={"Записей на сегодня"}
+              description={!schedulesForToday || schedulesForToday.length === 0
+                ? 0
+                : schedulesForToday[0].appointments.length}
+            />
+          </Link>
+          <FeaturedInfoItem
+            title={"Общее кол-во врачей"}
+            description={doctorsCount}
+          />
+          <FeaturedInfoItem
+            title={"Общее кол-во пациентов"}
+            description={patientsCount}
+          />
+        </>
+      )}
     </div>
   );
 };

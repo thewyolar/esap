@@ -4,7 +4,7 @@ import './widgetLg.scss'
 const WidgetLg = () => {
   return (
     <div className='widgetLg'>
-      <h3 className="title">Latest Transactions</h3>
+      <h3 className="title">Последние приемы</h3>
       <table>
         <tr className='firstTr'>
           <th>Customer</th>

@@ -66,7 +66,6 @@ public class AuthController {
         return Map.of("jwt", token, "roles", String.join(";", doctorService.getRoles(authenticationDTO.getLogin())));
     }
 
-    //TODO Служебный запрос
     @PostMapping("/password/reset")
     public ResponseEntity<HttpStatus> passwordReset(@RequestBody AuthenticationDTO authenticationDTO) {
         registrationService.passwordReset(authenticationDTO);

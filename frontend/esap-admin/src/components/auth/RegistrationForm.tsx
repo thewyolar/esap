@@ -1,5 +1,17 @@
 import React, {useState} from 'react';
-import {Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography} from "@mui/material";
+import {
+  Autocomplete,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Container,
+  FormControlLabel,
+  Grid, Radio, RadioGroup,
+  TextField,
+  Typography
+} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {Link} from "react-router-dom";
 import {DoctorDTO} from "../../model/dto/DoctorDTO";
@@ -12,6 +24,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
   const [firstName, setFirstName] = useState('');
   const [patronymic, setPatronymic] = useState('');
   const [lastName, setLastName] = useState('');
+  const [gender, setGender] = useState(1);
   const [specialization, setSpecialization] = useState('');
 
   const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,8 +52,10 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
       lastName: lastName,
       specialization: specialization,
       role: '',
-      gender: 1//TODO поле для пола
+      gender: gender
     };
+
+    console.log(doctorData);
 
     onSubmit(doctorData);
   };
@@ -94,6 +109,24 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
                       autoComplete="family-name"
                       value={lastName}
                       onChange={handleLastNameChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Autocomplete
+                      value={gender === 1 ? { value: 1, label: 'Мужской' } : { value: 2, label: 'Женский' }}
+                      onChange={(event, newValue) => {
+                        if (newValue) {
+                          setGender(newValue.value);
+                        }
+                      }}
+                      options={[
+                        { value: 1, label: 'Мужской' },
+                        { value: 2, label: 'Женский' },
+                      ]}
+                      getOptionLabel={(option) => option.label}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Пол" />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12}>

@@ -29,6 +29,10 @@ public class DoctorService {
         return doctorRepository.findAll();
     }
 
+    public Long getDoctorCountByClinic(Clinic clinic) {
+        return doctorRepository.countDoctorByClinic(clinic);
+    }
+
     public List<Doctor> getByClinic(Clinic clinic) {
         return doctorRepository.findByClinic(clinic);
     }

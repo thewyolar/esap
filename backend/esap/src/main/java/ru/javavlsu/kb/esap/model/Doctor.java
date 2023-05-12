@@ -47,9 +47,8 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
     private List<Schedule> schedules;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "clinic_id", referencedColumnName = "id")
-    @JsonIgnore
     private Clinic clinic;
 
     @ManyToMany(fetch = FetchType.EAGER)

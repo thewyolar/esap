@@ -13,13 +13,13 @@ import ru.javavlsu.kb.esap.repository.PatientRepository;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
 public class PatientService {
 
     private final PatientRepository patientRepository;
-
     private final MedicalCardRepository medicalCardRepository;
     private final PatientMapper patientMapper;
 
@@ -34,8 +34,18 @@ public class PatientService {
         return patientMapper.patientResponseDTOList(patients);
     }
 
-    public List<PatientResponseDTO> getByClinic(Clinic clinic) {
-        List<Patient> patients = patientRepository.findByClinic(clinic);
+    public Long getPatientCountByClinic(Clinic clinic) {
+        return patientRepository.countPatientByClinic(clinic);
+    }
+
+    public List<PatientResponseDTO> getByClinic(String firstName, String patronymic, String lastName, Clinic clinic) {
+        List<Patient> patients = patientRepository.findAllByFirstNameContainingIgnoreCaseAndPatronymicContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndClinic(
+                firstName != null ? firstName : "",
+                patronymic != null ? patronymic : "",
+                lastName != null ? lastName : "",
+                clinic
+        );
+//        List<Patient> patients = patientRepository.findByClinic(clinic);
         return patientMapper.patientResponseDTOList(patients);
     }
 

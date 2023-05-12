@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
+import ru.javavlsu.kb.esap.model.Clinic;
 
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class DoctorDTO {
     private String specialization;
 
     private int gender;
+
+    private Clinic clinic;
 
     private List<ScheduleResponseDTO> schedules;
 }
