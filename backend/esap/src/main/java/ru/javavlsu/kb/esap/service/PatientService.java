@@ -2,7 +2,6 @@ package ru.javavlsu.kb.esap.service;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
@@ -16,7 +15,6 @@ import ru.javavlsu.kb.esap.repository.PatientRepository;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -34,7 +32,7 @@ public class PatientService {
 
     public List<PatientResponseDTO> getAll() {
         List<Patient> patients = patientRepository.findAll();
-        return patientMapper.patientResponseDTOList(patients);
+        return patientMapper.toPatientResponseDTOList(patients);
     }
 
     public Long getPatientCountByClinic(Clinic clinic) {
@@ -44,7 +42,7 @@ public class PatientService {
     public List<PatientResponseDTO> getLatestPatients(Integer count, Clinic clinic) {
         Pageable pageable = PageRequest.of(0, count);
         List<Patient> patients = patientRepository.findAllByClinicOrderByIdDesc(clinic, pageable).stream().toList();
-        return patientMapper.patientResponseDTOList(patients);
+        return patientMapper.toPatientResponseDTOList(patients);
     }
 
     public List<PatientResponseDTO> getByClinic(String firstName, String patronymic, String lastName, Clinic clinic) {
@@ -55,7 +53,7 @@ public class PatientService {
                 clinic
         );
 //        List<Patient> patients = patientRepository.findByClinic(clinic);
-        return patientMapper.patientResponseDTOList(patients);
+        return patientMapper.toPatientResponseDTOList(patients);
     }
 
     public Patient getById(long id) {

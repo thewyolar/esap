@@ -2,10 +2,8 @@ package ru.javavlsu.kb.esap.mapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
-import ru.javavlsu.kb.esap.dto.MedicalCardDTO.MedicalCardResponseDTO;
 import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
-import ru.javavlsu.kb.esap.model.MedicalCard;
 import ru.javavlsu.kb.esap.model.Patient;
 
 import java.util.List;
@@ -35,10 +33,9 @@ public class PatientMapper {
         return modelMapper.map(patientResponseDTO, Patient.class);
     }
 
-    public List<PatientResponseDTO> patientResponseDTOList(List<Patient> patients) {
+    public List<PatientResponseDTO> toPatientResponseDTOList(List<Patient> patients) {
         return patients.stream()
                 .map(patient -> modelMapper.map(patient, PatientResponseDTO.class))
                 .collect(Collectors.toList());
     }
-
 }

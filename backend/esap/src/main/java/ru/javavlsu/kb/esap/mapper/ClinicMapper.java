@@ -17,6 +17,4 @@ public class ClinicMapper {
     public Clinic toClinic(ClinicRegistration clinicRegistration){
         return modelMapper.map(clinicRegistration, Clinic.class);
     }
-
-
 }
