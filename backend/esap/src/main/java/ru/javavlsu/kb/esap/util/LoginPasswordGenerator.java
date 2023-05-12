@@ -14,16 +14,24 @@ public class LoginPasswordGenerator {
 
     private final DoctorService doctorService;
 
-    public static String generateLogin() {
-        String login = "";
-        String characters = "abcdefghijklmnopqrstuvwxyz";
-        Random random = new Random();
-        for (int i = 0; i < 6; i++) {
-            int index = random.nextInt(characters.length());
-            login += characters.charAt(index);
-        }
-        login += String.format("%04d", new Random().nextInt(10000)); // Генерируем случайный 4-х значный номер
-        return login.toLowerCase();
+    public LoginPasswordGenerator(DoctorService doctorService) {
+        this.doctorService = doctorService;
+    }
+
+    public String generateLogin() {
+        StringBuilder login;
+        do {
+            login = new StringBuilder();
+            String characters = "abcdefghijklmnopqrstuvwxyz";
+            Random random = new Random();
+            for (int i = 0; i < 6; i++) {
+                int index = random.nextInt(characters.length());
+                login.append(characters.charAt(index));
+            }
+            login.append(String.format("%04d", new Random().nextInt(10000)));
+        } while (doctorService.doctorExists(login.toString()));
+
+        return login.toString().toLowerCase();
     }
 
     public String generatePassword() {

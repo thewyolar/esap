@@ -47,6 +47,10 @@ public class DoctorService {
                 .getRole().stream().map(Role::getName).toList();
     }
 
+    public boolean doctorExists(String login){
+        return doctorRepository.findByLogin(login).isPresent();
+    }
+
     @Transactional
     public void save(Doctor doctor) {
         doctorRepository.save(doctor);
