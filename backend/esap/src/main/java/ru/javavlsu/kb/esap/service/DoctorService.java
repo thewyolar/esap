@@ -1,7 +1,6 @@
 package ru.javavlsu.kb.esap.service;
 
 import jakarta.persistence.EntityManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +16,14 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class DoctorService {
 
-    @Autowired
-    private EntityManager em;
+    private final EntityManager em;
 
-    @Autowired
-    private DoctorRepository doctorRepository;
+    private final DoctorRepository doctorRepository;
+
+    public DoctorService(EntityManager em, DoctorRepository doctorRepository) {
+        this.em = em;
+        this.doctorRepository = doctorRepository;
+    }
 
     public List<Doctor> getAll() {
         return doctorRepository.findAll();
@@ -47,6 +49,10 @@ public class DoctorService {
         return doctorRepository.findByLogin(login)
                 .orElseThrow(() -> new NotFoundException("Doctor not found"))
                 .getRole().stream().map(Role::getName).toList();
+    }
+
+    public boolean doctorExists(String login){
+        return doctorRepository.findByLogin(login).isPresent();
     }
 
     @Transactional
