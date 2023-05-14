@@ -40,7 +40,7 @@ const NewScheduleModal: React.FC<NewScheduleModalProps> = ({ open, onClose, doct
       <Box
         sx={{
               margin: "auto", padding: 3, width: "30%",
-              height: success || error ? "62%" : "55%", bgcolor: "background.paper",
+              height: success || error ? "65%" : "55%", bgcolor: "background.paper",
               borderRadius: "5px", overflow: "hidden", marginTop: "60px"
             }}
       >
