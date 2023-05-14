@@ -18,6 +18,14 @@ class HttpService {
       });
   }
 
+  public static async getLatestPatients() {
+    return await Api.get<Patient[]>(HttpService.url + "/api/patient/latest")
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
   public static async getPatientCount() {
     return await Api.get<number>(HttpService.url + "/api/patient/count")
       .then((res) => res.data)
