@@ -18,6 +18,11 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     Page<Patient> findAllByClinicOrderByIdDesc(Clinic clinic, Pageable pageable);
 
-    List<Patient> findAllByFirstNameContainingIgnoreCaseAndPatronymicContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndClinic(
-            String firstName, String patronymic, String lastName, Clinic clinic);
+    @Query("SELECT p FROM Patient p WHERE LOWER(p.firstName) LIKE %:firstName% AND LOWER(p.patronymic) LIKE %:patronymic% AND LOWER(p.lastName) LIKE %:lastName% AND p.clinic = :clinic ORDER BY p.id ASC")
+    List<Patient> findAllByFullNameContainingIgnoreCaseAndClinicOrderByIdAsc(
+            @Param("firstName") String firstName,
+            @Param("patronymic") String patronymic,
+            @Param("lastName") String lastName,
+            @Param("clinic") Clinic clinic
+    );
 }

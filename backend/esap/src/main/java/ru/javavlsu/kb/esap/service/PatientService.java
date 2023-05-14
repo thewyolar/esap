@@ -46,7 +46,7 @@ public class PatientService {
     }
 
     public List<PatientResponseDTO> getByClinic(String firstName, String patronymic, String lastName, Clinic clinic) {
-        List<Patient> patients = patientRepository.findAllByFirstNameContainingIgnoreCaseAndPatronymicContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndClinic(
+        List<Patient> patients = patientRepository.findAllByFullNameContainingIgnoreCaseAndClinicOrderByIdAsc(
                 firstName != null ? firstName : "",
                 patronymic != null ? patronymic : "",
                 lastName != null ? lastName : "",
