@@ -3,6 +3,7 @@ package ru.javavlsu.kb.esap.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
@@ -56,12 +57,13 @@ public class PatientController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('REGISTRANT')")
     public ResponseEntity<HttpStatus> createPatient(@Valid @RequestBody PatientRequestDTO patientRequestDTO,
                                                     BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        patientService.create(patientRequestDTO);
+        patientService.create(patientRequestDTO, getDoctorDetails().getDoctor().getClinic());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 

@@ -1,4 +1,6 @@
+import { IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Analysis } from "../../model/Analysis";
 import { MedicalCard } from "../../model/MedicalCard";
@@ -87,9 +89,9 @@ const EditingMedicalRecord: React.FC = (onClose) => {
           <div>
             <h2>Анализы</h2>
             <div className="analysis">{renderAnalysisFields()}</div>
-            <button type="button" onClick={handleAddAnalysisField}>
+            <Button>
               Добавить поле
-            </button>
+            </Button>
           </div>
           <button type="submit" onClick={handleSubmit}>
             Сохранить

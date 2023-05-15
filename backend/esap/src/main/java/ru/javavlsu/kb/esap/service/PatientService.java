@@ -54,8 +54,9 @@ public class PatientService {
     }
 
     @Transactional
-    public Patient create(PatientRequestDTO patientRequestDTO) {
+    public Patient create(PatientRequestDTO patientRequestDTO, Clinic clinic) {
         Patient patient = patientMapper.toPatient(patientRequestDTO);
+        patient.setClinic(clinic);
         patient.setMedicalCard(new MedicalCard(patient));
         return patientRepository.save(patient);
     }

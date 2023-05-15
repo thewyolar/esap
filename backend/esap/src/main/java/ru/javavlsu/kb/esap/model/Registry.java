@@ -12,7 +12,7 @@ import java.util.Objects;
 @Setter
 @ToString
 @Table(name = "registries")
-//TODO возможно бесполезный класс
+@Deprecated
 public class Registry {
 
     @Id

@@ -1,6 +1,5 @@
 package ru.javavlsu.kb.esap.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
@@ -68,6 +67,13 @@ public class Doctor {
         Doctor doctor = (Doctor) o;
         return Objects.equals(id, doctor.id) && Objects.equals(login, doctor.login);
     }
+
+    //TODO    @ToString.Include(name = "password")
+    //    private String maskPassword(){
+    //        return "*******";
+    //    } потестить
+
+
 
     @Override
     public int hashCode() {

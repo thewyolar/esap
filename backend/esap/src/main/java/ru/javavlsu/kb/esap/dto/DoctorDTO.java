@@ -11,8 +11,9 @@ import java.util.List;
 
 @Getter
 @Setter
+//TODO потестить @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class DoctorDTO {
-
+    //TODO потестить @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) - возможно уменьшиться количество dto
     private Long id;
 
     private String login;

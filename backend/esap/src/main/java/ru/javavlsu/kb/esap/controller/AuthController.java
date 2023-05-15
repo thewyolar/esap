@@ -73,7 +73,7 @@ public class AuthController {
     }
 
     @PostMapping("/registration/doctor")
-    @PreAuthorize("hasRole('ROLE_CHIEF_DOCTOR')")
+    @PreAuthorize("hasRole('CHIEF_DOCTOR')")
     public  Map<String, String> registrationDoctor(@RequestBody DoctorRegistration doctorRegistration){
         String[] loginPassword = registrationService.registrationDoctor(doctorRegistration, getDoctorDetails().getDoctor().getClinic());
         return Map.of("login", loginPassword[0], "password", loginPassword[1]);
