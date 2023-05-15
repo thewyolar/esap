@@ -1,5 +1,7 @@
 package ru.javavlsu.kb.esap.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +16,13 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     Long countPatientByClinic(Clinic clinic);
 
-    List<Patient> findAllByFirstNameContainingIgnoreCaseAndPatronymicContainingIgnoreCaseAndLastNameContainingIgnoreCaseAndClinic(
-            String firstName, String patronymic, String lastName, Clinic clinic);
+    Page<Patient> findAllByClinicOrderByIdDesc(Clinic clinic, Pageable pageable);
+
+    @Query("SELECT p FROM Patient p WHERE LOWER(p.firstName) LIKE %:firstName% AND LOWER(p.patronymic) LIKE %:patronymic% AND LOWER(p.lastName) LIKE %:lastName% AND p.clinic = :clinic ORDER BY p.id ASC")
+    List<Patient> findAllByFullNameContainingIgnoreCaseAndClinicOrderByIdAsc(
+            @Param("firstName") String firstName,
+            @Param("patronymic") String patronymic,
+            @Param("lastName") String lastName,
+            @Param("clinic") Clinic clinic
+    );
 }

@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.auth.AuthenticationDTO;
@@ -18,10 +16,10 @@ import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.ResponseMessageError;
 import ru.javavlsu.kb.esap.mapper.ClinicMapper;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
-import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.security.JWTUtil;
 import ru.javavlsu.kb.esap.service.DoctorService;
 import ru.javavlsu.kb.esap.service.RegistrationService;
+import ru.javavlsu.kb.esap.util.DoctorUtils;
 
 import java.util.Map;
 
@@ -29,21 +27,22 @@ import java.util.Map;
 @CrossOrigin
 @RequestMapping("/api/auth")
 public class AuthController {
-
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
     private final RegistrationService registrationService;
     private final ClinicMapper clinicMapper;
     private final DoctorMapper doctorMapper;
     private final DoctorService doctorService;
+    private final DoctorUtils doctorUtils;
 
-    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RegistrationService registrationService, ClinicMapper clinicMapper, DoctorMapper doctorMapper, DoctorService doctorService) {
+    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RegistrationService registrationService, ClinicMapper clinicMapper, DoctorMapper doctorMapper, DoctorService doctorService, DoctorUtils doctorUtils) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.registrationService = registrationService;
         this.clinicMapper = clinicMapper;
         this.doctorMapper = doctorMapper;
         this.doctorService = doctorService;
+        this.doctorUtils = doctorUtils;
     }
 
     @PostMapping("/registration/clinic")
@@ -74,14 +73,8 @@ public class AuthController {
 
     @PostMapping("/registration/doctor")
     @PreAuthorize("hasRole('CHIEF_DOCTOR')")
-    public  Map<String, String> registrationDoctor(@RequestBody DoctorRegistration doctorRegistration){
-        String[] loginPassword = registrationService.registrationDoctor(doctorRegistration, getDoctorDetails().getDoctor().getClinic());
+    public Map<String, String> registrationDoctor(@RequestBody DoctorRegistration doctorRegistration) {
+        String[] loginPassword = registrationService.registrationDoctor(doctorRegistration, doctorUtils.getDoctorDetails().getDoctor().getClinic());
         return Map.of("login", loginPassword[0], "password", loginPassword[1]);
     }
-
-    private DoctorDetails getDoctorDetails(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (DoctorDetails) authentication.getPrincipal();
-    }
-
 }

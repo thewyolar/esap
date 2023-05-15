@@ -42,7 +42,7 @@ const LoginForm: React.FC = () => {
         setSuccess(true);
         setTimeout(() => {
           window.location.reload();
-        }, 1500);
+        }, 1000);
       })
       .catch(error => {
         setError(error.response.data.message);

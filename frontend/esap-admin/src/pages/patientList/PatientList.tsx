@@ -5,7 +5,7 @@ import {Clear, DeleteOutline, Search} from '@mui/icons-material';
 import {Link} from 'react-router-dom';
 import {Patient} from "../../model/Patient";
 import HttpService from "../../service/HttpService";
-import {Box, IconButton, InputAdornment, TextField, Typography} from "@mui/material";
+import {Box, Button, IconButton, InputAdornment, TextField} from "@mui/material";
 import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from '@mui/icons-material/Add';
@@ -113,13 +113,14 @@ const PatientList: React.FC = () => {
 
   return (
     <div className='patientListPage'>
-      <Box sx={{display: 'flex', alignItems: 'center', my: '9px'}}>
+      <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', my: '9px'}}>
         <TextField
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
           variant='outlined'
           fullWidth
           size='small'
+          placeholder='Поиск пациента'
           InputProps={{
             startAdornment: (
               <InputAdornment position='start'>
@@ -132,11 +133,12 @@ const PatientList: React.FC = () => {
               </IconButton>
             ),
           }}
-          sx={{ marginRight: '10px' }}
+          InputLabelProps={{ shrink: true }}
+          sx={{ width: '800px' }}
         />
-        {/*<IconButton color="primary" aria-label="add patient" component="label" onClick={handleAddPatient}>*/}
-        {/*  <AddIcon />*/}
-        {/*</IconButton>*/}
+        <Button color="primary" aria-label="add patient" component="label" sx={{ marginRight: '10px' }}  onClick={handleAddPatient}>
+          <AddIcon />
+        </Button>
       </Box>
       <DataGrid
         localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}

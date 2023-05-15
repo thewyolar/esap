@@ -1,6 +1,7 @@
 .featuredInfo {
   display: flex;
   justify-content: space-between;
+  //padding: 21px 21px;
 
   a:active,
   a:hover,
@@ -11,11 +12,13 @@
 
   .item {
     flex: 1;
-    margin: 21px 21px;
+    margin-top: 21px;
+    margin-left: 21px;
+    //margin: 21px 21px;
     padding: 30px;
     border-radius: 8px;
     //max-width: 240px;
-    //max-height: 160px;
+    height: 160px;
     -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
     cursor: pointer;
@@ -40,6 +43,5 @@
       font-size: 15px;
       color: gray;
     }
-
   }
 }

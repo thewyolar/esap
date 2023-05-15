@@ -5,7 +5,7 @@ import {Doctor} from "../../model/Doctor";
 import {Link} from "react-router-dom";
 import FeaturedInfoItem from "./FeaturedInfoItem";
 
-const FeaturedInfo = () => {
+const FeaturedInfo: React.FC = () => {
   const [doctor, setDoctor] = useState<Doctor>();
   const [error, setError] = useState<Doctor>();
   const [doctorsCount, setDoctorsCount] = useState(0);

@@ -1,19 +1,24 @@
 package ru.javavlsu.kb.esap.service;
 
+import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.dto.AppointmentDTO;
+import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.AppointmentResponseDTO;
 import ru.javavlsu.kb.esap.mapper.AppointmentMapper;
-import ru.javavlsu.kb.esap.model.Appointment;
-import ru.javavlsu.kb.esap.model.Patient;
-import ru.javavlsu.kb.esap.model.Schedule;
+import ru.javavlsu.kb.esap.model.*;
 import ru.javavlsu.kb.esap.repository.AppointmentRepository;
+import ru.javavlsu.kb.esap.repository.DoctorRepository;
 import ru.javavlsu.kb.esap.repository.PatientRepository;
 import ru.javavlsu.kb.esap.repository.ScheduleRepository;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,12 +27,14 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final ScheduleRepository scheduleRepository;
     private final PatientRepository patientRepository;
+    private final EntityManager em;
     private final AppointmentMapper appointmentMapper;
 
-    public AppointmentService(AppointmentRepository appointmentRepository, ScheduleRepository scheduleRepository, PatientRepository patientRepository, AppointmentMapper appointmentMapper) {
+    public AppointmentService(AppointmentRepository appointmentRepository, ScheduleRepository scheduleRepository, PatientRepository patientRepository, EntityManager em, AppointmentMapper appointmentMapper) {
         this.appointmentRepository = appointmentRepository;
         this.scheduleRepository = scheduleRepository;
         this.patientRepository = patientRepository;
+        this.em = em;
         this.appointmentMapper = appointmentMapper;
     }
 
@@ -50,5 +57,17 @@ public class AppointmentService {
                 .orElseThrow(() -> new NotFoundException("Patient not found"));
         appointment.setPatient(patient);
         appointmentRepository.save(appointment);
+    }
+
+    @Transactional(readOnly = true)
+    public List<AppointmentResponseDTO> getLatestAppointments(Integer count, Doctor doctor) {
+        Pageable pageable = PageRequest.of(0, count);
+        doctor = em.merge(doctor);
+        List<Appointment> appointments = doctor.getSchedules().stream()
+                .flatMap(schedule -> appointmentRepository.findTopNByScheduleOrderByIdDesc(schedule, pageable).stream())
+                .sorted(Comparator.comparing(Appointment::getDate).reversed())
+                .limit(count)
+                .collect(Collectors.toList());
+        return appointmentMapper.toAppointmentResponseDTOList(appointments);
     }
 }
