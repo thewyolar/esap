@@ -27,14 +27,12 @@ public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final ScheduleRepository scheduleRepository;
     private final PatientRepository patientRepository;
-    private final EntityManager em;
     private final AppointmentMapper appointmentMapper;
 
-    public AppointmentService(AppointmentRepository appointmentRepository, ScheduleRepository scheduleRepository, PatientRepository patientRepository, EntityManager em, AppointmentMapper appointmentMapper) {
+    public AppointmentService(AppointmentRepository appointmentRepository, ScheduleRepository scheduleRepository, PatientRepository patientRepository, AppointmentMapper appointmentMapper) {
         this.appointmentRepository = appointmentRepository;
         this.scheduleRepository = scheduleRepository;
         this.patientRepository = patientRepository;
-        this.em = em;
         this.appointmentMapper = appointmentMapper;
     }
 
@@ -62,12 +60,7 @@ public class AppointmentService {
     @Transactional(readOnly = true)
     public List<AppointmentResponseDTO> getLatestAppointments(Integer count, Doctor doctor) {
         Pageable pageable = PageRequest.of(0, count);
-        doctor = em.merge(doctor);
-        List<Appointment> appointments = doctor.getSchedules().stream()
-                .flatMap(schedule -> appointmentRepository.findTopNByScheduleOrderByIdDesc(schedule, pageable).stream())
-                .sorted(Comparator.comparing(Appointment::getDate).reversed())
-                .limit(count)
-                .collect(Collectors.toList());
+        List<Appointment> appointments = appointmentRepository.findByScheduleDoctorOrderByStartAppointmentsDesc(doctor, pageable).stream().toList();
         return appointmentMapper.toAppointmentResponseDTOList(appointments);
     }
 }
