@@ -50,7 +50,7 @@ public class PatientController {
     }
 
     @GetMapping("/latest")
-    public ResponseEntity<List<PatientResponseDTO>> getLatestPatients(@RequestParam(name = "count", defaultValue = "4") Integer count) {
+    public ResponseEntity<List<PatientResponseDTO>> getLatestPatients(@RequestParam(name = "count", defaultValue = "5") Integer count) {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return ResponseEntity.ok(patientService.getLatestPatients(count, doctor.getClinic()));
     }

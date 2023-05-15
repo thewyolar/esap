@@ -78,7 +78,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/appointment/latest")
-    public List<AppointmentResponseDTO> getLatestAppointments(@RequestParam(name = "count", defaultValue = "4") Integer count) {
+    public List<AppointmentResponseDTO> getLatestAppointments(@RequestParam(name = "count", defaultValue = "5") Integer count) {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return appointmentService.getLatestAppointments(count, doctor);
     }
