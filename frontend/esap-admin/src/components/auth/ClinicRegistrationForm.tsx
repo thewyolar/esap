@@ -11,6 +11,7 @@ interface ClinicRegistrationFormProps {
 const ClinicRegistrationForm: React.FC<ClinicRegistrationFormProps> = ({ onSubmit }) => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -20,12 +21,17 @@ const ClinicRegistrationForm: React.FC<ClinicRegistrationFormProps> = ({ onSubmi
     setAddress(event.target.value);
   };
 
+  const handlePhoneNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPhoneNumber(event.target.value);
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const clinicData: ClinicDTO = {
       name: name,
-      address: address
+      address: address,
+      phoneNumber: phoneNumber
     };
 
     onSubmit(clinicData);
@@ -67,6 +73,17 @@ const ClinicRegistrationForm: React.FC<ClinicRegistrationFormProps> = ({ onSubmi
                       name="address"
                       value={address}
                       onChange={handleAddressChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      fullWidth
+                      id="phoneNumber"
+                      label="Номер телефона"
+                      name="phoneNumber"
+                      value={phoneNumber}
+                      onChange={handlePhoneNumberChange}
                     />
                   </Grid>
                 </Grid>

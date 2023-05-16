@@ -48,28 +48,28 @@ const FeaturedInfo: React.FC = () => {
 
   return (
     <div className="featuredInfo">
-
       {doctor && (
         <>
           <FeaturedInfoItem
             title={doctor.clinic.name}
             description={doctor.clinic.address}
-          />
+            sub={doctor.clinic.phoneNumber} />
           <Link to={`queue/${schedulesForToday && schedulesForToday[0]?.id}`}>
             <FeaturedInfoItem
               title={"Записей на сегодня"}
               description={!schedulesForToday || schedulesForToday.length === 0
                 ? 0
                 : schedulesForToday[0].appointments.length}
-            />
+             sub={''} />
           </Link>
           <FeaturedInfoItem
             title={"Общее кол-во врачей"}
             description={doctorsCount}
-          />
+            sub={null}/>
           <FeaturedInfoItem
             title={"Общее кол-во пациентов"}
             description={patientsCount}
+            sub={null}
           />
         </>
       )}
