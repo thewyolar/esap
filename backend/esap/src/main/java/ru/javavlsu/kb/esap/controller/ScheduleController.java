@@ -3,10 +3,9 @@ package ru.javavlsu.kb.esap.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.javavlsu.kb.esap.dto.AppointmentsCountByDayDTO;
 import ru.javavlsu.kb.esap.dto.AppointmentDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.AppointmentResponseDTO;
@@ -14,7 +13,6 @@ import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
 import ru.javavlsu.kb.esap.mapper.AppointmentMapper;
 import ru.javavlsu.kb.esap.mapper.ScheduleMapper;
 import ru.javavlsu.kb.esap.model.Doctor;
-import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.service.AppointmentService;
 import ru.javavlsu.kb.esap.service.ScheduleService;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
@@ -81,5 +79,10 @@ public class ScheduleController {
     public List<AppointmentResponseDTO> getLatestAppointments(@RequestParam(name = "count", defaultValue = "5") Integer count) {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return appointmentService.getLatestAppointments(count, doctor);
+    }
+
+    @GetMapping("/appointment/count-by-day")
+    public List<AppointmentsCountByDayDTO> getAppointmentsCountByDay() {
+        return appointmentService.getAppointmentsCountByDay();
     }
 }
