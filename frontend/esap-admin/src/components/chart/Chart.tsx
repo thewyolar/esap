@@ -22,7 +22,7 @@ const Chart: React.FC<ChartProps> = ({ title, grid }: ChartProps) => {
   }, []);
 
   const formatXAxisTick = (tick: any) => {
-    return moment(tick).format('MMM DD');
+    return moment(tick).format('DD MMM');
   };
 
   return (
@@ -30,8 +30,7 @@ const Chart: React.FC<ChartProps> = ({ title, grid }: ChartProps) => {
       <Typography variant="h5" sx={{marginBottom: '18px'}}>
           {title}
         </Typography>
-      <ResponsiveContainer width={900} //width='100%'
-                           height={400}>
+      <ResponsiveContainer width={900} height={400}>
         <LineChart
           data={appointmentCount}
           margin={{
