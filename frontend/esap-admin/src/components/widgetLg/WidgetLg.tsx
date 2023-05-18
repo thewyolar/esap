@@ -1,10 +1,8 @@
-import Button from './button/Button'
-import './widgetLg.scss'
+import './widgetLg.scss';
 import React, {useEffect, useState} from "react";
-import {Patient} from "../../model/Patient";
 import HttpService from "../../service/HttpService";
 import {Appointment} from "../../model/Appointment";
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
 const WidgetLg: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
