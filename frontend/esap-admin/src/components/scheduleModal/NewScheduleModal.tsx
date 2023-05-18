@@ -31,7 +31,7 @@ const NewScheduleModal: React.FC<NewScheduleModalProps> = ({ open, onClose, doct
         setSuccess(true);
       })
       .catch(error => {
-        setSuccess(error.response.data.message);
+        setError(error.response.data.message);
       });
   };
 
