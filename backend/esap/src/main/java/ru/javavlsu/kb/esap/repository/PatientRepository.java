@@ -14,7 +14,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     List<Patient> findByClinic(Clinic clinic);
 
-    Long countPatientByClinic(Clinic clinic);
+    int countPatientByClinic(Clinic clinic);
 
     Page<Patient> findAllByClinicOrderByIdDesc(Clinic clinic, Pageable pageable);
 

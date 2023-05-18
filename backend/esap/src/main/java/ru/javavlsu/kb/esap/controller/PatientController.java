@@ -7,6 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
+import ru.javavlsu.kb.esap.dto.PatientStatisticsByAgeDTO;
+import ru.javavlsu.kb.esap.dto.PatientStatisticsByGenderDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
 import ru.javavlsu.kb.esap.mapper.PatientMapper;
 import ru.javavlsu.kb.esap.model.Doctor;
@@ -44,7 +46,7 @@ public class PatientController {
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Long> getPatientsCount() {
+    public ResponseEntity<Integer> getPatientsCount() {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return ResponseEntity.ok(patientService.getPatientCountByClinic(doctor.getClinic()));
     }

@@ -37,7 +37,7 @@ public class PatientService {
         return patientMapper.toPatientResponseDTOList(patients);
     }
 
-    public Long getPatientCountByClinic(Clinic clinic) {
+    public int getPatientCountByClinic(Clinic clinic) {
         return patientRepository.countPatientByClinic(clinic);
     }
 
