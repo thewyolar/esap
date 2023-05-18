@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {Alert, Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Alert, Autocomplete, Avatar, Button, Card, CardContent, Container, Grid, TextField, Typography, Box} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {DoctorDTO} from "../../model/dto/DoctorDTO";
 import AuthService from '../../service/auth/AuthService';
 import { InfoLogin } from '../../model/auth/InfoLogin';
-
+import {Role} from "../../model/Role";
 
 const DoctorRegistrationForm: React.FC = () => {
   const [firstName, setFirstName] = useState('');
@@ -14,6 +14,15 @@ const DoctorRegistrationForm: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [response, setResponse] = useState<InfoLogin>();
+  const [selectedRole, setSelectedRole] = useState('');
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [gender, setGender] = useState(1);
+
+  useEffect(() => {
+    AuthService.getAllRoles()
+      .then(response => setRoles(response))
+      .catch(error => console.error(error));
+  }, []);
 
   const handleFirstNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFirstName(event.target.value);
@@ -31,8 +40,6 @@ const DoctorRegistrationForm: React.FC = () => {
     setSpecialization(event.target.value);
   };
 
-  //TODO Запрос на все роли.
-
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -41,8 +48,8 @@ const DoctorRegistrationForm: React.FC = () => {
       patronymic: patronymic,
       lastName: lastName,
       specialization: specialization,
-      role: "DOCTOR",
-      gender: 1//TODO поле для роли и пола
+      role: selectedRole,
+      gender: gender
     };
 
     AuthService.registrationDoctor(doctorData)
@@ -105,6 +112,46 @@ const DoctorRegistrationForm: React.FC = () => {
                       autoComplete="family-name"
                       value={lastName}
                       onChange={handleLastNameChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Autocomplete
+                      value={gender === 1 ? { value: 1, label: 'Мужской' } : { value: 2, label: 'Женский' }}
+                      onChange={(event, newValue) => {
+                        if (newValue) {
+                          setGender(newValue.value);
+                        }
+                      }}
+                      options={[
+                        { value: 1, label: 'Мужской' },
+                        { value: 2, label: 'Женский' },
+                      ]}
+                      getOptionLabel={(option) => option.label}
+                      renderInput={(params) => (
+                        <TextField {...params} label="Пол" />
+                      )}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Autocomplete
+                      options={roles}
+                      noOptionsText="Нет ролей"
+                      getOptionLabel={(option) => option.name}
+                      value={roles.find((role) => role.name === selectedRole) || null}
+                      onChange={(event, newValue) => {
+                        if (newValue) {
+                          setSelectedRole(newValue.name);
+                        } else {
+                          setSelectedRole('');
+                        }
+                      }}
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label="Роль"
+                          fullWidth
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12}>
