@@ -16,6 +16,7 @@ import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
 import ru.javavlsu.kb.esap.util.DoctorUtils;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -60,7 +61,7 @@ public class AppointmentService {
     @Transactional(readOnly = true)
     public List<AppointmentResponseDTO> getLatestAppointments(Integer count, Doctor doctor) {
         Pageable pageable = PageRequest.of(0, count);
-        List<Appointment> appointments = appointmentRepository.findByScheduleDoctorOrderByStartAppointmentsDesc(doctor, pageable).stream().toList();
+        List<Appointment> appointments = appointmentRepository.findLatestAppointments(doctor, LocalDate.now(), pageable).stream().toList();
         return appointmentMapper.toAppointmentResponseDTOList(appointments);
     }
 

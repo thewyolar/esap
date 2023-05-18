@@ -23,6 +23,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
             "FROM Appointment a WHERE a.schedule.doctor.clinic = :clinic " +
             "GROUP BY a.date ORDER BY a.date ASC")
     List<AppointmentsCountByDayDTO> countAppointmentsByDay(@Param("clinic") Clinic clinic);
+
     List<Appointment> findByStartAppointmentsAndDateAndSchedule(LocalTime startAppointment, LocalDate date, Schedule schedule);
-    Page<Appointment> findByScheduleDoctorOrderByStartAppointmentsDesc(Doctor doctor, Pageable pageable);
+
+    @Query("SELECT a FROM Appointment a WHERE (a.date = :currentDate AND a.schedule.doctor = :doctor) OR (a.date < :currentDate AND a.schedule.doctor = :doctor) ORDER BY a.date DESC, a.startAppointments DESC")
+    Page<Appointment> findLatestAppointments(@Param("doctor") Doctor doctor, @Param("currentDate") LocalDate currentDate, Pageable pageable);
 }
