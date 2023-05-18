@@ -8,7 +8,6 @@ import {AppointmentsCountByDayDTO} from "../../model/dto/AppointmentsCountByDayD
 
 interface ChartProps {
   title: string;
-  dataKey: string;
   grid?: boolean;
 }
 
@@ -26,7 +25,7 @@ const Chart: React.FC<ChartProps> = ({ title, grid }: ChartProps) => {
   };
 
   return (
-    <div className='chart'>
+    <div className='chart' style={{marginRight: '21px'}}>
       <Typography variant="h5" sx={{marginBottom: '18px'}}>
           {title}
         </Typography>
@@ -34,10 +33,10 @@ const Chart: React.FC<ChartProps> = ({ title, grid }: ChartProps) => {
         <LineChart
           data={appointmentCount}
           margin={{
-            top: 5,
+            top: 10,
             right: 30,
             left: 0,
-            bottom: 5,
+            bottom: 0,
           }}
         >
           {grid && <CartesianGrid strokeDasharray='3 3' />}
