@@ -29,7 +29,7 @@ public class DoctorService {
         return doctorRepository.findAll();
     }
 
-    public Long getDoctorCountByClinic(Clinic clinic) {
+    public int getDoctorCountByClinic(Clinic clinic) {
         return doctorRepository.countDoctorByClinic(clinic);
     }
 

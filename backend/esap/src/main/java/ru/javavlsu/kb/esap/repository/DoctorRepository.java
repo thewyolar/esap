@@ -10,6 +10,5 @@ import java.util.Optional;
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Optional<Doctor> findByLogin(String login);
     List<Doctor> findByClinic(Clinic clinic);
-
-    Long countDoctorByClinic(Clinic clinic);
+    int countDoctorByClinic(Clinic clinic);
 }
