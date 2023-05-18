@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
+import ru.javavlsu.kb.esap.dto.PatientStatisticsByAgeDTO;
+import ru.javavlsu.kb.esap.dto.PatientStatisticsByGenderDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
 import ru.javavlsu.kb.esap.mapper.PatientMapper;
 import ru.javavlsu.kb.esap.model.Clinic;
@@ -56,6 +58,7 @@ public class PatientService {
         return patientMapper.toPatientResponseDTOList(patients);
     }
 
+    @Transactional(readOnly = true)
     public Patient getById(long id) {
         return patientRepository.findById(id).orElseThrow(() -> new NotFoundException("Patient not found"));
     }
@@ -68,4 +71,29 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
+    @Transactional(readOnly = true)
+    public PatientStatisticsByGenderDTO getPatientsStatisticsByGender(Clinic clinic) {
+        int malePatients = patientRepository.getPatientsCountByGenderAndClinic(1, clinic);
+        int femalePatients = patientRepository.getPatientsCountByGenderAndClinic(2, clinic);
+
+        PatientStatisticsByGenderDTO statistics = new PatientStatisticsByGenderDTO();
+        statistics.setMale(malePatients);
+        statistics.setFemale(femalePatients);
+
+        return statistics;
+    }
+
+    @Transactional(readOnly = true)
+    public PatientStatisticsByAgeDTO getPatientsStatisticsByAge(Clinic clinic) {
+        int childCount = patientRepository.countPatientsByAgeRange(0, 18);
+        int adultCount = patientRepository.countPatientsByAgeRange(19, 59);
+        int elderlyCount = patientRepository.countPatientsByAgeRange(60, 100);
+
+        PatientStatisticsByAgeDTO statistics = new PatientStatisticsByAgeDTO();
+        statistics.setChild(childCount);
+        statistics.setAdult(adultCount);
+        statistics.setElderly(elderlyCount);
+
+        return statistics;
+    }
 }

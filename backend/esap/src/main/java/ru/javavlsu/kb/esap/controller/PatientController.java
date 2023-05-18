@@ -71,4 +71,16 @@ public class PatientController {
         patientService.create(patientRequestDTO, doctorUtils.getDoctorDetails().getDoctor().getClinic());
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+    @GetMapping("/statistics/by-gender")
+    public ResponseEntity<PatientStatisticsByGenderDTO> getPatientStatisticsByGender() {
+        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        return ResponseEntity.ok(patientService.getPatientsStatisticsByGender(doctor.getClinic()));
+    }
+
+    @GetMapping("/statistics/by-age")
+    public ResponseEntity<PatientStatisticsByAgeDTO> getPatientStatisticsByAge() {
+        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        return ResponseEntity.ok(patientService.getPatientsStatisticsByAge(doctor.getClinic()));
+    }
 }

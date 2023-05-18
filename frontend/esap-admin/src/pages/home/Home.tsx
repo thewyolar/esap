@@ -1,9 +1,10 @@
+import "./home.scss";
+import React from "react";
 import Chart from "../../components/chart/Chart";
 import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
 import WidgetLg from "../../components/widgetLg/WidgetLg";
 import WidgetSm from "../../components/widgetSm/WidgetSm";
-import "./home.scss";
-import React from "react";
+import WidgetRight from "../../components/widgetRight/WidgetRight";
 
 const Home: React.FC = () => {
   return (
@@ -11,10 +12,10 @@ const Home: React.FC = () => {
       <FeaturedInfo />
       <div className="widgets">
         <Chart
-            dataKey={'Patient'}
             grid={true}
             title={'Статистика приемов'}
         />
+        <WidgetRight />
       </div>
       <div className="widgets">
           <WidgetSm />
