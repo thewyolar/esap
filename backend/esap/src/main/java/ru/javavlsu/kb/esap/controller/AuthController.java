@@ -16,11 +16,13 @@ import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.ResponseMessageError;
 import ru.javavlsu.kb.esap.mapper.ClinicMapper;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
+import ru.javavlsu.kb.esap.model.Role;
 import ru.javavlsu.kb.esap.security.JWTUtil;
 import ru.javavlsu.kb.esap.service.DoctorService;
 import ru.javavlsu.kb.esap.service.RegistrationService;
 import ru.javavlsu.kb.esap.util.DoctorUtils;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -76,5 +78,10 @@ public class AuthController {
     public Map<String, String> registrationDoctor(@RequestBody DoctorRegistration doctorRegistration) {
         String[] loginPassword = registrationService.registrationDoctor(doctorRegistration, doctorUtils.getDoctorDetails().getDoctor().getClinic());
         return Map.of("login", loginPassword[0], "password", loginPassword[1]);
+    }
+
+    @GetMapping("/roles")
+    public ResponseEntity<List<Role>> getAllRoles() {
+        return ResponseEntity.ok(registrationService.getAllRoles());
     }
 }

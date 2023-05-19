@@ -7,6 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
+import ru.javavlsu.kb.esap.dto.PatientStatisticsByAgeDTO;
+import ru.javavlsu.kb.esap.dto.PatientStatisticsByGenderDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
 import ru.javavlsu.kb.esap.mapper.PatientMapper;
 import ru.javavlsu.kb.esap.model.Doctor;
@@ -44,13 +46,13 @@ public class PatientController {
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Long> getPatientsCount() {
+    public ResponseEntity<Integer> getPatientsCount() {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return ResponseEntity.ok(patientService.getPatientCountByClinic(doctor.getClinic()));
     }
 
     @GetMapping("/latest")
-    public ResponseEntity<List<PatientResponseDTO>> getLatestPatients(@RequestParam(name = "count", defaultValue = "4") Integer count) {
+    public ResponseEntity<List<PatientResponseDTO>> getLatestPatients(@RequestParam(name = "count", defaultValue = "5") Integer count) {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return ResponseEntity.ok(patientService.getLatestPatients(count, doctor.getClinic()));
     }
@@ -70,5 +72,17 @@ public class PatientController {
         }
         patientService.create(patientRequestDTO, doctorUtils.getDoctorDetails().getDoctor().getClinic());
         return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+    @GetMapping("/statistics/by-gender")
+    public ResponseEntity<PatientStatisticsByGenderDTO> getPatientStatisticsByGender() {
+        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        return ResponseEntity.ok(patientService.getPatientsStatisticsByGender(doctor.getClinic()));
+    }
+
+    @GetMapping("/statistics/by-age")
+    public ResponseEntity<PatientStatisticsByAgeDTO> getPatientStatisticsByAge() {
+        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        return ResponseEntity.ok(patientService.getPatientsStatisticsByAge(doctor.getClinic()));
     }
 }

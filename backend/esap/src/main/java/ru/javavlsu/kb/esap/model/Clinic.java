@@ -27,6 +27,9 @@ public class Clinic {
     @Column(nullable = false)
     private String address;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
     @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
     @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JsonIgnore

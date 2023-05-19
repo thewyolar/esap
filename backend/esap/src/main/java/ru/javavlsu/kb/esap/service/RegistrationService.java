@@ -8,6 +8,7 @@ import ru.javavlsu.kb.esap.dto.auth.DoctorRegistration;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.Doctor;
+import ru.javavlsu.kb.esap.model.Role;
 import ru.javavlsu.kb.esap.repository.ClinicRepository;
 import ru.javavlsu.kb.esap.repository.DoctorRepository;
 import ru.javavlsu.kb.esap.repository.RoleRepository;
@@ -16,6 +17,7 @@ import ru.javavlsu.kb.esap.exception.NotFoundException;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -74,5 +76,10 @@ public class RegistrationService {
 
         doctor.setPassword(passwordEncoder.encode(authenticationDTO.getPassword()));
         doctorRepository.save(doctor);
+    }
+
+    @Transactional
+    public List<Role> getAllRoles() {
+        return roleRepository.findAll();
     }
 }

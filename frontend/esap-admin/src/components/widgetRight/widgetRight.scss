@@ -1,6 +1,6 @@
-.featuredInfo {
+.widgetRight {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 
   a:active,
   a:hover,
@@ -11,7 +11,6 @@
 
   .item {
     flex: 1;
-    margin-top: 21px;
     margin-left: 21px;
     padding: 30px;
     border-radius: 8px;
@@ -34,11 +33,6 @@
         font-size: 20px;
         font-weight: 600;
       }
-    }
-
-    .sub {
-      font-size: 18px;
-      color: gray;
     }
   }
 }

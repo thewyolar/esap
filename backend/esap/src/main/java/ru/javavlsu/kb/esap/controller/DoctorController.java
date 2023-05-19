@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.javavlsu.kb.esap.dto.DoctorDTO;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.model.Doctor;
-import ru.javavlsu.kb.esap.security.DoctorDetails;
 import ru.javavlsu.kb.esap.service.DoctorService;
 import ru.javavlsu.kb.esap.util.DoctorUtils;
 
@@ -35,7 +34,7 @@ public class DoctorController {
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Long> getPatientsCount() {
+    public ResponseEntity<Integer> getPatientsCount() {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return ResponseEntity.ok(doctorService.getDoctorCountByClinic(doctor.getClinic()));
     }

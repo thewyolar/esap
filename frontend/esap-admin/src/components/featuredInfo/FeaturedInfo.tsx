@@ -3,7 +3,6 @@ import HttpService from "../../service/HttpService";
 import React, {useEffect, useState} from "react";
 import {Doctor} from "../../model/Doctor";
 import {Link} from "react-router-dom";
-import FeaturedInfoItem from "./FeaturedInfoItem";
 
 const FeaturedInfo: React.FC = () => {
   const [doctor, setDoctor] = useState<Doctor>();
@@ -48,29 +47,39 @@ const FeaturedInfo: React.FC = () => {
 
   return (
     <div className="featuredInfo">
-
       {doctor && (
         <>
-          <FeaturedInfoItem
-            title={doctor.clinic.name}
-            description={doctor.clinic.address}
-          />
+          <div className="item">
+            <span className="title">{doctor.clinic.name}</span>
+            <div>
+              <span className="desc">{doctor.clinic.address}</span>
+            </div>
+            <span className="sub">{doctor.clinic.phoneNumber}</span>
+          </div>
           <Link to={`queue/${schedulesForToday && schedulesForToday[0]?.id}`}>
-            <FeaturedInfoItem
-              title={"Записей на сегодня"}
-              description={!schedulesForToday || schedulesForToday.length === 0
-                ? 0
-                : schedulesForToday[0].appointments.length}
-            />
+            <div className="item">
+              <span className="title">{"Записей на сегодня"}</span>
+              <div>
+                <span className="desc">
+                  {!schedulesForToday || schedulesForToday.length === 0
+                    ? 0
+                    : schedulesForToday[0].appointments.length}
+                </span>
+              </div>
+            </div>
           </Link>
-          <FeaturedInfoItem
-            title={"Общее кол-во врачей"}
-            description={doctorsCount}
-          />
-          <FeaturedInfoItem
-            title={"Общее кол-во пациентов"}
-            description={patientsCount}
-          />
+          <div className="item">
+            <span className="title">{"Общее кол-во врачей"}</span>
+            <div>
+              <span className="desc">{doctorsCount}</span>
+            </div>
+          </div>
+          <div className="item" style={{marginRight: '21px'}}>
+            <span className="title">{"Общее кол-во пациентов"}</span>
+            <div>
+              <span className="desc">{patientsCount}</span>
+            </div>
+          </div>
         </>
       )}
     </div>

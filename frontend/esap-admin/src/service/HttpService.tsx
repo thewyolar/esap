@@ -6,6 +6,10 @@ import Api from "./auth/Api";
 import {AppointmentDTO} from "../model/dto/AppointmentDTO";
 import { MedicalRecord } from "../model/MedicalRecord";
 import {ScheduleDTO} from "../model/dto/ScheduleDTO";
+import {Appointment} from "../model/Appointment";
+import {AppointmentsCountByDayDTO} from "../model/dto/AppointmentsCountByDayDTO";
+import {PatientStatisticsByGenderDTO} from "../model/dto/PatientStatisticsByGenderDTO";
+import {PatientStatisticsByAgeDTO} from "../model/dto/PatientStatisticsByAgeDTO";
 
 class HttpService {
   private static url = "http://localhost:8080";
@@ -28,6 +32,22 @@ class HttpService {
 
   public static async getPatientCount() {
     return await Api.get<number>(HttpService.url + "/api/patient/count")
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  public static async getPatientsStatisticsByGender() {
+    return await Api.get<PatientStatisticsByGenderDTO>(HttpService.url + "/api/patient/statistics/by-gender")
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  public static async getPatientsStatisticsByAge() {
+    return await Api.get<PatientStatisticsByAgeDTO>(HttpService.url + "/api/patient/statistics/by-age")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -128,6 +148,22 @@ class HttpService {
 
   public static async addDoctorAppointment(id: number, body: AppointmentDTO) {
     return await Api.post<AppointmentDTO>(HttpService.url + `/api/schedule/${id}/appointment`, body)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  public static async getLatestDoctorAppointments() {
+    return await Api.get<Appointment[]>(HttpService.url + "/api/schedule/appointment/latest")
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  public static async getAppointmentCountByDay() {
+    return await Api.get<AppointmentsCountByDayDTO[]>(HttpService.url + "/api/schedule/appointment/count-by-day")
       .then((res) => res.data)
       .catch((error) => {
         throw error;

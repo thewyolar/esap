@@ -1,17 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Autocomplete,
-  Avatar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Container,
-  FormControlLabel,
-  Grid, Radio, RadioGroup,
-  TextField,
-  Typography
-} from "@mui/material";
+import {Autocomplete, Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {Link} from "react-router-dom";
 import {DoctorDTO} from "../../model/dto/DoctorDTO";
@@ -54,8 +42,6 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
       role: '',
       gender: gender
     };
-
-    console.log(doctorData);
 
     onSubmit(doctorData);
   };

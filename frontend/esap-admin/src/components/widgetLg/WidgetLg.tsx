@@ -1,56 +1,52 @@
-import Button from './button/Button'
-import './widgetLg.scss'
+import './widgetLg.scss';
+import React, {useEffect, useState} from "react";
+import HttpService from "../../service/HttpService";
+import {Appointment} from "../../model/Appointment";
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 
-const WidgetLg = () => {
+const WidgetLg: React.FC = () => {
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+
+  useEffect(() => {
+    HttpService.getLatestDoctorAppointments()
+      .then((response) => {
+        setAppointments(response);
+      });
+  }, []);
+
+  const formatTime = (time: string) => {
+    return new Date(`1970-01-01T${time}`).toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+  };
+
   return (
     <div className='widgetLg'>
       <h3 className="title">Последние приемы</h3>
-      <table>
-        <tr className='firstTr'>
-          <th>Customer</th>
-          <th>Date</th>
-          <th>Amount</th>
-          <th>Status</th>
-        </tr>
-        <tr className='secondTr'>
-          <td className='user'>
-            <img src="https://blog.unyleya.edu.br/wp-content/uploads/2017/12/saiba-como-a-educacao-ajuda-voce-a-ser-uma-pessoa-melhor.jpeg" alt="" />
-            <span>Caroline Ennes</span>
-          </td>
-          <td className='date'>2 Jun 2021</td>
-          <td className='amount'>$122.00</td>
-          <td className='status'><Button type='Approved' /></td>
-        </tr>
-        <tr className='secondTr'>
-          <td className='user'>
-            <img src="https://blog.unyleya.edu.br/wp-content/uploads/2017/12/saiba-como-a-educacao-ajuda-voce-a-ser-uma-pessoa-melhor.jpeg" alt="" />
-            <span>Caroline Ennes</span>
-          </td>
-          <td className='date'>2 Jun 2021</td>
-          <td className='amount'>$122.00</td>
-          <td className='status'><Button type='Declined' /></td>
-        </tr>
-        <tr className='secondTr'>
-          <td className='user'>
-            <img src="https://blog.unyleya.edu.br/wp-content/uploads/2017/12/saiba-como-a-educacao-ajuda-voce-a-ser-uma-pessoa-melhor.jpeg" alt="" />
-            <span>Caroline Ennes</span>
-          </td>
-          <td className='date'>2 Jun 2021</td>
-          <td className='amount'>$122.00</td>
-          <td className='status'><Button type='Pending' /></td>
-        </tr>
-        <tr className='secondTr'>
-          <td className='user'>
-            <img src="https://blog.unyleya.edu.br/wp-content/uploads/2017/12/saiba-como-a-educacao-ajuda-voce-a-ser-uma-pessoa-melhor.jpeg" alt="" />
-            <span>Caroline Ennes</span>
-          </td>
-          <td className='date'>2 Jun 2021</td>
-          <td className='amount'>$122.00</td>
-          <td className='status'><Button type='Approved' /></td>
-        </tr>
-      </table>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{fontWeight: 'bold'}}>Пациент</TableCell>
+              <TableCell sx={{fontWeight: 'bold'}}>Дата</TableCell>
+              <TableCell sx={{fontWeight: 'bold'}}>Время</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {appointments.map((appointment) => (
+              <TableRow key={appointment.id}>
+                <TableCell>{`${appointment.patient.lastName} ${appointment.patient.firstName} ${appointment.patient.patronymic}`}</TableCell>
+                <TableCell>{appointment.date}</TableCell>
+                <TableCell>{`${formatTime(appointment.startAppointments)}-${formatTime(appointment.endAppointments)}`}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
-  )
-}
+  );
+};
 
-export default WidgetLg
+export default WidgetLg;

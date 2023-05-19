@@ -1,4 +1,4 @@
-INSERT INTO clinics (address, name) VALUES ('Владимир, ул. Горького, д. 12', 'Поликлиника №1');
+INSERT INTO clinics (address, name, phone_number) VALUES ('Владимир, ул. Горького, д. 12', 'Поликлиника №1', '+7(999)123-45-67');
 
 INSERT INTO doctors (first_name, last_name, login, password, patronymic, specialization, clinic_id, gender) VALUES ('Иван', 'Иванов', 'admin', '$2a$10$hvXQx3dKPOqMYKGNM8XLtuMA1sMvRHBoPIBKtp6wps0d63KE7REVm', 'Иванович', 'Терапевт', 1, 1);
 

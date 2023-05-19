@@ -21,4 +21,6 @@ public interface ScheduleRepository extends JpaRepository<Schedule, Long> {
     Optional<Schedule> findByIdAndDoctorOrderByAppointmentStartAppointmentsAsc(@Param("id") Long id, @Param("doctor") Doctor doctor);
 
     void deleteScheduleByDateBefore(LocalDate date);
+
+    boolean existsByDateAndDoctor(LocalDate date, Doctor doctor);
 }
