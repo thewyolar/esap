@@ -68,7 +68,7 @@ public class PatientController {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        patientService.create(patientRequestDTO, getDoctorDetails().getDoctor().getClinic());
+        patientService.create(patientRequestDTO, doctorUtils.getDoctorDetails().getDoctor().getClinic());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

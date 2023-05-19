@@ -16,7 +16,7 @@ const Home = () => {
       {/*/>*/}
       <div className="widgets">
           <WidgetSm />
-          <WidgetLg />
+          {/* <WidgetLg /> */}
       </div>
     </div>
   );
