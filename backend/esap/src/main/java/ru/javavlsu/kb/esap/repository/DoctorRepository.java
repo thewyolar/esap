@@ -11,6 +11,6 @@ import java.util.Optional;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
     Optional<Doctor> findByLogin(String login);
-    Page<Doctor> findByClinic(Clinic clinic, Pageable page);
+    Page<Doctor> findByClinicOrderByIdAsc(Clinic clinic, Pageable page);
     int countDoctorByClinic(Clinic clinic);
 }

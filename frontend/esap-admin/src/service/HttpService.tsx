@@ -78,7 +78,7 @@ class HttpService {
   }
 
   public static async getDoctorList(page: number) {
-    return await Api.get<Doctor[]>(this.BASE_URL + this.API_DOCTOR,{
+    return await Api.get<Page<Doctor[]>>(this.BASE_URL + this.API_DOCTOR,{
       params: { page: page },
     })
       .then((res) => res.data)

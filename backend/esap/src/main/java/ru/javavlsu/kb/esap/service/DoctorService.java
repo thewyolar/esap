@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ru.javavlsu.kb.esap.dto.DoctorDTO;
+import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Role;
@@ -20,11 +21,12 @@ import java.util.List;
 public class DoctorService {
 
     private final EntityManager em;
-
+    private final DoctorMapper doctorMapper;
     private final DoctorRepository doctorRepository;
 
-    public DoctorService(EntityManager em, DoctorRepository doctorRepository) {
+    public DoctorService(EntityManager em, DoctorMapper doctorMapper, DoctorRepository doctorRepository) {
         this.em = em;
+        this.doctorMapper = doctorMapper;
         this.doctorRepository = doctorRepository;
     }
 
@@ -36,8 +38,9 @@ public class DoctorService {
         return doctorRepository.countDoctorByClinic(clinic);
     }
 
-    public Page<Doctor> getByClinic(Clinic clinic, int page) {
-        return doctorRepository.findByClinic(clinic, PageRequest.of(page, 10));
+    public Page<DoctorDTO> getByClinic(Clinic clinic, int page) {
+        Page<Doctor> doctors = doctorRepository.findByClinicOrderByIdAsc(clinic, PageRequest.of(page, 10));
+        return doctorMapper.toDoctorDTOPage(doctors);
     }
 
     public Doctor getById(long id) {

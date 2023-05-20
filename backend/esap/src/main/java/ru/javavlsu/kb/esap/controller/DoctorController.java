@@ -1,5 +1,6 @@
 package ru.javavlsu.kb.esap.controller;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,9 @@ public class DoctorController {
     }
 
     @GetMapping("")
-    public List<DoctorDTO> getAllDoctors(@RequestParam(required = false, defaultValue = "0") int page) {
+    public ResponseEntity<Page<DoctorDTO>> getAllDoctors(@RequestParam(required = false, defaultValue = "0") int page) {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
-        return doctorMapper.toDoctorDTOList(doctorService.getByClinic(doctor.getClinic(), page));
+        return ResponseEntity.ok(doctorService.getByClinic(doctor.getClinic(), page));
     }
 
     @GetMapping("/count")
@@ -45,16 +46,15 @@ public class DoctorController {
     }
 
     @PostMapping("{id}/update")
-    public ResponseEntity<HttpStatus> updatePatient(@PathVariable("id") Long doctorId, @RequestBody DoctorDTO doctorDTO) {
+    public ResponseEntity<HttpStatus> updateDoctor(@PathVariable("id") Long doctorId, @RequestBody DoctorDTO doctorDTO) {
         doctorService.update(doctorId, doctorDTO);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-
     @GetMapping("/home")
-    public DoctorDTO getDoctor() {
+    public ResponseEntity<DoctorDTO> getDoctor() {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         doctor = doctorService.refreshDoctor(doctor);
-        return doctorMapper.toDoctorDTO(doctor);
+        return ResponseEntity.ok(doctorMapper.toDoctorDTO(doctor));
     }
 }
