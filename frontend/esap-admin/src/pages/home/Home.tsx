@@ -19,7 +19,7 @@ const Home: React.FC = () => {
       </div>
       <div className="widgets">
           <WidgetSm />
-          {/* <WidgetLg /> */}
+          {/*<WidgetLg /> //TODO: Для регистратора не отображать*/}
       </div>
     </div>
   );

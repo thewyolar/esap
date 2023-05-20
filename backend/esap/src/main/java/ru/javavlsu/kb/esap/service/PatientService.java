@@ -48,7 +48,7 @@ public class PatientService {
         return patientMapper.toPatientResponseDTOList(patients);
     }
 
-    public List<PatientResponseDTO> getByClinic(String firstName, String patronymic, String lastName, Clinic clinic, int page) {
+    public Page<PatientResponseDTO> getByClinic(String firstName, String patronymic, String lastName, Clinic clinic, int page) {
         Page<Patient> patients = patientRepository.findAllByFullNameContainingIgnoreCaseAndClinicOrderByIdAsc(
                 firstName != null ? firstName : "",
                 patronymic != null ? patronymic : "",
@@ -56,8 +56,7 @@ public class PatientService {
                 clinic,
                 PageRequest.of(page, 10)
         );
-//        List<Patient> patients = patientRepository.findByClinic(clinic);
-        return patientMapper.toPatientResponseDTOList(patients);
+        return patientMapper.toPatientResponseDTOPage(patients);
     }
 
     @Transactional(readOnly = true)

@@ -24,7 +24,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
             @Param("patronymic") String patronymic,
             @Param("lastName") String lastName,
             @Param("clinic") Clinic clinic,
-            Pageable page
+            Pageable pageable
     );
 
     @Query("SELECT COUNT(p) FROM Patient p WHERE p.gender = :gender AND p.clinic = :clinic")
