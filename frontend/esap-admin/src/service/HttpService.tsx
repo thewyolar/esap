@@ -10,6 +10,7 @@ import {Appointment} from "../model/Appointment";
 import {AppointmentsCountByDayDTO} from "../model/dto/AppointmentsCountByDayDTO";
 import {PatientStatisticsByGenderDTO} from "../model/dto/PatientStatisticsByGenderDTO";
 import {PatientStatisticsByAgeDTO} from "../model/dto/PatientStatisticsByAgeDTO";
+import {PatientDTO} from "../model/dto/PatientDTO";
 
 class HttpService {
   private static BASE_URL = "http://localhost:8080";
@@ -164,6 +165,14 @@ class HttpService {
 
   public static async getAppointmentCountByDay() {
     return await Api.get<AppointmentsCountByDayDTO[]>(this.BASE_URL + this.API_SCHEDULE + "/appointment/count-by-day")
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  public static async updatePatient(id: number, body: PatientDTO) {
+    return await Api.post<PatientDTO>(this.BASE_URL + this.API_PATIENT + `/${id}/update`, body)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
