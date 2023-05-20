@@ -34,14 +34,15 @@ public class PatientController {
         this.doctorUtils = doctorUtils;
     }
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<PatientResponseDTO>> getAllPatients(
+            @RequestParam(required = true) int page,
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String patronymic,
             @RequestParam(required = false) String lastName
     ) {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
-        List<PatientResponseDTO> patients = patientService.getByClinic(firstName, patronymic, lastName, doctor.getClinic());
+        List<PatientResponseDTO> patients = patientService.getByClinic(firstName, patronymic, lastName, doctor.getClinic(), page);
         return ResponseEntity.ok(patients);
     }
 

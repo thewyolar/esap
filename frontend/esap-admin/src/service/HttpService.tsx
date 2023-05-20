@@ -18,8 +18,12 @@ class HttpService {
   private static API_MEDICAL_CARD = "/api/medicalCard";
   private static API_SCHEDULE = "/api/schedule";
 
-  public static async getPatientList() {
-    return await Api.get<Patient[]>(this.BASE_URL + this.API_PATIENT)
+  public static async getPatientList(page: number) {
+    return await Api.get<Patient[]>(this.BASE_URL + this.API_PATIENT, {
+      params: {
+        page: page
+      }
+    })
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -58,9 +62,10 @@ class HttpService {
       });
   }
 
-  public static async searchPatientList(firstName: string, patronymic: string, lastName: string) {
+  public static async searchPatientList(firstName: string, patronymic: string, lastName: string, page: number) {
     return await Api.get<Patient[]>(this.BASE_URL + this.API_PATIENT, {
       params: {
+        page: page,
         firstName: firstName,
         patronymic: patronymic,
         lastName: lastName

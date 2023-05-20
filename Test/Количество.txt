@@ -8,4 +8,5 @@
 7000000 пациентов + 7000000 карт = 14000000
 125000 пациентов на клинику
 \i 'D:/hto/3 курс 6 сем/РПС/Курсач/PASE/Test/doctorSql.sql'
+\i 'D:/hto/roleForDoctor.sql'
 select * from doctors d left join role_doctor rd on rd.doctor_id = d.id

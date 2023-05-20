@@ -45,7 +45,6 @@ public class MedicalCardController {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        System.out.println(medicalRecordRequestDTO);
         medicalCardService.createMedicalRecord(medicalCardMapper.toMedicalRecordRequestDTO(medicalRecordRequestDTO),
                 medicalCardService.getMedicalCardByPatient(patientService.getById(id)), doctorUtils.getDoctorDetails().getDoctor());
         return ResponseEntity.ok(HttpStatus.OK);

@@ -24,7 +24,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ open, onClose, sche
   const [success, setSuccess] = useState<boolean>(false);
 
   useEffect(() => {
-    HttpService.getPatientList()
+    HttpService.getPatientList(0)//TODO
       .then(response => setPatients(response))
       .catch(error => console.error(error));
   }, []);
