@@ -100,9 +100,9 @@ public class PatientService {
 
     @Transactional(readOnly = true)
     public PatientStatisticsByAgeDTO getPatientsStatisticsByAge(Clinic clinic) {
-        int childCount = patientRepository.countPatientsByAgeRange(0, 18);
-        int adultCount = patientRepository.countPatientsByAgeRange(19, 59);
-        int elderlyCount = patientRepository.countPatientsByAgeRange(60, 100);
+        int childCount = patientRepository.countPatientsByAgeRangeAndClinic(0, 18, clinic);
+        int adultCount = patientRepository.countPatientsByAgeRangeAndClinic(19, 59, clinic);
+        int elderlyCount = patientRepository.countPatientsByAgeRangeAndClinic(60, 100, clinic);
 
         PatientStatisticsByAgeDTO statistics = new PatientStatisticsByAgeDTO();
         statistics.setChild(childCount);
