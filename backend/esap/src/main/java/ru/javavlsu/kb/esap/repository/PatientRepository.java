@@ -30,6 +30,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     @Query("SELECT COUNT(p) FROM Patient p WHERE p.gender = :gender AND p.clinic = :clinic")
     int getPatientsCountByGenderAndClinic(@Param("gender") int gender, @Param("clinic") Clinic clinic);
 
-    @Query("SELECT COUNT(p) FROM Patient p WHERE FUNCTION('DATEDIFF', YEAR, p.birthDate, CURRENT_DATE) >= :minAge AND FUNCTION('DATEDIFF', YEAR, p.birthDate, CURRENT_DATE) <= :maxAge")
-    int countPatientsByAgeRange(@Param("minAge") int minAge, @Param("maxAge") int maxAge);
+    @Query("SELECT COUNT(p) FROM Patient p WHERE FUNCTION('DATEDIFF', YEAR, p.birthDate, CURRENT_DATE) >= :minAge AND FUNCTION('DATEDIFF', YEAR, p.birthDate, CURRENT_DATE) <= :maxAge AND p.clinic = :clinic")
+    int countPatientsByAgeRangeAndClinic(@Param("minAge") int minAge, @Param("maxAge") int maxAge, @Param("clinic") Clinic clinic);
 }
