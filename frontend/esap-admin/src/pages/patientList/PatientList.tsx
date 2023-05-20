@@ -11,22 +11,30 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from '@mui/icons-material/Add';
 
 const PatientList: React.FC = () => {
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(2);
   const [data, setData] = useState<Patient[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
-    HttpService.getPatientList()
-      .then(response => setData(response))
+    HttpService.getPatientList(page)
+      .then(response => {
+        setData(response.content);
+        setTotalPages(response.totalPages);
+      })
       .catch(error => console.error(error));
-  }, []);
+  }, [page]);
 
   const handleSearch = () => {
     const [name, lastName, patronymic] = searchTerm.trim().split(/\s+/);
     HttpService.searchPatientList(name, lastName, patronymic)
-      .then(response => setData(response))
+      .then(response => {
+        setData(response.content);
+        setTotalPages(response.totalPages);
+        setPage(0);
+      })
       .catch(error => console.error(error));
   };
-
 
   const handleDelete = (id: number) => {
     setData(data.filter(item => item.id !== id));
@@ -145,10 +153,17 @@ const PatientList: React.FC = () => {
         rows={data}
         disableSelectionOnClick
         columns={columns}
-        pageSize={13}
+        pagination
+        page={page}
+        pageSize={10}
+        rowCount={totalPages * 10}
         rowsPerPageOptions={[13]}
         checkboxSelection
         sx={{border: "none"}}
+        onPageChange={(newPage) => setPage(newPage)}
+        paginationMode="server"
+        onPageSizeChange={() => {}}
+        onSelectionModelChange={() => {}}
       />
     </div>
   );

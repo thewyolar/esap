@@ -1,6 +1,8 @@
 package ru.javavlsu.kb.esap.mapper;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
 import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
@@ -37,5 +39,19 @@ public class PatientMapper {
         return patients.stream()
                 .map(patient -> modelMapper.map(patient, PatientResponseDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public List<PatientResponseDTO> toPatientResponseDTOList(Page<Patient> patients) {
+        return patients.stream()
+                .map(patient -> modelMapper.map(patient, PatientResponseDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public Page<PatientResponseDTO> toPatientResponseDTOPage(Page<Patient> patients) {
+        List<PatientResponseDTO> patientResponseDTOList = patients.stream()
+                .map(patient -> modelMapper.map(patient, PatientResponseDTO.class))
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(patientResponseDTOList, patients.getPageable(), patients.getTotalElements());
     }
 }

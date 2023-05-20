@@ -1,5 +1,6 @@
 package ru.javavlsu.kb.esap.service;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -47,15 +48,15 @@ public class PatientService {
         return patientMapper.toPatientResponseDTOList(patients);
     }
 
-    public List<PatientResponseDTO> getByClinic(String firstName, String patronymic, String lastName, Clinic clinic) {
-        List<Patient> patients = patientRepository.findAllByFullNameContainingIgnoreCaseAndClinicOrderByIdAsc(
+    public Page<PatientResponseDTO> getByClinic(String firstName, String patronymic, String lastName, Clinic clinic, int page) {
+        Page<Patient> patients = patientRepository.findAllByFullNameContainingIgnoreCaseAndClinicOrderByIdAsc(
                 firstName != null ? firstName : "",
                 patronymic != null ? patronymic : "",
                 lastName != null ? lastName : "",
-                clinic
+                clinic,
+                PageRequest.of(page, 10)
         );
-//        List<Patient> patients = patientRepository.findByClinic(clinic);
-        return patientMapper.toPatientResponseDTOList(patients);
+        return patientMapper.toPatientResponseDTOPage(patients);
     }
 
     @Transactional(readOnly = true)

@@ -11,6 +11,7 @@ import {AppointmentsCountByDayDTO} from "../model/dto/AppointmentsCountByDayDTO"
 import {PatientStatisticsByGenderDTO} from "../model/dto/PatientStatisticsByGenderDTO";
 import {PatientStatisticsByAgeDTO} from "../model/dto/PatientStatisticsByAgeDTO";
 import {PatientDTO} from "../model/dto/PatientDTO";
+import {Page} from "./util/Page";
 
 class HttpService {
   private static BASE_URL = "http://localhost:8080";
@@ -19,8 +20,10 @@ class HttpService {
   private static API_MEDICAL_CARD = "/api/medicalCard";
   private static API_SCHEDULE = "/api/schedule";
 
-  public static async getPatientList() {
-    return await Api.get<Patient[]>(this.BASE_URL + this.API_PATIENT)
+  public static async getPatientList(page?: number) {
+    return await Api.get<Page<Patient[]>>(this.BASE_URL + this.API_PATIENT, {
+      params: { page: page },
+    })
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -60,7 +63,7 @@ class HttpService {
   }
 
   public static async searchPatientList(firstName: string, patronymic: string, lastName: string) {
-    return await Api.get<Patient[]>(this.BASE_URL + this.API_PATIENT, {
+    return await Api.get<Page<Patient[]>>(this.BASE_URL + this.API_PATIENT, {
       params: {
         firstName: firstName,
         patronymic: patronymic,

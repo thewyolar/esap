@@ -1,6 +1,7 @@
 package ru.javavlsu.kb.esap.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -35,13 +36,14 @@ public class PatientController {
     }
 
     @GetMapping("")
-    public ResponseEntity<List<PatientResponseDTO>> getAllPatients(
+    public ResponseEntity<Page<PatientResponseDTO>> getAllPatients(
             @RequestParam(required = false) String firstName,
             @RequestParam(required = false) String patronymic,
-            @RequestParam(required = false) String lastName
+            @RequestParam(required = false) String lastName,
+            @RequestParam(required = false, defaultValue = "0") int page
     ) {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
-        List<PatientResponseDTO> patients = patientService.getByClinic(firstName, patronymic, lastName, doctor.getClinic());
+        Page<PatientResponseDTO> patients = patientService.getByClinic(firstName, patronymic, lastName, doctor.getClinic(), page);
         return ResponseEntity.ok(patients);
     }
 
@@ -52,7 +54,7 @@ public class PatientController {
     }
 
     @GetMapping("/latest")
-    public ResponseEntity<List<PatientResponseDTO>> getLatestPatients(@RequestParam(name = "count", defaultValue = "5") Integer count) {
+    public ResponseEntity<List<PatientResponseDTO>> getLatestPatients(@RequestParam(defaultValue = "5") int count) {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return ResponseEntity.ok(patientService.getLatestPatients(count, doctor.getClinic()));
     }
