@@ -71,6 +71,21 @@ public class PatientService {
         return patientRepository.save(patient);
     }
 
+    @Transactional
+    public Patient update(Long patientId, PatientRequestDTO patientRequestDTO) {
+        Patient patient = patientRepository.findById(patientId)
+                        .orElseThrow(() -> new NotFoundException("Patient with id=" + patientId + " not found"));
+        patient.setFirstName(patientRequestDTO.getFirstName());
+        patient.setPatronymic(patientRequestDTO.getPatronymic());
+        patient.setLastName(patientRequestDTO.getLastName());
+        patient.setBirthDate(patientRequestDTO.getBirthDate());
+        patient.setGender(patientRequestDTO.getGender());
+        patient.setAddress(patientRequestDTO.getAddress());
+        patient.setPhoneNumber(patientRequestDTO.getPhoneNumber());
+        patient.setEmail(patientRequestDTO.getEmail());
+        return patientRepository.save(patient);
+    }
+
     @Transactional(readOnly = true)
     public PatientStatisticsByGenderDTO getPatientsStatisticsByGender(Clinic clinic) {
         int malePatients = patientRepository.getPatientsCountByGenderAndClinic(1, clinic);

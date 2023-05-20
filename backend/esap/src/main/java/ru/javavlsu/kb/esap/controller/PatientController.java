@@ -74,6 +74,17 @@ public class PatientController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    @PostMapping("{id}/update")
+    @PreAuthorize("hasRole('REGISTRANT')")
+    public ResponseEntity<HttpStatus> updatePatient(@PathVariable("id") Long patientId, @Valid @RequestBody PatientRequestDTO patientRequestDTO,
+                                                    BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
+        }
+        patientService.update(patientId, patientRequestDTO);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
     @GetMapping("/statistics/by-gender")
     public ResponseEntity<PatientStatisticsByGenderDTO> getPatientStatisticsByGender() {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
