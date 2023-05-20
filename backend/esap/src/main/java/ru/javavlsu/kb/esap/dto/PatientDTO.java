@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class PatientRequestDTO {
+public class PatientDTO {
 
     @NotBlank
     @Size(max = 100)

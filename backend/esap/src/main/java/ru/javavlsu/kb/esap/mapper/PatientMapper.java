@@ -4,7 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Component;
-import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
+import ru.javavlsu.kb.esap.dto.PatientDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
 import ru.javavlsu.kb.esap.model.Patient;
 
@@ -19,16 +19,16 @@ public class PatientMapper {
         this.modelMapper = modelMapper;
     }
 
-    public PatientRequestDTO toPatientRequestDTO(Patient patient) {
-        return modelMapper.map(patient, PatientRequestDTO.class);
+    public PatientDTO toPatientDTO(Patient patient) {
+        return modelMapper.map(patient, PatientDTO.class);
     }
 
     public PatientResponseDTO toPatientResponseDTO(Patient patient) {
         return modelMapper.map(patient, PatientResponseDTO.class);
     }
 
-    public Patient toPatient(PatientRequestDTO patientRequestDTO) {
-        return modelMapper.map(patientRequestDTO, Patient.class);
+    public Patient toPatient(PatientDTO patientDTO) {
+        return modelMapper.map(patientDTO, Patient.class);
     }
 
     public Patient toPatient(PatientResponseDTO patientResponseDTO) {

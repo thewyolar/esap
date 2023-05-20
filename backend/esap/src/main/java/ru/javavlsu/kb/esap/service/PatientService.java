@@ -5,7 +5,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.javavlsu.kb.esap.dto.PatientRequestDTO;
+import ru.javavlsu.kb.esap.dto.PatientDTO;
 import ru.javavlsu.kb.esap.dto.PatientStatisticsByAgeDTO;
 import ru.javavlsu.kb.esap.dto.PatientStatisticsByGenderDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
@@ -65,25 +65,25 @@ public class PatientService {
     }
 
     @Transactional
-    public Patient create(PatientRequestDTO patientRequestDTO, Clinic clinic) {
-        Patient patient = patientMapper.toPatient(patientRequestDTO);
+    public Patient create(PatientDTO patientDTO, Clinic clinic) {
+        Patient patient = patientMapper.toPatient(patientDTO);
         patient.setClinic(clinic);
         patient.setMedicalCard(new MedicalCard(patient));
         return patientRepository.save(patient);
     }
 
     @Transactional
-    public Patient update(Long patientId, PatientRequestDTO patientRequestDTO) {
+    public Patient update(Long patientId, PatientDTO patientDTO) {
         Patient patient = patientRepository.findById(patientId)
                         .orElseThrow(() -> new NotFoundException("Patient with id=" + patientId + " not found"));
-        patient.setFirstName(patientRequestDTO.getFirstName());
-        patient.setPatronymic(patientRequestDTO.getPatronymic());
-        patient.setLastName(patientRequestDTO.getLastName());
-        patient.setBirthDate(patientRequestDTO.getBirthDate());
-        patient.setGender(patientRequestDTO.getGender());
-        patient.setAddress(patientRequestDTO.getAddress());
-        patient.setPhoneNumber(patientRequestDTO.getPhoneNumber());
-        patient.setEmail(patientRequestDTO.getEmail());
+        patient.setFirstName(patientDTO.getFirstName());
+        patient.setPatronymic(patientDTO.getPatronymic());
+        patient.setLastName(patientDTO.getLastName());
+        patient.setBirthDate(patientDTO.getBirthDate());
+        patient.setGender(patientDTO.getGender());
+        patient.setAddress(patientDTO.getAddress());
+        patient.setPhoneNumber(patientDTO.getPhoneNumber());
+        patient.setEmail(patientDTO.getEmail());
         return patientRepository.save(patient);
     }
 
