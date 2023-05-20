@@ -1,14 +1,13 @@
-import './details.scss';
+import {Patient} from "../../model/Patient";
 import React from "react";
 import {Avatar} from "@mui/material";
-import {CalendarToday, LocationOn, MailOutline, PermIdentity, PhoneAndroid} from "@mui/icons-material";
-import {Patient} from "../../model/Patient";
+import {CalendarToday, LocationOn, MailOutline, PhoneAndroid} from "@mui/icons-material";
 
-interface DetailsProps {
+interface PatientDetailsProps {
   patient: Patient;
 }
 
-const Details: React.FC<DetailsProps> = ({patient}) => {
+const PatientDetails: React.FC<PatientDetailsProps> = ({patient}) => {
   return (
     <div className="show">
       <div className="top">
@@ -41,4 +40,4 @@ const Details: React.FC<DetailsProps> = ({patient}) => {
   );
 };
 
-export default Details;
+export default PatientDetails;

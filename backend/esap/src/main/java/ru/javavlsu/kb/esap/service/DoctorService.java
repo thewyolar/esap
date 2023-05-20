@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ru.javavlsu.kb.esap.dto.DoctorDTO;
 import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Role;
@@ -60,5 +61,17 @@ public class DoctorService {
     @Transactional
     public void save(Doctor doctor) {
         doctorRepository.save(doctor);
+    }
+
+    @Transactional
+    public Doctor update(Long doctorId, DoctorDTO doctorDTO) {
+        Doctor doctor = doctorRepository.findById(doctorId)
+                .orElseThrow(() -> new NotFoundException("Doctor with id=" + doctorId + " not found"));
+        doctor.setFirstName(doctorDTO.getFirstName());
+        doctor.setPatronymic(doctorDTO.getPatronymic());
+        doctor.setLastName(doctorDTO.getLastName());
+        doctor.setGender(doctorDTO.getGender());
+        doctor.setSpecialization(doctorDTO.getSpecialization());
+        return doctorRepository.save(doctor);
     }
 }

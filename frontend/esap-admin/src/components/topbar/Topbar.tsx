@@ -11,7 +11,7 @@ const Topbar: React.FC = () => {
   const [error, setError] = useState<Doctor>();
 
   useEffect(() => {
-    HttpService.getDoctor()
+    HttpService.getHomeDoctor()
       .then((response) => {
         setDoctor(response);
       })

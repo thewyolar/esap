@@ -1,8 +1,10 @@
 package ru.javavlsu.kb.esap.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.DoctorDTO;
+import ru.javavlsu.kb.esap.dto.DoctorResponseDTO;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.service.DoctorService;
@@ -24,8 +26,8 @@ public class DoctorController {
         this.doctorUtils = doctorUtils;
     }
 
-    @GetMapping("/{page}")
-    public List<DoctorDTO> getAllDoctors(@PathVariable("page") int page) {
+    @GetMapping("")
+    public List<DoctorDTO> getAllDoctors(@RequestParam(required = false, defaultValue = "0") int page) {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return doctorMapper.toDoctorDTOList(doctorService.getByClinic(doctor.getClinic(), page));
     }
@@ -35,6 +37,19 @@ public class DoctorController {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return ResponseEntity.ok(doctorService.getDoctorCountByClinic(doctor.getClinic()));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DoctorResponseDTO> getDoctor(@PathVariable("id") Long doctorId) {
+        Doctor doctor = doctorService.getById(doctorId);
+        return ResponseEntity.ok(doctorMapper.toDoctorResponseDTO(doctor));
+    }
+
+    @PostMapping("{id}/update")
+    public ResponseEntity<HttpStatus> updatePatient(@PathVariable("id") Long doctorId, @RequestBody DoctorDTO doctorDTO) {
+        doctorService.update(doctorId, doctorDTO);
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
 
     @GetMapping("/home")
     public DoctorDTO getDoctor() {

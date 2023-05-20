@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {Autocomplete, Avatar, Box, Button, Card, CardContent, Container, Grid, TextField, Typography} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {Link} from "react-router-dom";
-import {DoctorDTO} from "../../model/dto/DoctorDTO";
+import {DoctorRegistrationDTO} from "../../model/dto/DoctorRegistrationDTO";
 
 interface RegistrationFormProps {
-  onSubmit: (doctorData: DoctorDTO) => void;
+  onSubmit: (doctorData: DoctorRegistrationDTO) => void;
 }
 
 const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
@@ -34,7 +34,7 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({ onSubmit }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const doctorData: DoctorDTO = {
+    const doctorData: DoctorRegistrationDTO = {
       firstName: firstName,
       patronymic: patronymic,
       lastName: lastName,

@@ -4,17 +4,17 @@ import ClinicRegistrationForm from '../../components/auth/ClinicRegistrationForm
 import { ClinicDTO } from "../../model/dto/ClinicDTO";
 import {ClinicRegistrationDTO} from "../../model/dto/ClinicRegistrationDTO";
 import AuthService from "../../service/auth/AuthService";
-import {DoctorDTO} from "../../model/dto/DoctorDTO";
+import {DoctorRegistrationDTO} from "../../model/dto/DoctorRegistrationDTO";
 import {Alert} from "@mui/material";
 import {InfoLogin} from "../../model/auth/InfoLogin";
 
 const RegistrationPage: React.FC = () => {
-  const [doctorData, setDoctorData] = useState<DoctorDTO>();
+  const [doctorData, setDoctorData] = useState<DoctorRegistrationDTO>();
   const [response, setResponse] = useState<InfoLogin>();
   const [showClinicForm, setShowClinicForm] = useState<boolean>(false);
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
 
-  const handleDoctorSubmit = (data: DoctorDTO) => {
+  const handleDoctorSubmit = (data: DoctorRegistrationDTO) => {
     setDoctorData(data);
     setShowClinicForm(true);
   };

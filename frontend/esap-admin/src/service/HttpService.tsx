@@ -12,6 +12,7 @@ import {PatientStatisticsByGenderDTO} from "../model/dto/PatientStatisticsByGend
 import {PatientStatisticsByAgeDTO} from "../model/dto/PatientStatisticsByAgeDTO";
 import {PatientDTO} from "../model/dto/PatientDTO";
 import {Page} from "./util/Page";
+import {DoctorDTO} from "../model/dto/DoctorDTO";
 
 class HttpService {
   private static BASE_URL = "http://localhost:8080";
@@ -77,7 +78,9 @@ class HttpService {
   }
 
   public static async getDoctorList(page: number) {
-    return await Api.get<Doctor[]>(this.BASE_URL + this.API_DOCTOR + "/" + page)
+    return await Api.get<Doctor[]>(this.BASE_URL + this.API_DOCTOR,{
+      params: { page: page },
+    })
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -126,8 +129,16 @@ class HttpService {
       });
   }
 
-  public static async getDoctor() {
+  public static async getHomeDoctor() {
     return await Api.get<Doctor>(this.BASE_URL + this.API_DOCTOR + "/home")
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  public static async getDoctor(id: number) {
+    return await Api.get<Doctor>(this.BASE_URL + this.API_DOCTOR + `/${id}`)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -176,6 +187,14 @@ class HttpService {
 
   public static async updatePatient(id: number, body: PatientDTO) {
     return await Api.post<PatientDTO>(this.BASE_URL + this.API_PATIENT + `/${id}/update`, body)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
+  public static async updateDoctor(id: number, body: DoctorDTO) {
+    return await Api.post<PatientDTO>(this.BASE_URL + this.API_DOCTOR + `/${id}/update`, body)
       .then((res) => res.data)
       .catch((error) => {
         throw error;

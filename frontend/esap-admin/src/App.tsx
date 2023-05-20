@@ -15,6 +15,7 @@ import ResetPasswordForm from "./components/auth/ResetPasswordForm";
 import EditingMedicalRecord from './pages/editingMedicalRecord/EditingMedicalRecord';
 import DoctorRegistrationForm from './components/auth/DoctorRegistrationForm';
 import PatientPage from "./pages/patient/PatientPage";
+import DoctorPage from "./pages/doctor/DoctorPage";
 
 const App: React.FC = () => {
   const [tokenStorageService] = useState<TokenStorageService>(new TokenStorageService());
@@ -26,7 +27,7 @@ const App: React.FC = () => {
         <Route path="/" element={<MainLayout />}>
           <Route path="/" element={<Home />} />
           <Route path="/doctors" element={<DoctorList />} />
-          {/*<Route path="/doctor/:doctorId" element={<PatientPage />} />*/}
+          <Route path="/doctor/:doctorId" element={<DoctorPage />} />
           <Route path="/patients" element={<PatientList />} />
           <Route path="/patient/:patientId" element={<PatientPage />} />
           <Route path="/medicalCard/:patientId" element={<MedicalCard />} />

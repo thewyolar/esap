@@ -1,7 +1,7 @@
 import { InfoLogin } from "../../model/auth/InfoLogin";
 import { AuthInfo } from "../../model/auth/AuthInfo";
 import {ClinicRegistrationDTO} from "../../model/dto/ClinicRegistrationDTO";
-import { DoctorDTO } from "../../model/dto/DoctorDTO";
+import { DoctorRegistrationDTO } from "../../model/dto/DoctorRegistrationDTO";
 import Api from "./Api";
 import {Role} from "../../model/Role";
 
@@ -29,7 +29,7 @@ class AuthService {
       });
   }
 
-  public static async registrationDoctor(doctor: DoctorDTO) {
+  public static async registrationDoctor(doctor: DoctorRegistrationDTO) {
     return await Api.post<InfoLogin>(this.url + "/registration/doctor", doctor)
       .then((res) => res.data)
       .catch((error) => {throw error});

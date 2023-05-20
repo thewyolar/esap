@@ -11,7 +11,7 @@ const FeaturedInfo: React.FC = () => {
   const [patientsCount, setPatientsCount] = useState(0);
 
   useEffect(() => {
-    HttpService.getDoctor()
+    HttpService.getHomeDoctor()
       .then((response) => {
         setDoctor(response);
       })
