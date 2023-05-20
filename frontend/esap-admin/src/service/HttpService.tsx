@@ -12,10 +12,14 @@ import {PatientStatisticsByGenderDTO} from "../model/dto/PatientStatisticsByGend
 import {PatientStatisticsByAgeDTO} from "../model/dto/PatientStatisticsByAgeDTO";
 
 class HttpService {
-  private static url = "http://localhost:8080";
+  private static BASE_URL = "http://localhost:8080";
+  private static API_PATIENT = "/api/patient";
+  private static API_DOCTOR = "/api/doctor";
+  private static API_MEDICAL_CARD = "/api/medicalCard";
+  private static API_SCHEDULE = "/api/schedule";
 
   public static async getPatientList() {
-    return await Api.get<Patient[]>(HttpService.url + "/api/patient")
+    return await Api.get<Patient[]>(this.BASE_URL + this.API_PATIENT)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -23,7 +27,7 @@ class HttpService {
   }
 
   public static async getLatestPatients() {
-    return await Api.get<Patient[]>(HttpService.url + "/api/patient/latest")
+    return await Api.get<Patient[]>(this.BASE_URL + this.API_PATIENT + "/latest")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -31,7 +35,7 @@ class HttpService {
   }
 
   public static async getPatientCount() {
-    return await Api.get<number>(HttpService.url + "/api/patient/count")
+    return await Api.get<number>(this.BASE_URL + this.API_PATIENT + "/count")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -39,7 +43,7 @@ class HttpService {
   }
 
   public static async getPatientsStatisticsByGender() {
-    return await Api.get<PatientStatisticsByGenderDTO>(HttpService.url + "/api/patient/statistics/by-gender")
+    return await Api.get<PatientStatisticsByGenderDTO>(this.BASE_URL + this.API_PATIENT + "/statistics/by-gender")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -47,7 +51,7 @@ class HttpService {
   }
 
   public static async getPatientsStatisticsByAge() {
-    return await Api.get<PatientStatisticsByAgeDTO>(HttpService.url + "/api/patient/statistics/by-age")
+    return await Api.get<PatientStatisticsByAgeDTO>(this.BASE_URL + this.API_PATIENT + "/statistics/by-age")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -55,7 +59,7 @@ class HttpService {
   }
 
   public static async searchPatientList(firstName: string, patronymic: string, lastName: string) {
-    return await Api.get<Patient[]>(HttpService.url + "/api/patient", {
+    return await Api.get<Patient[]>(this.BASE_URL + this.API_PATIENT, {
       params: {
         firstName: firstName,
         patronymic: patronymic,
@@ -69,7 +73,7 @@ class HttpService {
   }
 
   public static async getDoctorList(page: number) {
-    return await Api.get<Doctor[]>(HttpService.url + `/api/doctor/${page}`)
+    return await Api.get<Doctor[]>(this.BASE_URL + this.API_DOCTOR + "/" + page)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -77,7 +81,7 @@ class HttpService {
   }
 
   public static async getDoctorCount() {
-    return await Api.get<number>(HttpService.url + "/api/doctor/count")
+    return await Api.get<number>(this.BASE_URL + this.API_DOCTOR + "/count")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -85,9 +89,7 @@ class HttpService {
   }
 
   public static async getMedicalCard(id: number) {
-    return await Api.get<MedicalCard>(
-      HttpService.url + `/api/medicalCard/patient/${id}`
-    )
+    return await Api.get<MedicalCard>(this.BASE_URL + this.API_MEDICAL_CARD + `/patient/${id}`)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -95,9 +97,7 @@ class HttpService {
   }
 
   public static async saveMedicalRecord(id: number, body: MedicalRecord) {
-    return await Api.post<MedicalCard>(
-      HttpService.url + `/api/medicalCard/patient/${id}`, body
-    )
+    return await Api.post<MedicalCard>(this.BASE_URL + this.API_MEDICAL_CARD + `/patient/${id}`, body)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -105,7 +105,7 @@ class HttpService {
   }
 
   public static async getPatient(id: number) {
-    return await Api.get<Patient>(HttpService.url + `/api/patient/${id}`)
+    return await Api.get<Patient>(this.BASE_URL + this.API_PATIENT + `/${id}`)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -113,7 +113,7 @@ class HttpService {
   }
 
   public static async scheduleByDay(date: string) {
-    return await Api.get<Schedule>(HttpService.url + `/api/schedule/day`, {
+    return await Api.get<Schedule>(this.BASE_URL + this.API_SCHEDULE + "/day", {
       params: { date: date },
     })
       .then((res) => res.data)
@@ -123,7 +123,7 @@ class HttpService {
   }
 
   public static async getDoctor() {
-    return await Api.get<Doctor>(HttpService.url + `/api/doctor/home`)
+    return await Api.get<Doctor>(this.BASE_URL + this.API_DOCTOR + "/home")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -131,7 +131,7 @@ class HttpService {
   }
 
   public static async getScheduleByIdAndDoctor(id: number) {
-    return await Api.get<Schedule>(HttpService.url + `/api/schedule/${id}`)
+    return await Api.get<Schedule>(this.BASE_URL + this.API_SCHEDULE + `/${id}`)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -139,7 +139,7 @@ class HttpService {
   }
 
   public static async addDoctorSchedule(body: ScheduleDTO) {
-    return await Api.post<AppointmentDTO>(HttpService.url + `/api/schedule`, body)
+    return await Api.post<AppointmentDTO>(this.BASE_URL + this.API_SCHEDULE, body)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -147,7 +147,7 @@ class HttpService {
   }
 
   public static async addDoctorAppointment(id: number, body: AppointmentDTO) {
-    return await Api.post<AppointmentDTO>(HttpService.url + `/api/schedule/${id}/appointment`, body)
+    return await Api.post<AppointmentDTO>(this.BASE_URL + this.API_SCHEDULE + `/${id}/appointment`, body)
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -155,7 +155,7 @@ class HttpService {
   }
 
   public static async getLatestDoctorAppointments() {
-    return await Api.get<Appointment[]>(HttpService.url + "/api/schedule/appointment/latest")
+    return await Api.get<Appointment[]>(this.BASE_URL + this.API_SCHEDULE + "/appointment/latest")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
@@ -163,7 +163,7 @@ class HttpService {
   }
 
   public static async getAppointmentCountByDay() {
-    return await Api.get<AppointmentsCountByDayDTO[]>(HttpService.url + "/api/schedule/appointment/count-by-day")
+    return await Api.get<AppointmentsCountByDayDTO[]>(this.BASE_URL + this.API_SCHEDULE + "/appointment/count-by-day")
       .then((res) => res.data)
       .catch((error) => {
         throw error;
