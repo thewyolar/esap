@@ -9,4 +9,5 @@ export interface Doctor {
     specialization: string;
     clinic: ClinicDTO;
     schedules: Schedule[];
+    gender: number;
 }

@@ -1,10 +1,7 @@
 package ru.javavlsu.kb.esap.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.DoctorDTO;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.model.Doctor;
@@ -27,14 +24,14 @@ public class DoctorController {
         this.doctorUtils = doctorUtils;
     }
 
-    @GetMapping
-    public List<DoctorDTO> getAllDoctors() {
+    @GetMapping("/{page}")
+    public List<DoctorDTO> getAllDoctors(@PathVariable("page") int page) {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
-        return doctorMapper.toDoctorDTOList(doctorService.getByClinic(doctor.getClinic()));
+        return doctorMapper.toDoctorDTOList(doctorService.getByClinic(doctor.getClinic(), page));
     }
 
     @GetMapping("/count")
-    public ResponseEntity<Integer> getPatientsCount() {
+    public ResponseEntity<Integer> getDoctorCount() {
         Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
         return ResponseEntity.ok(doctorService.getDoctorCountByClinic(doctor.getClinic()));
     }

@@ -1,6 +1,7 @@
 package ru.javavlsu.kb.esap.mapper;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import ru.javavlsu.kb.esap.dto.DoctorDTO;
 import ru.javavlsu.kb.esap.dto.auth.DoctorRegistration;
@@ -30,6 +31,12 @@ public class DoctorMapper {
     }
 
     public List<DoctorDTO> toDoctorDTOList(List<Doctor> doctors) {
+        return doctors.stream()
+                .map(doctor -> modelMapper.map(doctor, DoctorDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<DoctorDTO> toDoctorDTOList(Page<Doctor> doctors) {
         return doctors.stream()
                 .map(doctor -> modelMapper.map(doctor, DoctorDTO.class))
                 .collect(Collectors.toList());

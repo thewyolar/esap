@@ -68,8 +68,8 @@ class HttpService {
       });
   }
 
-  public static async getDoctorList() {
-    return await Api.get<Doctor[]>(HttpService.url + "/api/doctor")
+  public static async getDoctorList(page: number) {
+    return await Api.get<Doctor[]>(HttpService.url + `/api/doctor/${page}`)
       .then((res) => res.data)
       .catch((error) => {
         throw error;

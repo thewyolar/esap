@@ -1,6 +1,8 @@
 package ru.javavlsu.kb.esap.service;
 
 import jakarta.persistence.EntityManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,8 +35,8 @@ public class DoctorService {
         return doctorRepository.countDoctorByClinic(clinic);
     }
 
-    public List<Doctor> getByClinic(Clinic clinic) {
-        return doctorRepository.findByClinic(clinic);
+    public Page<Doctor> getByClinic(Clinic clinic, int page) {
+        return doctorRepository.findByClinic(clinic, PageRequest.of(page, 10));
     }
 
     public Doctor getById(long id) {
