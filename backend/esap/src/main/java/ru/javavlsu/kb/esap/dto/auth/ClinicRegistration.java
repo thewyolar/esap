@@ -10,4 +10,6 @@ public class ClinicRegistration {
     private String name;
 
     private String address;
+
+    private String phoneNumber;
 }

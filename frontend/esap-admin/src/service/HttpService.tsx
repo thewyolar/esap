@@ -193,8 +193,16 @@ class HttpService {
       });
   }
 
+  public static async addPatient(body: PatientDTO) {
+    return await Api.post<PatientDTO>(this.BASE_URL + this.API_PATIENT, body)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  }
+
   public static async updateDoctor(id: number, body: DoctorDTO) {
-    return await Api.post<PatientDTO>(this.BASE_URL + this.API_DOCTOR + `/${id}/update`, body)
+    return await Api.post<DoctorDTO>(this.BASE_URL + this.API_DOCTOR + `/${id}/update`, body)
       .then((res) => res.data)
       .catch((error) => {
         throw error;

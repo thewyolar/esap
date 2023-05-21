@@ -41,10 +41,6 @@ const PatientList: React.FC = () => {
     // TODO: Логика удаления пациента
   };
 
-  const handleAddPatient = () => {
-    // TODO: Логика добавления пациента
-  };
-
   const columns: GridColDef[] = [
     {
       field: 'id',
@@ -145,9 +141,11 @@ const PatientList: React.FC = () => {
           InputLabelProps={{ shrink: true }}
           sx={{ width: '800px' }}
         />
-        <Button color="primary" aria-label="add patient" component="label" sx={{ marginRight: '10px' }}  onClick={handleAddPatient}>
-          <AddIcon />
-        </Button>
+        <Link to="/patient/new">
+          <Button color="primary" aria-label="add patient" component="label" sx={{ marginRight: '10px' }}>
+            <AddIcon />
+          </Button>
+        </Link>
       </Box>
       <DataGrid
         localeText={ruRU.components.MuiDataGrid.defaultProps.localeText}
