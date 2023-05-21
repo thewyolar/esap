@@ -33,7 +33,7 @@ public class ScheduleService {
     }
 
     @Transactional
-    public void create(ScheduleDTO scheduleDTO) throws NotCreateException {
+    public Schedule create(ScheduleDTO scheduleDTO) throws NotCreateException {
         Doctor doctor = doctorRepository.findById(scheduleDTO.getDoctorId())
                 .orElseThrow(() -> new NotFoundException("Doctor not found"));
         boolean scheduleExists = scheduleRepository.existsByDateAndDoctor(scheduleDTO.getDate(), doctor);
@@ -47,7 +47,7 @@ public class ScheduleService {
             throw new NotCreateException("Invalid schedule time");
         }
         schedule.setMaxPatientPerDay(((int) minutesBetweenStartAndEnd / 30) + 1);
-        scheduleRepository.save(schedule);
+        return scheduleRepository.save(schedule);
     }
 
     public List<Schedule> getAllByDoctorId(Long doctorId) {

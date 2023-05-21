@@ -21,6 +21,7 @@ import ru.javavlsu.kb.esap.util.DoctorUtils;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -51,13 +52,12 @@ public class ScheduleController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> createSchedule(@RequestBody @Valid ScheduleDTO scheduleDTO,
-                                                     BindingResult bindingResult) {
+    public ResponseEntity<Map<String, Long>> createSchedule(@RequestBody @Valid ScheduleDTO scheduleDTO,
+                                                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        scheduleService.create(scheduleDTO);
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(Map.of("scheduleId", scheduleService.create(scheduleDTO).getId()));
     }
 
     @PostMapping("/{id}/appointment")
