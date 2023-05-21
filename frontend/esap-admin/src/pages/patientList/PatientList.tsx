@@ -12,7 +12,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 const PatientList: React.FC = () => {
   const [page, setPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(2);
+  const [totalPages, setTotalPages] = useState(0);
   const [data, setData] = useState<Patient[]>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
 
@@ -38,6 +38,7 @@ const PatientList: React.FC = () => {
 
   const handleDelete = (id: number) => {
     setData(data.filter(item => item.id !== id));
+    // TODO: Логика удаления пациента
   };
 
   const handleAddPatient = () => {

@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import HttpService from "../../service/HttpService";
 import {Patient} from "../../model/Patient";
-import Details from "../../components/details/Details";
 import EditPatientForm from "../../components/editPatient/EditPatientForm";
 import {useParams} from "react-router-dom";
+import PatientDetails from "../../components/details/PatientDetails";
 
 const PatientPage: React.FC = () => {
   let { patientId } = useParams();
@@ -22,7 +22,7 @@ const PatientPage: React.FC = () => {
         <h3>Пациент</h3>
       </div>
       <div className="userContainer">
-        {patient && <Details patient={patient} />}
+        {patient && <PatientDetails patient={patient} />}
         {patient && <EditPatientForm patient={patient} />}
       </div>
     </div>

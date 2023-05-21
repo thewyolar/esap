@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Alert, Autocomplete, Avatar, Button, Card, CardContent, Container, Grid, TextField, Typography, Box} from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import {DoctorDTO} from "../../model/dto/DoctorDTO";
+import {DoctorRegistrationDTO} from "../../model/dto/DoctorRegistrationDTO";
 import AuthService from '../../service/auth/AuthService';
 import { InfoLogin } from '../../model/auth/InfoLogin';
 import {Role} from "../../model/Role";
@@ -43,7 +43,7 @@ const DoctorRegistrationForm: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const doctorData: DoctorDTO = {
+    const doctorData: DoctorRegistrationDTO = {
       firstName: firstName,
       patronymic: patronymic,
       lastName: lastName,

@@ -1,7 +1,7 @@
 import {ClinicDTO} from "./ClinicDTO";
-import {DoctorDTO} from "./DoctorDTO";
+import {DoctorRegistrationDTO} from "./DoctorRegistrationDTO";
 
 export interface ClinicRegistrationDTO {
     clinic: ClinicDTO;
-    doctor: DoctorDTO;
+    doctor: DoctorRegistrationDTO;
 }
