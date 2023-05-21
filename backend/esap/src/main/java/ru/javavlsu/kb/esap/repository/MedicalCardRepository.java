@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface MedicalCardRepository extends JpaRepository<MedicalCard, Long> {
 
-    Optional<MedicalCard> findByPatient(Patient patient);
+
+    Optional<MedicalCard> findByPatientOrderByMedicalRecordDateDesc(Patient patient);
 
 }

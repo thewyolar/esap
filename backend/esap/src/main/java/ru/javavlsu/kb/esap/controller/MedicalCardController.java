@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.MedicalCardDTO.MedicalCardResponseDTO;
 import ru.javavlsu.kb.esap.dto.MedicalCardDTO.MedicalRecordRequestDTO;
 import ru.javavlsu.kb.esap.mapper.MedicalCardMapper;
+import ru.javavlsu.kb.esap.model.MedicalCard;
+import ru.javavlsu.kb.esap.model.MedicalRecord;
 import ru.javavlsu.kb.esap.service.MedicalCardService;
 import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
@@ -34,6 +36,8 @@ public class MedicalCardController {
 
     @GetMapping("/patient/{id}")
     public MedicalCardResponseDTO getMedicalCard(@PathVariable("id") Long id) {
+        MedicalCard medicalCard = medicalCardService.getMedicalCardByPatient(patientService.getById(id));
+        medicalCard.getMedicalRecord().sort(MedicalRecord::sortByDateDesc);
         return medicalCardMapper.toMedicalCard(
                 medicalCardService.getMedicalCardByPatient(patientService.getById(id)));
     }

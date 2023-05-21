@@ -58,4 +58,8 @@ public class MedicalRecord {
         return Objects.hash(id);
     }
 
+    public int sortByDateDesc(MedicalRecord otherMedicalRecord){
+        return date.compareTo(otherMedicalRecord.date) * -1;
+    }
+
 }

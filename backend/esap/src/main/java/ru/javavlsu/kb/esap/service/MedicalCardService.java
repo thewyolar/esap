@@ -24,7 +24,7 @@ public class MedicalCardService {
     }
 
     public MedicalCard getMedicalCardByPatient(Patient patient) throws NotFoundException {
-        return medicalCardRepository.findByPatient(patient).orElseThrow(() -> new NotFoundException("Medical Record not found"));
+        return medicalCardRepository.findByPatientOrderByMedicalRecordDateDesc(patient).orElseThrow(() -> new NotFoundException("Medical Record not found"));
     }
 
     @Transactional

@@ -1,6 +1,5 @@
-import { IconButton } from "@mui/material";
+import { Alert, Button, IconButton } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { Analysis } from "../../model/Analysis";
 import { MedicalCard } from "../../model/MedicalCard";
@@ -8,12 +7,14 @@ import { MedicalRecord } from "../../model/MedicalRecord";
 import { Patient } from "../../model/Patient";
 import { TokenStorageService } from "../../service/auth/TokenStorageService";
 import HttpService from "../../service/HttpService";
+import PatientMedicalCard from "../medicalCard/PatientMedicalCard";
 import "./editingMedicalRecord.scss";
 
 const EditingMedicalRecord: React.FC = (onClose) => {
   const [tokenStorageService] = useState<TokenStorageService>(
     new TokenStorageService()
   );
+  const [success, setSuccess] = useState<boolean>(false);
   let { patientId } = useParams();
   let patientIdInt = parseInt(patientId!);
   const [data, setData] = useState<Patient>();
@@ -45,8 +46,18 @@ const EditingMedicalRecord: React.FC = (onClose) => {
     } as MedicalRecord;
     console.log(record);
     HttpService.saveMedicalRecord(patientIdInt, record)
-      .then((response) => {})
+      .then((response) => {
+        setSuccess(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      })
       .catch((error) => {});
+  };
+
+
+  const completeReception = (event: React.FormEvent) => {
+    
   };
 
   const handleAddAnalysisField = () => {
@@ -76,6 +87,7 @@ const EditingMedicalRecord: React.FC = (onClose) => {
       <div className="titleContainer">
         <h1>Добавление записи в карту пациента</h1>
       </div>
+      {success && <Alert severity="success">Данные сохранены</Alert>}
       <div className="patientContainer">
         <form>
           <div className="form-group">
@@ -89,30 +101,18 @@ const EditingMedicalRecord: React.FC = (onClose) => {
           <div>
             <h2>Анализы</h2>
             <div className="analysis">{renderAnalysisFields()}</div>
-            <Button>
+            <Button variant="contained" type="button" onClick={handleAddAnalysisField}>
               Добавить поле
             </Button>
           </div>
-          <button type="submit" onClick={handleSubmit}>
+          <Button color="success" variant="contained" type="submit" onClick={handleSubmit}>
             Сохранить
-          </button>
+          </Button>
+          <Button color="error" variant="outlined" type="button" onClick={completeReception}>
+            Завершить прием
+          </Button>
         </form>
-        <div className="show">
-          <div className="top">
-            <div className="title">
-              <span className="username">{data?.firstName}</span>
-              <span className="username">{data?.lastName}</span>
-              <span className="username">{data?.patronymic}</span>
-              <span className="infoTitle">
-                {data?.gender === 1 ? "мужской" : "женский"}
-              </span>
-              <span className="infoTitle">{data?.birthDate}</span>
-              <span className="infoTitle">{data?.address}</span>
-              <span className="infoTitle">{data?.phoneNumber}</span>
-              <span className="infoTitle">{data?.email}</span>
-            </div>
-          </div>
-        </div>
+        <PatientMedicalCard></PatientMedicalCard>
       </div>
     </div>
   );

@@ -29,16 +29,16 @@ const PatientMedicalCard: React.FC = (onClose) => {
   };
 
   const columns: GridColDef[] = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 50,
-    },
-    {
-      field: "fioAndSpecializationDoctor",
-      headerName: "Врач",
-      width: 400,
-    },
+    // {
+    //   field: "id",
+    //   headerName: "ID",
+    //   width: 50,
+    // },
+    // {
+    //   field: "fioAndSpecializationDoctor",
+    //   headerName: "Врач",
+    //   width: 400,
+    // },
     {
       field: "date",
       headerName: "Дата",
@@ -55,7 +55,7 @@ const PatientMedicalCard: React.FC = (onClose) => {
               className="editButton"
               onClick={() => handleOpen(params.row)}
             >
-              Изменить
+              Подробнее
             </button>
           </>
         );
