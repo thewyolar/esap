@@ -145,7 +145,7 @@ class HttpService {
       });
   }
 
-  public static async getScheduleByIdAndDoctor(id: number) {
+  public static async getScheduleById(id: number) {
     return await Api.get<Schedule>(this.BASE_URL + this.API_SCHEDULE + `/${id}`)
       .then((res) => res.data)
       .catch((error) => {

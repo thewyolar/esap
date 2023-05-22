@@ -94,11 +94,9 @@ const DoctorList: React.FC = () => {
                 <EditIcon />
               </IconButton>
             </Link>
-            <Link to='#'>
-              <IconButton color="primary" aria-label="doctor schedule" component="label" onClick={() => handleOpen(params.row)}>
-                <CalendarMonthIcon />
-              </IconButton>
-            </Link>
+            <IconButton color="primary" aria-label="doctor schedule" component="label" onClick={() => handleOpen(params.row)}>
+              <CalendarMonthIcon />
+            </IconButton>
             <IconButton color="primary" aria-label="delete doctor" component="label"
                         onClick={() => handleDelete(params.row.id)}>
               <DeleteOutline className='deleteButton' />
@@ -125,8 +123,6 @@ const DoctorList: React.FC = () => {
         sx={{border: "none"}}
         onPageChange={(newPage) => setPage(newPage)}
         paginationMode="server"
-        onPageSizeChange={() => {}}
-        onSelectionModelChange={() => {}}
       />
       {selectedDoctor && (
         <ScheduleModal

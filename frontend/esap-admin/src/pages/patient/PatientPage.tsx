@@ -6,8 +6,8 @@ import {useParams} from "react-router-dom";
 import PatientDetails from "../../components/details/PatientDetails";
 
 const PatientPage: React.FC = () => {
-  let { patientId } = useParams();
-  let patientIdInt = parseInt(patientId!);
+  const { patientId } = useParams();
+  const patientIdInt = parseInt(patientId!);
   const [patient, setPatient] = useState<Patient>();
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-.patienPage {
+.patientPage {
   flex: 4;
   padding: 20px;
   max-height: 650px;
@@ -7,7 +7,7 @@
     display: none;
   }
 
-  .patienPage .patientContainer .medicalCard{
+  .patientPage .patientContainer .medicalCard{
     flex: 3;
     padding: 0;
 
@@ -36,7 +36,6 @@
       .analysis input{
         margin-top: 6px;
       }
-
     }
 
 
