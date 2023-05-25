@@ -6,8 +6,8 @@ import DoctorDetails from "../../components/details/DoctorDetails";
 import EditDoctorForm from "../../components/editDoctorForm/EditDoctorForm";
 
 const DoctorPage: React.FC = () => {
-  let { doctorId } = useParams();
-  let doctorIdInt = parseInt(doctorId!);
+  const { doctorId } = useParams();
+  const doctorIdInt = parseInt(doctorId!);
   const [doctor, setDoctor] = useState<Doctor>();
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import { DataGrid, GridColDef, ruRU } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MedicalRecordModal from "../../components/medicalCardModal/MedicalRecordModal";
 import { MedicalCard } from "../../model/MedicalCard";
@@ -8,22 +8,23 @@ import HttpService from "../../service/HttpService";
 import "./patientMedicalCard.scss";
 
 const PatientMedicalCard: React.FC = (onClose) => {
-  let { patientId } = useParams();
-  let patientIdInt = parseInt(patientId!);
+  const { patientId } = useParams();
+  const patientIdInt = parseInt(patientId!);
   const [data, setData] = useState<MedicalCard>();
+  const [selectedMedicalRecord, setSelectedMedicalRecord] = useState<MedicalRecord>();
+  const [open, setOpen] = useState(false);
+
   useEffect(() => {
     HttpService.getMedicalCard(patientIdInt)
       .then((response) => setData(response))
       .catch((error) => console.error(error));
   }, []);
 
-  const [selectedMedicalRecord, setSelectedMedicalRecord] =
-    useState<MedicalRecord>();
-  const [open, setOpen] = useState(false);
   const handleOpen = (medicalCard: MedicalRecord) => {
     setSelectedMedicalRecord(medicalCard);
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
   };
