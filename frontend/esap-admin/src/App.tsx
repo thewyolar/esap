@@ -5,7 +5,7 @@ import PatientList from './pages/patientList/PatientList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import MainLayout from "./layout/MainLayout";
 import LoginForm from "./components/auth/LoginForm";
-import React, {useState} from "react";
+import React from "react";
 import RegistrationPage from "./pages/registration/Registration";
 import Queue from "./components/queue/Queue";
 import DoctorList from "./pages/doctorList/DoctorList";
@@ -18,8 +18,8 @@ import PatientPage from "./pages/patient/PatientPage";
 import DoctorPage from "./pages/doctor/DoctorPage";
 
 const App: React.FC = () => {
-  const [tokenStorageService] = useState<TokenStorageService>(new TokenStorageService());
-  const [isAuthenticated] = useState<Boolean>(Boolean(tokenStorageService.getToken()));
+  const tokenStorageService = new TokenStorageService();
+  const isAuthenticated = Boolean(tokenStorageService.getToken());
 
   return (
     <Routes>

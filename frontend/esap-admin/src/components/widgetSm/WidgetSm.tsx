@@ -22,21 +22,25 @@ const WidgetSm: React.FC = () => {
   return (
     <div className='widgetSm'>
       <span className='title'>Новые пациенты</span>
-      <List dense={true}>
-        {patients.map((patient) => (
-          <ListItem key={patient.id}>
-            <ListItemButton>
-              <ListItemAvatar>
-                <Avatar alt={`${patient.firstName} ${patient.lastName}`} />
-              </ListItemAvatar>
-              <ListItemText
-                primary={`${patient.lastName} ${patient.firstName} ${patient.patronymic}`}
-                secondary={`${patient.gender === 1 ? 'Мужской' : 'Женский'}, ${patient.birthDate}`}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {patients.length === 0 ? (
+        <p>Новые пациенты отсутствуют</p>
+      ) : (
+        <List dense={true}>
+          {patients.map((patient) => (
+            <ListItem key={patient.id}>
+              <ListItemButton>
+                <ListItemAvatar>
+                  <Avatar alt={`${patient.firstName} ${patient.lastName}`} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={`${patient.lastName} ${patient.firstName} ${patient.patronymic}`}
+                  secondary={`${patient.gender === 1 ? 'Мужской' : 'Женский'}, ${patient.birthDate}`}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      )}
     </div>
   );
 };

@@ -25,26 +25,30 @@ const WidgetLg: React.FC = () => {
   return (
     <div className='widgetLg'>
       <h3 className="title">Последние приемы</h3>
-      <TableContainer>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{fontWeight: 'bold'}}>Пациент</TableCell>
-              <TableCell sx={{fontWeight: 'bold'}}>Дата</TableCell>
-              <TableCell sx={{fontWeight: 'bold'}}>Время</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {appointments.map((appointment) => (
-              <TableRow key={appointment.id}>
-                <TableCell>{`${appointment.patient.lastName} ${appointment.patient.firstName} ${appointment.patient.patronymic}`}</TableCell>
-                <TableCell>{appointment.date}</TableCell>
-                <TableCell>{`${formatTime(appointment.startAppointments)}-${formatTime(appointment.endAppointments)}`}</TableCell>
+      {appointments.length === 0 ? (
+        <p>Последние приемы отсутствуют</p>
+      ) : (
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell sx={{fontWeight: 'bold'}}>Пациент</TableCell>
+                <TableCell sx={{fontWeight: 'bold'}}>Дата</TableCell>
+                <TableCell sx={{fontWeight: 'bold'}}>Время</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {appointments.map((appointment) => (
+                <TableRow key={appointment.id}>
+                  <TableCell>{`${appointment.patient.lastName} ${appointment.patient.firstName} ${appointment.patient.patronymic}`}</TableCell>
+                  <TableCell>{appointment.date}</TableCell>
+                  <TableCell>{`${formatTime(appointment.startAppointments)}-${formatTime(appointment.endAppointments)}`}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
 };

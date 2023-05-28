@@ -5,8 +5,13 @@ import FeaturedInfo from "../../components/featuredInfo/FeaturedInfo";
 import WidgetLg from "../../components/widgetLg/WidgetLg";
 import WidgetSm from "../../components/widgetSm/WidgetSm";
 import WidgetRight from "../../components/widgetRight/WidgetRight";
+import {TokenStorageService} from "../../service/auth/TokenStorageService";
 
 const Home: React.FC = () => {
+  const tokenStorageService = new TokenStorageService();
+  const roles = tokenStorageService.getRoles();
+  const isDoctorOrChiefDoctor = roles.includes('ROLE_DOCTOR') || roles.includes('ROLE_CHIEF_DOCTOR');
+
   return (
     <div className="homePage">
       <FeaturedInfo />
@@ -19,7 +24,7 @@ const Home: React.FC = () => {
       </div>
       <div className="widgets">
           <WidgetSm />
-          {/*<WidgetLg /> //TODO: Для регистратора не отображать*/}
+          {isDoctorOrChiefDoctor && <WidgetLg />}
       </div>
     </div>
   );
