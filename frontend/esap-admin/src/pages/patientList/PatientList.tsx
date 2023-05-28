@@ -142,7 +142,7 @@ const PatientList: React.FC = () => {
           sx={{ width: '800px' }}
         />
         <Link to="/patient/new">
-          <Button color="primary" aria-label="add patient" component="label" sx={{ marginRight: '10px' }}>
+          <Button variant="contained" color="primary" aria-label="add patient" component="label" sx={{ marginRight: '10px' }}>
             <AddIcon />
           </Button>
         </Link>
@@ -161,8 +161,6 @@ const PatientList: React.FC = () => {
         sx={{border: "none"}}
         onPageChange={(newPage) => setPage(newPage)}
         paginationMode="server"
-        onPageSizeChange={() => {}}
-        onSelectionModelChange={() => {}}
       />
     </div>
   );

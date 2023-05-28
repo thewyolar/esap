@@ -65,8 +65,8 @@ const NewPatient: React.FC = () => {
   return (
     <div className="newPatientPage">
       <h5 className="title">Новый пациент</h5>
-      {error && <Alert severity="error">{error}</Alert>}
-      {success && <Alert severity="success">Пациент успешно добавлен!</Alert>}
+      {error && <Alert severity="error" sx={{marginBottom: 2}}>{error}</Alert>}
+      {success && <Alert severity="success" sx={{marginBottom: 2}}>Пациент успешно добавлен!</Alert>}
       <form onSubmit={handleFormSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
