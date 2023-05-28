@@ -15,9 +15,8 @@ import ru.javavlsu.kb.esap.repository.RoleRepository;
 import ru.javavlsu.kb.esap.util.LoginPasswordGenerator;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -79,7 +78,10 @@ public class RegistrationService {
     }
 
     @Transactional
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+    public List<String> getAllRoles() {
+        List<Role> roles = roleRepository.findAll();
+        return roles.stream()
+                .map(role -> role.getName().replace("ROLE_", ""))
+                .collect(Collectors.toList());
     }
 }

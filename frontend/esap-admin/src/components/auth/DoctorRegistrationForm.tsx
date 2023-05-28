@@ -4,19 +4,18 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import {DoctorRegistrationDTO} from "../../model/dto/DoctorRegistrationDTO";
 import AuthService from '../../service/auth/AuthService';
 import { InfoLogin } from '../../model/auth/InfoLogin';
-import {Role} from "../../model/Role";
 
 const DoctorRegistrationForm: React.FC = () => {
-  const [firstName, setFirstName] = useState('');
-  const [patronymic, setPatronymic] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [specialization, setSpecialization] = useState('');
+  const [firstName, setFirstName] = useState<string>('');
+  const [patronymic, setPatronymic] = useState<string>('');
+  const [lastName, setLastName] = useState<string>('');
+  const [specialization, setSpecialization] = useState<string>('');
   const [error, setError] = useState<string | null>(null);
-  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState<boolean>(false);
   const [response, setResponse] = useState<InfoLogin>();
-  const [selectedRole, setSelectedRole] = useState('');
-  const [roles, setRoles] = useState<Role[]>([]);
-  const [gender, setGender] = useState(1);
+  const [selectedRole, setSelectedRole] = useState<string>('');
+  const [roles, setRoles] = useState<string[]>([]);
+  const [gender, setGender] = useState<number>(1);
 
   useEffect(() => {
     AuthService.getAllRoles()
@@ -136,11 +135,11 @@ const DoctorRegistrationForm: React.FC = () => {
                     <Autocomplete
                       options={roles}
                       noOptionsText="Нет ролей"
-                      getOptionLabel={(option) => option.name}
-                      value={roles.find((role) => role.name === selectedRole) || null}
+                      getOptionLabel={(option) => option}
+                      value={roles.find((role) => role === selectedRole) || null}
                       onChange={(event, newValue) => {
                         if (newValue) {
-                          setSelectedRole(newValue.name);
+                          setSelectedRole(newValue);
                         } else {
                           setSelectedRole('');
                         }

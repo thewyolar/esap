@@ -3,7 +3,6 @@ import { AuthInfo } from "../../model/auth/AuthInfo";
 import {ClinicRegistrationDTO} from "../../model/dto/ClinicRegistrationDTO";
 import { DoctorRegistrationDTO } from "../../model/dto/DoctorRegistrationDTO";
 import Api from "./Api";
-import {Role} from "../../model/Role";
 
 class AuthService {
   private static url = "http://localhost:8080/api/auth";
@@ -36,7 +35,7 @@ class AuthService {
   }
 
   public static async getAllRoles() {
-    return await Api.get<Role[]>(this.url + "/roles")
+    return await Api.get<string[]>(this.url + "/roles")
       .then((res) => res.data)
       .catch((error) => {throw error});
   }
