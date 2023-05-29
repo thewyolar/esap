@@ -23,8 +23,21 @@ public class MedicalCardService {
         this.medicalRecordRepository = medicalRecordRepository;
     }
 
+    //TODO Убрать метод или заменить (используется только для соранения medicalRecord)
+    // заменен на getMedicalCardByPatientAndMedicalRecordSpecializationDoctor
+    @Deprecated
     public MedicalCard getMedicalCardByPatient(Patient patient) throws NotFoundException {
         return medicalCardRepository.findByPatientOrderByMedicalRecordDateDesc(patient).orElseThrow(() -> new NotFoundException("Medical Record not found"));
+    }
+
+    public MedicalCard getMedicalCardByPatientAndMedicalRecordSpecializationDoctor(Patient patient, String specializationDoctor) throws NotFoundException {
+        if(specializationDoctor != null && !specializationDoctor.isBlank()){
+            return medicalCardRepository
+                    .findMedicalCardByPatientAndMedicalRecordSpecializationDoctor(patient, specializationDoctor)
+                    .orElseThrow(() -> new NotFoundException("Medical Record not found"));
+        }
+        return medicalCardRepository.findByPatientOrderByMedicalRecordDateDesc(patient)
+                .orElseThrow(() -> new NotFoundException("Medical Record not found"));
     }
 
     @Transactional

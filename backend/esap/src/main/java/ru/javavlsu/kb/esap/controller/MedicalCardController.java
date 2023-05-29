@@ -33,13 +33,12 @@ public class MedicalCardController {
         this.doctorUtils = doctorUtils;
     }
 
-
     @GetMapping("/patient/{id}")
-    public MedicalCardResponseDTO getMedicalCard(@PathVariable("id") Long id) {
-        MedicalCard medicalCard = medicalCardService.getMedicalCardByPatient(patientService.getById(id));
+    public MedicalCardResponseDTO getMedicalCard(@PathVariable("id") Long id, @RequestParam(required = false) String specializationDoctor) {
+        MedicalCard medicalCard = medicalCardService
+                .getMedicalCardByPatientAndMedicalRecordSpecializationDoctor(patientService.getById(id), specializationDoctor);
         medicalCard.getMedicalRecord().sort(MedicalRecord::sortByDateDesc);
-        return medicalCardMapper.toMedicalCard(
-                medicalCardService.getMedicalCardByPatient(patientService.getById(id)));
+        return medicalCardMapper.toMedicalCard(medicalCard);
     }
 
     @PostMapping("/patient/{id}")
