@@ -7,7 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -36,7 +37,8 @@ public class MedicalRecord {
     @NotNull
     private LocalDate date;
 
-    @OneToMany(mappedBy = "medicalRecord", cascade = {CascadeType.PERSIST})
+    @OneToMany(mappedBy = "medicalRecord", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @Fetch(FetchMode.SUBSELECT)
     private List<Analysis> analyzes;
 
     @ManyToOne

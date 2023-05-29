@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 import java.util.Objects;
@@ -22,13 +24,18 @@ public class MedicalCard {
         this.patient = patient;
     }
 
+    public MedicalCard(List<MedicalRecord> medicalRecord) {
+        this.medicalRecord = medicalRecord;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "record")
-    @OneToMany(mappedBy = "medicalCard")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @OneToMany(mappedBy = "medicalCard", fetch = FetchType.LAZY)
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    @Fetch(FetchMode.SUBSELECT)
     private List<MedicalRecord> medicalRecord;
 
     @OneToOne(fetch = FetchType.LAZY)
