@@ -1,11 +1,12 @@
 package ru.javavlsu.kb.esap.service;
 
-
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.dto.ScheduleDTO;
+import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
 import ru.javavlsu.kb.esap.mapper.ScheduleMapper;
+import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Schedule;
 import ru.javavlsu.kb.esap.repository.DoctorRepository;
@@ -50,18 +51,21 @@ public class ScheduleService {
         return scheduleRepository.save(schedule);
     }
 
+    @Transactional(readOnly = true)
     public List<Schedule> getAllByDoctorId(Long doctorId) {
         return scheduleRepository.findAllByDoctorId(doctorId);
     }
 
+    @Transactional(readOnly = true)
     public Schedule getByIdAndDoctor(long id, Doctor doctor) {
         Optional<Schedule> schedule = scheduleRepository.findByIdAndDoctorOrderByAppointmentStartAppointmentsAsc(id, doctor);
         return schedule.orElseThrow(() -> new NotFoundException("Schedule not found"));
     }
 
-    public Schedule getByDateAndDoctor(LocalDate date, Doctor doctor) throws NotCreateException {
-        return scheduleRepository.findByDateAndDoctor(date, doctor)
-                .orElseThrow(() -> new NotFoundException("Schedule not found"));
+    @Transactional(readOnly = true)
+    public List<ScheduleResponseDTO> getSchedulesByDay(LocalDate date, Clinic clinic) {
+        List<Schedule> schedules = scheduleRepository.findAllByClinic(date != null ? date : LocalDate.now(), clinic);
+        return scheduleMapper.toScheduleResponseDTOList(schedules);
     }
 
     @Transactional

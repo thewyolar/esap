@@ -119,9 +119,10 @@ class HttpService {
       });
   }
 
-  public static async scheduleByDay(date: string) {
-    return await Api.get<Schedule>(this.BASE_URL + this.API_SCHEDULE + "/day", {
-      params: { date: date },
+  public static async getSchedulesByDay(date?: string) {
+    const params = date ? { date: date } : undefined;
+    return await Api.get<Schedule[]>(this.BASE_URL + this.API_SCHEDULE + "/day", {
+      params: params,
     })
       .then((res) => res.data)
       .catch((error) => {

@@ -71,8 +71,9 @@ public class ScheduleController {
     }
 
     @GetMapping("/day")
-    public ScheduleResponseDTO scheduleByDayForDoctor(@RequestParam LocalDate data) {
-        return scheduleMapper.toScheduleResponseDTO(scheduleService.getByDateAndDoctor(data, doctorUtils.getDoctorDetails().getDoctor()));
+    public List<ScheduleResponseDTO> getAppointmentsByDay(@RequestParam(required = false) LocalDate date) {
+        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        return scheduleService.getSchedulesByDay(date, doctor.getClinic());
     }
 
     @GetMapping("/appointment/latest")
@@ -83,6 +84,7 @@ public class ScheduleController {
 
     @GetMapping("/appointment/count-by-day")
     public List<AppointmentsCountByDayDTO> getAppointmentsCountByDay() {
-        return appointmentService.getAppointmentsCountByDay();
+        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        return appointmentService.getAppointmentsCountByDay(doctor);
     }
 }

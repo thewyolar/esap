@@ -66,10 +66,7 @@ public class AppointmentService {
     }
 
     @Transactional(readOnly = true)
-    public List<AppointmentsCountByDayDTO> getAppointmentsCountByDay() {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
-        List<AppointmentsCountByDayDTO> appointmentsCountByDayDTOList = appointmentRepository.countAppointmentsByDay(doctor.getClinic());
-
-        return appointmentsCountByDayDTOList;
+    public List<AppointmentsCountByDayDTO> getAppointmentsCountByDay(Doctor doctor) {
+        return appointmentRepository.countAppointmentsByDay(doctor.getClinic());
     }
 }

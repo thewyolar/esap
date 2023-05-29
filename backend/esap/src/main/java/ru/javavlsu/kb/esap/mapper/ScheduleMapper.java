@@ -6,6 +6,8 @@ import ru.javavlsu.kb.esap.dto.ScheduleDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
 import ru.javavlsu.kb.esap.model.Schedule;
 
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class ScheduleMapper {
@@ -22,5 +24,11 @@ public class ScheduleMapper {
 
     public Schedule toSchedule(ScheduleDTO scheduleDTO) {
         return modelMapper.map(scheduleDTO, Schedule.class);
+    }
+
+    public List<ScheduleResponseDTO> toScheduleResponseDTOList(List<Schedule> schedules) {
+        return schedules.stream()
+                .map(schedule -> modelMapper.map(schedule, ScheduleResponseDTO.class))
+                .collect(Collectors.toList());
     }
 }
