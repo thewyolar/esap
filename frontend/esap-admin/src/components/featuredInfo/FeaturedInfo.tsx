@@ -6,7 +6,6 @@ import {Link} from "react-router-dom";
 
 const FeaturedInfo: React.FC = () => {
   const [doctor, setDoctor] = useState<Doctor>();
-  const [error, setError] = useState<Doctor>();
   const [doctorsCount, setDoctorsCount] = useState(0);
   const [patientsCount, setPatientsCount] = useState(0);
 
@@ -15,7 +14,7 @@ const FeaturedInfo: React.FC = () => {
       .then((response) => {
         setDoctor(response);
       })
-      .catch((error) => setError(error));
+      .catch((error) => console.log(error));
   }, []);
 
   useEffect(() => {
