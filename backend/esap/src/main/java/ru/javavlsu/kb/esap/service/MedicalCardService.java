@@ -10,6 +10,8 @@ import ru.javavlsu.kb.esap.repository.MedicalCardRepository;
 import ru.javavlsu.kb.esap.repository.MedicalRecordRepository;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 public class MedicalCardService {
@@ -27,17 +29,21 @@ public class MedicalCardService {
     // заменен на getMedicalCardByPatientAndMedicalRecordSpecializationDoctor
     @Deprecated
     public MedicalCard getMedicalCardByPatient(Patient patient) throws NotFoundException {
-        return medicalCardRepository.findByPatientOrderByMedicalRecordDateDesc(patient).orElseThrow(() -> new NotFoundException("Medical Record not found"));
+        return medicalCardRepository.findByPatientOrderByMedicalRecordDateDesc(patient).orElseThrow(() -> new NotFoundException("Medical Card not found"));
+    }
+
+    public List<MedicalRecord> getMedicalRecordByMedicalCard(MedicalCard medicalCard) throws NotFoundException {
+        return medicalRecordRepository.findByMedicalCardOrderByDateDesc(medicalCard);
     }
 
     public MedicalCard getMedicalCardByPatientAndMedicalRecordSpecializationDoctor(Patient patient, String specializationDoctor) throws NotFoundException {
         if(specializationDoctor != null && !specializationDoctor.isBlank()){
             return medicalCardRepository
                     .findMedicalCardByPatientAndMedicalRecordSpecializationDoctor(patient, specializationDoctor)
-                    .orElseThrow(() -> new NotFoundException("Medical Record not found"));
+                    .orElseThrow(() -> new NotFoundException("Medical Card not found"));
         }
         return medicalCardRepository.findByPatientOrderByMedicalRecordDateDesc(patient)
-                .orElseThrow(() -> new NotFoundException("Medical Record not found"));
+                .orElseThrow(() -> new NotFoundException("Medical Card not found"));
     }
 
     @Transactional

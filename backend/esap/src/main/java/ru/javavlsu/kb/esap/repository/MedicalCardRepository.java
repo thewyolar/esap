@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface MedicalCardRepository extends JpaRepository<MedicalCard, Long> {
 
 
-    @Query("SELECT mc FROM MedicalCard mc JOIN mc.medicalRecord mr WHERE mc.patient = :patient ORDER BY mr.date DESC")
     Optional<MedicalCard> findByPatientOrderByMedicalRecordDateDesc(Patient patient);
 
     @Query("SELECT mc FROM MedicalCard mc JOIN FETCH mc.medicalRecord mr WHERE mc.patient = :patient AND LOWER(mr.fioAndSpecializationDoctor) LIKE CONCAT('%', :specializationDoctor, '%') ORDER BY mr.date DESC")
