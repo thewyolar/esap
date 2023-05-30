@@ -37,6 +37,7 @@ public class MedicalCardController {
     public MedicalCardResponseDTO getMedicalCard(@PathVariable("id") Long id, @RequestParam(required = false) String specializationDoctor) {
         MedicalCard medicalCard = medicalCardService
                 .getMedicalCardByPatientAndMedicalRecordSpecializationDoctor(patientService.getById(id), specializationDoctor);
+        medicalCard.setMedicalRecord(medicalCardService.getMedicalRecordByMedicalCard(medicalCard));
         medicalCard.getMedicalRecord().sort(MedicalRecord::sortByDateDesc);
         return medicalCardMapper.toMedicalCard(medicalCard);
     }

@@ -37,7 +37,7 @@ public class MedicalRecord {
     @NotNull
     private LocalDate date;
 
-    @OneToMany(mappedBy = "medicalRecord", cascade = {CascadeType.MERGE}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "medicalRecord", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @Fetch(FetchMode.SUBSELECT)
     private List<Analysis> analyzes;
 
