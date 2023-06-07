@@ -17,7 +17,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    protected ResponseEntity<ApiError> handleOrderNotFound(NotFoundException ex) {
+    protected ResponseEntity<ApiError> handleNotFound(NotFoundException ex) {
         ApiError apiError = new ApiError(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND, ex.getMessage());
         return buildResponseEntity(apiError);
     }
