@@ -18,7 +18,8 @@ import java.util.Objects;
 @Table(name = "medical_card")
 public class MedicalCard {
 
-    public MedicalCard() {}
+    public MedicalCard() {
+    }
 
     public MedicalCard(Patient patient) {
         this.patient = patient;
@@ -35,7 +36,7 @@ public class MedicalCard {
     @Column(name = "record")
     @OneToMany(mappedBy = "medicalCard", fetch = FetchType.LAZY)
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-    @Fetch(FetchMode.SUBSELECT)
+//    @Fetch(FetchMode.SUBSELECT)
     private List<MedicalRecord> medicalRecord;
 
     @OneToOne(fetch = FetchType.LAZY)

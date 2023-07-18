@@ -10,7 +10,6 @@ import ru.javavlsu.kb.esap.dto.MedicalCardDTO.MedicalCardResponseDTO;
 import ru.javavlsu.kb.esap.dto.MedicalCardDTO.MedicalRecordRequestDTO;
 import ru.javavlsu.kb.esap.mapper.MedicalCardMapper;
 import ru.javavlsu.kb.esap.model.MedicalCard;
-import ru.javavlsu.kb.esap.model.MedicalRecord;
 import ru.javavlsu.kb.esap.service.MedicalCardService;
 import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
@@ -37,8 +36,8 @@ public class MedicalCardController {
     public MedicalCardResponseDTO getMedicalCard(@PathVariable("id") Long id, @RequestParam(required = false) String specializationDoctor) {
         MedicalCard medicalCard = medicalCardService
                 .getMedicalCardByPatientAndMedicalRecordSpecializationDoctor(patientService.getById(id), specializationDoctor);
-        medicalCard.setMedicalRecord(medicalCardService.getMedicalRecordByMedicalCard(medicalCard));
-        medicalCard.getMedicalRecord().sort(MedicalRecord::sortByDateDesc);
+//        medicalCard.setMedicalRecord(medicalCardService.getMedicalRecordByMedicalCard(medicalCard));
+//        medicalCard.getMedicalRecord().sort(MedicalRecord::sortByDateDesc);
         return medicalCardMapper.toMedicalCard(medicalCard);
     }
 

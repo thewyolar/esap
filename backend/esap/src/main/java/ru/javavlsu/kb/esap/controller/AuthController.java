@@ -16,7 +16,6 @@ import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.ResponseMessageError;
 import ru.javavlsu.kb.esap.mapper.ClinicMapper;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
-import ru.javavlsu.kb.esap.model.Role;
 import ru.javavlsu.kb.esap.security.JWTUtil;
 import ru.javavlsu.kb.esap.service.DoctorService;
 import ru.javavlsu.kb.esap.service.RegistrationService;
@@ -75,7 +74,7 @@ public class AuthController {
 
     @PostMapping("/registration/doctor")
     @PreAuthorize("hasRole('CHIEF_DOCTOR')")
-    public Map<String, String> registrationDoctor(@RequestBody DoctorRegistration doctorRegistration) {
+    public Map<String, String> registrationDoctor(@RequestBody @Valid DoctorRegistration doctorRegistration) {
         String[] loginPassword = registrationService.registrationDoctor(doctorRegistration, doctorUtils.getDoctorDetails().getDoctor().getClinic());
         return Map.of("login", loginPassword[0], "password", loginPassword[1]);
     }

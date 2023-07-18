@@ -16,7 +16,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 public @interface LocalTimeConstraint {
 
-    String message() default "{CapitalLetter.invalid}";
+    String message() default "{LocalTime.invalid}";
 
     Class<?>[] groups() default { };
 
