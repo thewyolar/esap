@@ -39,9 +39,9 @@ public class DoctorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DoctorResponseDTO> getDoctor(@PathVariable("id") Long doctorId) {
+    public ResponseEntity<DoctorDTO> getDoctor(@PathVariable("id") Long doctorId) {
         Doctor doctor = doctorService.getById(doctorId);
-        return ResponseEntity.ok(doctorMapper.toDoctorResponseDTO(doctor));
+        return ResponseEntity.ok(doctorMapper.toDoctorDTO(doctor));
     }
 
     @PostMapping("{id}/update")

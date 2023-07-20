@@ -1,6 +1,7 @@
 package ru.javavlsu.kb.esap.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +16,7 @@ import java.util.List;
 public class DoctorDTO {
     //TODO потестить @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) - возможно уменьшиться количество dto
     private Long id;
-
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String login;
 
     private String firstName;

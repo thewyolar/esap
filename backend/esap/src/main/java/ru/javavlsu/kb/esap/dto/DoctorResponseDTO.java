@@ -9,6 +9,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@Deprecated
 public class DoctorResponseDTO {
 
     private Long id;
