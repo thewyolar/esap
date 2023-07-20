@@ -1,16 +1,12 @@
 package ru.javavlsu.kb.esap.security;
 
 import lombok.Getter;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.javavlsu.kb.esap.model.Doctor;
-import ru.javavlsu.kb.esap.model.Role;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.stream.Collectors;
 

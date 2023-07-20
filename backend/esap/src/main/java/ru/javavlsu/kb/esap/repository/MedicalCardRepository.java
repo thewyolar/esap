@@ -16,7 +16,7 @@ public interface MedicalCardRepository extends JpaRepository<MedicalCard, Long> 
     @Query("SELECT mc FROM MedicalCard mc " +
             "JOIN FETCH mc.medicalRecord mr " +
             "WHERE mc.patient = :patient " +
-            "AND LOWER(mr.fioAndSpecializationDoctor) LIKE CONCAT('%', :specializationDoctor, '%') " +
+            "AND LOWER(mr.fioAndSpecializationDoctor) LIKE CONCAT('%%', :specializationDoctor, '%%') " +
             "ORDER BY mr.date DESC")
     Optional<MedicalCard> findMedicalCardByPatientAndMedicalRecordSpecializationDoctor(@Param("patient") Patient patient,
                                                                                        @Param("specializationDoctor") String specialization);

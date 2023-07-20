@@ -69,19 +69,11 @@ public class Patient {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Patient patient = (Patient) o;
-        return gender == patient.gender && Objects.equals(id, patient.id)
-                && Objects.equals(firstName, patient.firstName)
-                && Objects.equals(patronymic, patient.patronymic)
-                && Objects.equals(lastName, patient.lastName)
-                && Objects.equals(birthDate, patient.birthDate)
-                && Objects.equals(address, patient.address)
-                && Objects.equals(phoneNumber, patient.phoneNumber)
-                && Objects.equals(email, patient.email);
+        return Objects.equals(id, patient.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, patronymic, lastName,
-                birthDate, gender, address, phoneNumber, email);
+        return Objects.hash(id);
     }
 }
