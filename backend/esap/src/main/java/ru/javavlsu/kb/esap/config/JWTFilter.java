@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.javavlsu.kb.esap.security.JWTUtil;
-import ru.javavlsu.kb.esap.service.DoctorDetailsService;
+import ru.javavlsu.kb.esap.service.UserDetailsService;
 
 import java.io.IOException;
 
@@ -20,24 +20,24 @@ import java.io.IOException;
 public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
-    private final DoctorDetailsService doctorDetailsService;
+    private final UserDetailsService userDetailsService;
 
-    public JWTFilter(JWTUtil jwtUtil, DoctorDetailsService doctorDetailsService) {
+    public JWTFilter(JWTUtil jwtUtil, UserDetailsService userDetailsService) {
         this.jwtUtil = jwtUtil;
-        this.doctorDetailsService = doctorDetailsService;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
         if(authHeader != null && !authHeader.isBlank() && authHeader.startsWith("Bearer ")){
-            String jwt =authHeader.substring(7);
+            String jwt = authHeader.substring(7);
             if(jwt.isBlank()){
                 response.sendError(response.SC_BAD_REQUEST, "Invalid JWT token in Bearer Header");
             }else {
                 try {
                     String login = jwtUtil.validateToken(jwt);
-                    UserDetails userDetails =doctorDetailsService.loadUserByUsername(login);
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(login);
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
                     if(SecurityContextHolder.getContext().getAuthentication() == null){

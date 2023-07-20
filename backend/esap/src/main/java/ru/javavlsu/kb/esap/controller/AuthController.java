@@ -19,7 +19,8 @@ import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.security.JWTUtil;
 import ru.javavlsu.kb.esap.service.DoctorService;
 import ru.javavlsu.kb.esap.service.RegistrationService;
-import ru.javavlsu.kb.esap.util.DoctorUtils;
+import ru.javavlsu.kb.esap.service.UserService;
+import ru.javavlsu.kb.esap.util.UserUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -34,16 +35,18 @@ public class AuthController {
     private final ClinicMapper clinicMapper;
     private final DoctorMapper doctorMapper;
     private final DoctorService doctorService;
-    private final DoctorUtils doctorUtils;
+    private final UserUtils userUtils;
+    private final UserService userService;
 
-    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RegistrationService registrationService, ClinicMapper clinicMapper, DoctorMapper doctorMapper, DoctorService doctorService, DoctorUtils doctorUtils) {
+    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RegistrationService registrationService, ClinicMapper clinicMapper, DoctorMapper doctorMapper, DoctorService doctorService, UserUtils userUtils, UserService userService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.registrationService = registrationService;
         this.clinicMapper = clinicMapper;
         this.doctorMapper = doctorMapper;
         this.doctorService = doctorService;
-        this.doctorUtils = doctorUtils;
+        this.userUtils = userUtils;
+        this.userService = userService;
     }
 
     @PostMapping("/registration/clinic")
@@ -63,7 +66,7 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(), authenticationDTO.getPassword());
         authenticationManager.authenticate(authenticationToken);
         String token = jwtUtil.generateToken(authenticationDTO.getLogin());
-        return Map.of("jwt", token, "roles", String.join(";", doctorService.getRoles(authenticationDTO.getLogin())));
+        return Map.of("jwt", token, "roles", String.join(";", userService.getRoles(authenticationDTO.getLogin())));
     }
 
     @PostMapping("/password/reset")
@@ -75,7 +78,7 @@ public class AuthController {
     @PostMapping("/registration/doctor")
     @PreAuthorize("hasRole('CHIEF_DOCTOR')")
     public Map<String, String> registrationDoctor(@RequestBody @Valid DoctorRegistration doctorRegistration) {
-        String[] loginPassword = registrationService.registrationDoctor(doctorRegistration, doctorUtils.getDoctorDetails().getDoctor().getClinic());
+        String[] loginPassword = registrationService.registrationDoctor(doctorRegistration, userUtils.getDoctor().getClinic());
         return Map.of("login", loginPassword[0], "password", loginPassword[1]);
     }
 

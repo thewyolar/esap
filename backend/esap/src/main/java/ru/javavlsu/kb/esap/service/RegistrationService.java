@@ -9,9 +9,11 @@ import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Role;
+import ru.javavlsu.kb.esap.model.User;
 import ru.javavlsu.kb.esap.repository.ClinicRepository;
 import ru.javavlsu.kb.esap.repository.DoctorRepository;
 import ru.javavlsu.kb.esap.repository.RoleRepository;
+import ru.javavlsu.kb.esap.repository.UserRepository;
 import ru.javavlsu.kb.esap.util.LoginPasswordGenerator;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
 
@@ -28,10 +30,12 @@ public class RegistrationService {
     private final RoleRepository roleRepository;
     private final DoctorMapper doctorMapper;
     private final LoginPasswordGenerator lpg;
+    private final UserRepository userRepository;
 
-    public RegistrationService(ClinicRepository clinicRepository, PasswordEncoder passwordEncoder, DoctorRepository doctorRepository, RoleRepository roleRepository, DoctorMapper doctorMapper, LoginPasswordGenerator lpg) {
+    public RegistrationService(ClinicRepository clinicRepository, PasswordEncoder passwordEncoder, DoctorRepository doctorRepository, RoleRepository roleRepository, DoctorMapper doctorMapper, LoginPasswordGenerator lpg, UserRepository userRepository) {
         this.clinicRepository = clinicRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
         this.doctorRepository = doctorRepository;
         this.roleRepository = roleRepository;
         this.doctorMapper = doctorMapper;
@@ -70,11 +74,11 @@ public class RegistrationService {
 
     @Transactional
     public void passwordReset(AuthenticationDTO authenticationDTO) {
-        Doctor doctor = doctorRepository.findByLogin(authenticationDTO.getLogin())
+        User user = userRepository.findByLogin(authenticationDTO.getLogin())
                 .orElseThrow(() -> new NotFoundException("Doctor not found"));
 
-        doctor.setPassword(passwordEncoder.encode(authenticationDTO.getPassword()));
-        doctorRepository.save(doctor);
+        user.setPassword(passwordEncoder.encode(authenticationDTO.getPassword()));
+        userRepository.save(user);
     }
 
     @Transactional

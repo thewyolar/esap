@@ -8,9 +8,7 @@ import ru.javavlsu.kb.esap.dto.DoctorDTO;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.service.DoctorService;
-import ru.javavlsu.kb.esap.util.DoctorUtils;
-
-import java.util.List;
+import ru.javavlsu.kb.esap.util.UserUtils;
 
 @RestController
 @CrossOrigin
@@ -18,23 +16,23 @@ import java.util.List;
 public class DoctorController {
     private final DoctorService doctorService;
     private final DoctorMapper doctorMapper;
-    private final DoctorUtils doctorUtils;
+    private final UserUtils userUtils;
 
-    public DoctorController(DoctorService doctorService, DoctorMapper doctorMapper, DoctorUtils doctorUtils) {
+    public DoctorController(DoctorService doctorService, DoctorMapper doctorMapper, UserUtils userUtils) {
         this.doctorService = doctorService;
         this.doctorMapper = doctorMapper;
-        this.doctorUtils = doctorUtils;
+        this.userUtils = userUtils;
     }
 
     @GetMapping("")
     public ResponseEntity<Page<DoctorDTO>> getAllDoctors(@RequestParam(required = false, defaultValue = "0") int page) {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         return ResponseEntity.ok(doctorService.getByClinic(doctor.getClinic(), page));
     }
 
     @GetMapping("/count")
     public ResponseEntity<Integer> getDoctorCount() {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         return ResponseEntity.ok(doctorService.getDoctorCountByClinic(doctor.getClinic()));
     }
 
@@ -52,7 +50,7 @@ public class DoctorController {
 
     @GetMapping("/home")
     public ResponseEntity<DoctorDTO> getDoctor() {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         doctor = doctorService.refreshDoctor(doctor);
         return ResponseEntity.ok(doctorMapper.toDoctorDTO(doctor));
     }

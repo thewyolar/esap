@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
+
     Optional<Doctor> findByLogin(String login);
     Page<Doctor> findByClinicOrderByIdAsc(Clinic clinic, Pageable page);
     int countDoctorByClinic(Clinic clinic);

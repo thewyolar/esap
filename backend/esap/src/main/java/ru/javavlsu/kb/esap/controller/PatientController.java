@@ -17,7 +17,7 @@ import ru.javavlsu.kb.esap.model.Patient;
 import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.ResponseMessageError;
-import ru.javavlsu.kb.esap.util.DoctorUtils;
+import ru.javavlsu.kb.esap.util.UserUtils;
 
 import java.util.List;
 
@@ -27,12 +27,12 @@ import java.util.List;
 public class PatientController {
     private final PatientService patientService;
     private final PatientMapper patientMapper;
-    private final DoctorUtils doctorUtils;
+    private final UserUtils userUtils;
 
-    public PatientController(PatientService patientService, PatientMapper patientMapper, DoctorUtils doctorUtils) {
+    public PatientController(PatientService patientService, PatientMapper patientMapper, UserUtils userUtils) {
         this.patientService = patientService;
         this.patientMapper = patientMapper;
-        this.doctorUtils = doctorUtils;
+        this.userUtils = userUtils;
     }
 
     @GetMapping("")
@@ -42,20 +42,20 @@ public class PatientController {
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false, defaultValue = "0") int page
     ) {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         Page<PatientResponseDTO> patients = patientService.getByClinic(firstName, patronymic, lastName, doctor.getClinic(), page);
         return ResponseEntity.ok(patients);
     }
 
     @GetMapping("/count")
     public ResponseEntity<Integer> getPatientsCount() {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         return ResponseEntity.ok(patientService.getPatientCountByClinic(doctor.getClinic()));
     }
 
     @GetMapping("/latest")
     public ResponseEntity<List<PatientResponseDTO>> getLatestPatients(@RequestParam(defaultValue = "5") int count) {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         return ResponseEntity.ok(patientService.getLatestPatients(count, doctor.getClinic()));
     }
 
@@ -72,7 +72,7 @@ public class PatientController {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        patientService.create(patientDTO, doctorUtils.getDoctorDetails().getDoctor().getClinic());
+        patientService.create(patientDTO, userUtils.getDoctor().getClinic());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
@@ -89,13 +89,13 @@ public class PatientController {
 
     @GetMapping("/statistics/by-gender")
     public ResponseEntity<PatientStatisticsByGenderDTO> getPatientStatisticsByGender() {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         return ResponseEntity.ok(patientService.getPatientsStatisticsByGender(doctor.getClinic()));
     }
 
     @GetMapping("/statistics/by-age")
     public ResponseEntity<PatientStatisticsByAgeDTO> getPatientStatisticsByAge() {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         return ResponseEntity.ok(patientService.getPatientsStatisticsByAge(doctor.getClinic()));
     }
 }

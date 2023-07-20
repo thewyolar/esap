@@ -14,7 +14,6 @@ import ru.javavlsu.kb.esap.repository.PatientRepository;
 import ru.javavlsu.kb.esap.repository.ScheduleRepository;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
-import ru.javavlsu.kb.esap.util.DoctorUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,14 +26,12 @@ public class AppointmentService {
     private final ScheduleRepository scheduleRepository;
     private final PatientRepository patientRepository;
     private final AppointmentMapper appointmentMapper;
-    private final DoctorUtils doctorUtils;
 
-    public AppointmentService(AppointmentRepository appointmentRepository, ScheduleRepository scheduleRepository, PatientRepository patientRepository, AppointmentMapper appointmentMapper, DoctorUtils doctorUtils) {
+    public AppointmentService(AppointmentRepository appointmentRepository, ScheduleRepository scheduleRepository, PatientRepository patientRepository, AppointmentMapper appointmentMapper) {
         this.appointmentRepository = appointmentRepository;
         this.scheduleRepository = scheduleRepository;
         this.patientRepository = patientRepository;
         this.appointmentMapper = appointmentMapper;
-        this.doctorUtils = doctorUtils;
     }
 
     @Transactional

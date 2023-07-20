@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import ru.javavlsu.kb.esap.service.DoctorDetailsService;
+import ru.javavlsu.kb.esap.service.UserDetailsService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -29,11 +29,11 @@ import java.util.List;
 @EnableTransactionManagement
 public class SecurityConfig {
 
-    private final DoctorDetailsService doctorDetailsService;
+    private final UserDetailsService userDetailsService;
     private final JWTFilter jwtFilter;
 
-    public SecurityConfig(DoctorDetailsService doctorDetailsService, JWTFilter jwtFilter) {
-        this.doctorDetailsService = doctorDetailsService;
+    public SecurityConfig(UserDetailsService userDetailsService, JWTFilter jwtFilter) {
+        this.userDetailsService = userDetailsService;
         this.jwtFilter = jwtFilter;
     }
 
@@ -81,7 +81,7 @@ public class SecurityConfig {
     public AuthenticationManager authManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(doctorDetailsService)
+        authenticationManagerBuilder.userDetailsService(userDetailsService)
                 .passwordEncoder(getPasswordEncoder());
         return authenticationManagerBuilder.build();
     }

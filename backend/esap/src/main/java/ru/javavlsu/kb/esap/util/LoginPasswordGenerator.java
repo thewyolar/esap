@@ -1,7 +1,7 @@
 package ru.javavlsu.kb.esap.util;
 
 import org.springframework.stereotype.Component;
-import ru.javavlsu.kb.esap.service.DoctorService;
+import ru.javavlsu.kb.esap.service.UserService;
 
 import java.security.SecureRandom;
 import java.util.Random;
@@ -12,10 +12,10 @@ public class LoginPasswordGenerator {
     private final int PASSWORD_LENGTH = 8;
     private final String PASSWORD_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_-+={}[]:;\"'<>,.?/|\\";
 
-    private final DoctorService doctorService;
+    private final UserService userService;
 
-    public LoginPasswordGenerator(DoctorService doctorService) {
-        this.doctorService = doctorService;
+    public LoginPasswordGenerator(UserService userService) {
+        this.userService = userService;
     }
 
     public String generateLogin() {
@@ -29,7 +29,7 @@ public class LoginPasswordGenerator {
                 login.append(characters.charAt(index));
             }
             login.append(String.format("%04d", new Random().nextInt(10000)));
-        } while (doctorService.doctorExists(login.toString()));
+        } while (userService.userExists(login.toString()));
 
         return login.toString().toLowerCase();
     }

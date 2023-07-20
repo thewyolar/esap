@@ -25,7 +25,7 @@ public class DoctorService {
     private final EntityManager em;
     private final DoctorMapper doctorMapper;
     private final DoctorRepository doctorRepository;
-    private final Logger log = LoggerFactory.getLogger(DoctorDetailsService.class);
+    private final Logger log = LoggerFactory.getLogger(DoctorService.class);
 
     public DoctorService(EntityManager em, DoctorMapper doctorMapper, DoctorRepository doctorRepository) {
         this.em = em;
@@ -53,22 +53,27 @@ public class DoctorService {
         return doctorRepository.findById(id).orElseThrow(() -> new NotFoundException("Doctor not found"));
     }
 
+    public Doctor getByLogin(String login) {
+        log.info("class:DoctorService, method:getById, sql:findById");
+        return doctorRepository.findByLogin(login).orElseThrow(() -> new NotFoundException("Doctor not found"));
+    }
+
     public Doctor refreshDoctor(Doctor doctor) {
         log.info("class:DoctorService, method:refreshDoctor, sql:merge");
         return em.merge(doctor);
     }
 
-    public List<String> getRoles(String login){
-        log.info("class:DoctorService, method:getRoles, sql:findByLogin");
-        return doctorRepository.findByLogin(login)
-                .orElseThrow(() -> new NotFoundException("Doctor not found"))
-                .getRole().stream().map(Role::getName).toList();
-    }
-
-    public boolean doctorExists(String login){
-        log.info("class:DoctorService, method:doctorExists, sql:findByLogin");
-        return doctorRepository.findByLogin(login).isPresent();
-    }
+//    public List<String> getRoles(String login){
+//        log.info("class:DoctorService, method:getRoles, sql:findByLogin");
+//        return doctorRepository.findByLogin(login)
+//                .orElseThrow(() -> new NotFoundException("Doctor not found"))
+//                .getRole().stream().map(Role::getName).toList();
+//    }
+//
+//    public boolean doctorExists(String login){
+//        log.info("class:DoctorService, method:doctorExists, sql:findByLogin");
+//        return doctorRepository.findByLogin(login).isPresent();
+//    }
 
     @Transactional
     public void save(Doctor doctor) {

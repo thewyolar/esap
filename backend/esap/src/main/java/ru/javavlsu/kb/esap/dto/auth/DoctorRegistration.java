@@ -15,12 +15,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DoctorRegistration {
-    private Long id;
-
-    private String password;
-
-    private String login;
+public class DoctorRegistration extends UserRegistration {
 
     private String firstName;
 
@@ -35,5 +30,12 @@ public class DoctorRegistration {
     @Min(value = 1, message = "Не верно указан пол")
     private int gender;
 
-    private String role;
+    public DoctorRegistration(Long id, String login, String password, String firstName, String patronymic, String lastName, String specialization, int gender, String role) {
+        super(id, password, login, role);
+        this.firstName = firstName;
+        this.patronymic = patronymic;
+        this.lastName = lastName;
+        this.specialization = specialization;
+        this.gender = gender;
+    }
 }

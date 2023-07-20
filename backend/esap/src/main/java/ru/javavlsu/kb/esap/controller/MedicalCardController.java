@@ -14,7 +14,7 @@ import ru.javavlsu.kb.esap.service.MedicalCardService;
 import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.ResponseMessageError;
-import ru.javavlsu.kb.esap.util.DoctorUtils;
+import ru.javavlsu.kb.esap.util.UserUtils;
 
 @RestController
 @CrossOrigin
@@ -23,13 +23,13 @@ public class MedicalCardController {
     private final MedicalCardService medicalCardService;
     private final MedicalCardMapper medicalCardMapper;
     private final PatientService patientService;
-    private final DoctorUtils doctorUtils;
+    private final UserUtils userUtils;
 
-    public MedicalCardController(MedicalCardService medicalCardService, MedicalCardMapper medicalCardMapper, PatientService patientService, DoctorUtils doctorUtils) {
+    public MedicalCardController(MedicalCardService medicalCardService, MedicalCardMapper medicalCardMapper, PatientService patientService, UserUtils userUtils) {
         this.medicalCardService = medicalCardService;
         this.medicalCardMapper = medicalCardMapper;
         this.patientService = patientService;
-        this.doctorUtils = doctorUtils;
+        this.userUtils = userUtils;
     }
 
     @GetMapping("/patient/{id}")
@@ -49,7 +49,7 @@ public class MedicalCardController {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
         medicalCardService.createMedicalRecord(medicalCardMapper.toMedicalRecordRequestDTO(medicalRecordRequestDTO),
-                medicalCardService.getMedicalCardByPatient(patientService.getById(id)), doctorUtils.getDoctorDetails().getDoctor());
+                medicalCardService.getMedicalCardByPatient(patientService.getById(id)), userUtils.getDoctor());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

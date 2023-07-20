@@ -17,7 +17,7 @@ import ru.javavlsu.kb.esap.service.AppointmentService;
 import ru.javavlsu.kb.esap.service.ScheduleService;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.ResponseMessageError;
-import ru.javavlsu.kb.esap.util.DoctorUtils;
+import ru.javavlsu.kb.esap.util.UserUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,14 +31,14 @@ public class ScheduleController {
     private final AppointmentService appointmentService;
     private final ScheduleMapper scheduleMapper;
     private final AppointmentMapper appointmentMapper;
-    private final DoctorUtils doctorUtils;
+    private final UserUtils userUtils;
 
-    public ScheduleController(ScheduleService scheduleService, AppointmentService appointmentService, ScheduleMapper scheduleMapper, AppointmentMapper appointmentMapper, DoctorUtils doctorUtils) {
+    public ScheduleController(ScheduleService scheduleService, AppointmentService appointmentService, ScheduleMapper scheduleMapper, AppointmentMapper appointmentMapper, UserUtils userUtils) {
         this.scheduleService = scheduleService;
         this.appointmentService = appointmentService;
         this.scheduleMapper = scheduleMapper;
         this.appointmentMapper = appointmentMapper;
-        this.doctorUtils = doctorUtils;
+        this.userUtils = userUtils;
     }
 
     @GetMapping("/doctor/{doctorId}")
@@ -48,7 +48,7 @@ public class ScheduleController {
 
     @GetMapping("/{id}")
     public ScheduleResponseDTO getSchedule(@PathVariable("id") Long id) {
-        return scheduleMapper.toScheduleResponseDTO(scheduleService.getByIdAndDoctor(id, doctorUtils.getDoctorDetails().getDoctor()));
+        return scheduleMapper.toScheduleResponseDTO(scheduleService.getByIdAndDoctor(id, userUtils.getDoctor()));
     }
 
     @PostMapping
@@ -72,19 +72,19 @@ public class ScheduleController {
 
     @GetMapping("/day")
     public List<ScheduleResponseDTO> getAppointmentsByDay(@RequestParam(required = false) LocalDate date) {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         return scheduleService.getSchedulesByDay(date, doctor.getClinic());
     }
 
     @GetMapping("/appointment/latest")
     public List<AppointmentResponseDTO> getLatestAppointments(@RequestParam(name = "count", defaultValue = "5") Integer count) {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         return appointmentService.getLatestAppointments(count, doctor);
     }
 
     @GetMapping("/appointment/count-by-day")
     public List<AppointmentsCountByDayDTO> getAppointmentsCountByDay() {
-        Doctor doctor = doctorUtils.getDoctorDetails().getDoctor();
+        Doctor doctor = userUtils.getDoctor();
         return appointmentService.getAppointmentsCountByDay(doctor);
     }
 }
