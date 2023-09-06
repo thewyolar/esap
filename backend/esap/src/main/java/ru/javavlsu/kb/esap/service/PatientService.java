@@ -48,13 +48,13 @@ public class PatientService {
 
     public List<PatientResponseDTO> getLatestPatients(Integer count, Clinic clinic) {
         Pageable pageable = PageRequest.of(0, count);
-        log.info("class:PatientService, method:getLatestPatients, sql:findAllByClinicOrderByIdDesc");
+        log.debug("class:PatientService, method:getLatestPatients, sql:findAllByClinicOrderByIdDesc");
         List<Patient> patients = patientRepository.findAllByClinicOrderByIdDesc(clinic, pageable).stream().toList();
         return patientMapper.toPatientResponseDTOList(patients);
     }
 
     public Page<PatientResponseDTO> getByClinic(String firstName, String patronymic, String lastName, Clinic clinic, int page) {
-        log.info("class:PatientService, method:getByClinic, sql:findAllByFullNameContainingIgnoreCaseAndClinicOrderByIdAsc");
+        log.debug("class:PatientService, method:getByClinic, sql:findAllByFullNameContainingIgnoreCaseAndClinicOrderByIdAsc");
         Page<Patient> patients = patientRepository.findAllByFullNameContainingIgnoreCaseAndClinicOrderByIdAsc(
                 firstName != null ? firstName : "",
                 patronymic != null ? patronymic : "",
@@ -67,7 +67,7 @@ public class PatientService {
 
     @Transactional(readOnly = true)
     public Patient getById(long id) {
-        log.info("class:PatientService, method:getById, sql:findById");
+        log.debug("class:PatientService, method:getById, sql:findById");
         return patientRepository.findById(id).orElseThrow(() -> new NotFoundException("Patient not found"));
     }
 
@@ -76,13 +76,13 @@ public class PatientService {
         Patient patient = patientMapper.toPatient(patientDTO);
         patient.setClinic(clinic);
         patient.setMedicalCard(new MedicalCard(patient));
-        log.info("class:PatientService, method:create, sql:save");
+        log.debug("class:PatientService, method:create, sql:save");
         return patientRepository.save(patient);
     }
 
     @Transactional
     public Patient update(Long patientId, PatientDTO patientDTO) {
-        log.info("class:PatientService, method:update, sql:findById");
+        log.debug("class:PatientService, method:update, sql:findById");
         Patient patient = patientRepository.findById(patientId)
                         .orElseThrow(() -> new NotFoundException("Patient with id=" + patientId + " not found"));
         patient.setFirstName(patientDTO.getFirstName());
@@ -93,13 +93,13 @@ public class PatientService {
         patient.setAddress(patientDTO.getAddress());
         patient.setPhoneNumber(patientDTO.getPhoneNumber());
         patient.setEmail(patientDTO.getEmail());
-        log.info("class:PatientService, method:update, sql:save");
+        log.debug("class:PatientService, method:update, sql:save");
         return patientRepository.save(patient);
     }
 
     public PatientStatisticsByGenderDTO getPatientsStatisticsByGender(Clinic clinic) {
         long c = clinic.getId();
-        log.info("class:PatientService, method:getPatientsStatisticsByGender, sql:getPatientsCountByGenderAndClinic. x2");
+        log.debug("class:PatientService, method:getPatientsStatisticsByGender, sql:getPatientsCountByGenderAndClinic. x2");
         int malePatients = patientRepository.getPatientsCountByGenderAndClinic(1, clinic);
         int femalePatients = patientRepository.getPatientsCountByGenderAndClinic(2, clinic);
 
@@ -112,7 +112,7 @@ public class PatientService {
 
     @Transactional(readOnly = true)
     public PatientStatisticsByAgeDTO getPatientsStatisticsByAge(Clinic clinic) {
-        log.info("class:PatientService, method:getPatientsStatisticsByAge, sql:countPatientsByAgeRangeAndClinic. x3");
+        log.debug("class:PatientService, method:getPatientsStatisticsByAge, sql:countPatientsByAgeRangeAndClinic. x3");
         int childCount = patientRepository.countPatientsByAgeRangeAndClinic(0, 18, clinic);
         int adultCount = patientRepository.countPatientsByAgeRangeAndClinic(19, 59, clinic);
         int elderlyCount = patientRepository.countPatientsByAgeRangeAndClinic(60, 100, clinic);

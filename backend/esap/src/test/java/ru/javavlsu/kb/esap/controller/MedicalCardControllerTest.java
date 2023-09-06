@@ -15,9 +15,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import ru.javavlsu.kb.esap.dto.auth.ClinicRegistration;
-import ru.javavlsu.kb.esap.dto.auth.ClinicRegistrationDTO;
-import ru.javavlsu.kb.esap.dto.auth.DoctorRegistration;
+import ru.javavlsu.kb.esap.dto.MedicalCardDTO.MedicalRecordRequestDTO;
 import ru.javavlsu.kb.esap.security.JWTUtil;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -64,6 +62,18 @@ class MedicalCardControllerTest {
         assertNotNull(jsonNode.get("id").asText());
         assertNotNull(jsonNode.get("patient"));
         assertFalse(jsonNode.get("id").asText().isBlank());
+    }
+
+    @Test
+    public void saveMedicalRecord_NotValidMedicalRecordFioDoctor_ReturnMedicalCard() throws Exception {
+        MedicalRecordRequestDTO medicalRecordRequestDTO = new MedicalRecordRequestDTO(null, null, null, null);
+        String requestBody = objectMapper.writeValueAsString(medicalRecordRequestDTO);
+        MockHttpServletRequestBuilder requestBuilder = post("/api/medicalCard/patient/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody);
+
+        this.mockMvc.perform(requestBuilder)
+                .andDo(print()).andExpect(status().is4xxClientError());
     }
 
 }

@@ -22,12 +22,12 @@ public class UserService {
     }
 
     public boolean userExists(String login){
-        log.info("class:UserService, method:userExists, sql:findByLogin");
+        log.debug("class:UserService, method:userExists, sql:findByLogin");
         return userRepository.findByLogin(login).isPresent();
     }
 
     public List<String> getRoles(String login){
-        log.info("class:UserService, method:getRoles, sql:findByLogin");
+        log.debug("class:UserService, method:getRoles, sql:findByLogin");
         return userRepository.findByLogin(login)
                 .orElseThrow(() -> new NotFoundException("User not found"))
                 .getRole().stream().map(Role::getName).toList();

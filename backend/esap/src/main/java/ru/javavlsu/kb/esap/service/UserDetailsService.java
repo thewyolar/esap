@@ -25,7 +25,7 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws NotFoundException {
-        log.info("class:UserDetailsService, method:loadUserByUsername, sql:findByLogin");
+        log.debug("class:UserDetailsService, method:loadUserByUsername, sql:findByLogin");
         Optional<User> user = userRepository.findByLogin(username);
         if (user.isEmpty()) {
             throw new NotFoundException("User not found");

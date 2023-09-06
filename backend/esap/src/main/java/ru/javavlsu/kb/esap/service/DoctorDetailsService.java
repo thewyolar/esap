@@ -28,7 +28,7 @@
 //    @Override
 //    @Transactional(readOnly = true)
 //    public UserDetails loadUserByUsername(String username) throws NotFoundException {
-//        log.info("class:DoctorDetailsService, method:loadUserByUsername, sql:findByLogin");
+//        log.debug("class:DoctorDetailsService, method:loadUserByUsername, sql:findByLogin");
 //        Optional<Doctor> doctor = doctorRepository.findByLogin(username);
 //        if (doctor.isEmpty()) {
 //            throw new NotFoundException("User not found");
