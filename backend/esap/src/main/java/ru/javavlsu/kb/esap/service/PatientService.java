@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.dto.PatientDTO;
@@ -18,7 +19,10 @@ import ru.javavlsu.kb.esap.model.Patient;
 import ru.javavlsu.kb.esap.repository.MedicalCardRepository;
 import ru.javavlsu.kb.esap.repository.PatientRepository;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
+import ru.javavlsu.kb.esap.repository.RoleRepository;
+import ru.javavlsu.kb.esap.util.LoginPasswordGenerator;
 
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -29,12 +33,18 @@ public class PatientService {
     private final MedicalCardRepository medicalCardRepository;
     private final PatientMapper patientMapper;
     private final Logger log = LoggerFactory.getLogger(PatientService.class);
+    private final LoginPasswordGenerator lpg;
+    private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
 
-    public PatientService(PatientRepository patientRepository, MedicalCardRepository medicalCardRepository, PatientMapper patientMapper) {
+    public PatientService(PatientRepository patientRepository, MedicalCardRepository medicalCardRepository, PatientMapper patientMapper, LoginPasswordGenerator lpg, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.medicalCardRepository = medicalCardRepository;
         this.patientMapper = patientMapper;
         this.patientRepository = patientRepository;
+        this.lpg = lpg;
+        this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     public List<PatientResponseDTO> getAll() {
@@ -77,6 +87,17 @@ public class PatientService {
         patient.setClinic(clinic);
         patient.setMedicalCard(new MedicalCard(patient));
         log.debug("class:PatientService, method:create, sql:save");
+        patient.setRole(new HashSet<>());
+        String role = "ROLE_PATIENT";
+        patient.getRole().add(roleRepository.findByName(role)
+                .orElseThrow(() -> new NotFoundException("Role not found: " + role)));
+        patient.setPassword(passwordEncoder.encode(lpg.generatePassword()));
+        patient.setLogin(lpg.generateLogin());
+//        TODO FOR TESTS
+//        Patient patientCreate = patientRepository.save(patient);
+//        patientCreate.setLogin("00" + patientCreate.getId().toString());
+//        patientCreate.setPassword(passwordEncoder.encode("123"));
+//        return patientRepository.save(patientCreate);
         return patientRepository.save(patient);
     }
 
@@ -84,7 +105,7 @@ public class PatientService {
     public Patient update(Long patientId, PatientDTO patientDTO) {
         log.debug("class:PatientService, method:update, sql:findById");
         Patient patient = patientRepository.findById(patientId)
-                        .orElseThrow(() -> new NotFoundException("Patient with id=" + patientId + " not found"));
+                .orElseThrow(() -> new NotFoundException("Patient with id=" + patientId + " not found"));
         patient.setFirstName(patientDTO.getFirstName());
         patient.setPatronymic(patientDTO.getPatronymic());
         patient.setLastName(patientDTO.getLastName());

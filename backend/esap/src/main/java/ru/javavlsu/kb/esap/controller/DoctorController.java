@@ -48,6 +48,7 @@ public class DoctorController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
+    // TODO: Нужен запрос для получения информации о текущем пользователе
     @GetMapping("/home")
     public ResponseEntity<DoctorDTO> getDoctor() {
         Doctor doctor = userUtils.getDoctor();

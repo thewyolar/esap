@@ -9,18 +9,13 @@ import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
 @ToString
 @Table(name = "patients")
-public class Patient {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class Patient extends User {
 
     @NotBlank
     @Size(max = 100)
@@ -64,16 +59,4 @@ public class Patient {
     @JoinColumn(name = "clinic_id", referencedColumnName = "id")
     private Clinic clinic;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Patient patient = (Patient) o;
-        return Objects.equals(id, patient.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }
