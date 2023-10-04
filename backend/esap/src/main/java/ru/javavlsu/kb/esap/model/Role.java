@@ -1,15 +1,16 @@
 package ru.javavlsu.kb.esap.model;
 
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @EqualsAndHashCode
 @Table(name = "role")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Role {
 
     @Id
