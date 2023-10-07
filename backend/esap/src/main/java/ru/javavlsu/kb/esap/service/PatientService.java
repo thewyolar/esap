@@ -21,9 +21,11 @@ import ru.javavlsu.kb.esap.repository.PatientRepository;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
 import ru.javavlsu.kb.esap.repository.RoleRepository;
 import ru.javavlsu.kb.esap.util.LoginPasswordGenerator;
+import ru.javavlsu.kb.esap.util.PatientWithPassword;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
@@ -36,7 +38,6 @@ public class PatientService {
     private final LoginPasswordGenerator lpg;
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
-
 
     public PatientService(PatientRepository patientRepository, MedicalCardRepository medicalCardRepository, PatientMapper patientMapper, LoginPasswordGenerator lpg, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.medicalCardRepository = medicalCardRepository;
@@ -82,7 +83,7 @@ public class PatientService {
     }
 
     @Transactional
-    public Patient create(PatientDTO patientDTO, Clinic clinic) {
+    public PatientWithPassword create(PatientDTO patientDTO, Clinic clinic) {
         Patient patient = patientMapper.toPatient(patientDTO);
         patient.setClinic(clinic);
         patient.setMedicalCard(new MedicalCard(patient));
@@ -91,14 +92,17 @@ public class PatientService {
         String role = "ROLE_PATIENT";
         patient.getRole().add(roleRepository.findByName(role)
                 .orElseThrow(() -> new NotFoundException("Role not found: " + role)));
-        patient.setPassword(passwordEncoder.encode(lpg.generatePassword()));
-        patient.setLogin(lpg.generateLogin());
+        String generatedPassword = lpg.generatePassword();
+        String generatedLogin = lpg.generateLogin();
+        patient.setPassword(passwordEncoder.encode(generatedPassword));
+        patient.setLogin(generatedLogin);
+        patientRepository.save(patient);
 //        TODO FOR TESTS
 //        Patient patientCreate = patientRepository.save(patient);
 //        patientCreate.setLogin("00" + patientCreate.getId().toString());
 //        patientCreate.setPassword(passwordEncoder.encode("123"));
 //        return patientRepository.save(patientCreate);
-        return patientRepository.save(patient);
+        return new PatientWithPassword(patient, generatedPassword);
     }
 
     @Transactional

@@ -14,9 +14,11 @@ import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
 import ru.javavlsu.kb.esap.mapper.PatientMapper;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Patient;
+import ru.javavlsu.kb.esap.service.EmailService;
 import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.ResponseMessageError;
+import ru.javavlsu.kb.esap.util.PatientWithPassword;
 import ru.javavlsu.kb.esap.util.UserUtils;
 
 import java.util.List;
@@ -28,11 +30,13 @@ public class PatientController {
     private final PatientService patientService;
     private final PatientMapper patientMapper;
     private final UserUtils userUtils;
+    private final EmailService emailService;
 
-    public PatientController(PatientService patientService, PatientMapper patientMapper, UserUtils userUtils) {
+    public PatientController(PatientService patientService, PatientMapper patientMapper, UserUtils userUtils, EmailService emailService) {
         this.patientService = patientService;
         this.patientMapper = patientMapper;
         this.userUtils = userUtils;
+        this.emailService = emailService;
     }
 
     @GetMapping("")
@@ -72,7 +76,10 @@ public class PatientController {
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        patientService.create(patientDTO, userUtils.getDoctor().getClinic());
+        PatientWithPassword patientWithPassword = patientService.create(patientDTO, userUtils.getDoctor().getClinic());
+        Patient createdPatient = patientWithPassword.getPatient();
+        createdPatient.setPassword(patientWithPassword.getDecryptedPassword());
+        emailService.sendUserData(createdPatient);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
