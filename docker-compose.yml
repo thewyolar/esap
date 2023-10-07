@@ -32,7 +32,7 @@ services:
   esap-core:
     container_name: esap-core
     build:
-      context: backend/esap
+      context: backend/esap-core
       dockerfile: /Dockerfile
     restart: always
     ports: ["8080:8080"]

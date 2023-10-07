@@ -6,9 +6,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @SpringBootApplication
-public class EsapApplication {
+public class EsapCoreApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EsapApplication.class, args);
+		SpringApplication.run(EsapCoreApplication.class, args);
 	}
 }
