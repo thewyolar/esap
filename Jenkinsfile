@@ -6,6 +6,9 @@ pipeline {
     dockerContainerName = 'esap-core'
     dockerImageName = 'esap-core-api'
   }
+  tools {
+    maven 'MAVEN_ENV'
+  }
   stages {
     stage('Build') {
        steps {
