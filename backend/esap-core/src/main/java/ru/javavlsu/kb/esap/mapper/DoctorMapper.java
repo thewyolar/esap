@@ -31,8 +31,7 @@ public class DoctorMapper {
         return modelMapper.map(doctor, DoctorDTO.class);
     }
 
-
-    public List<DoctorDTO> toDoctorDTOList(Page<Doctor> doctors) {
+    public List<DoctorDTO> toDoctorDTOList(List<Doctor> doctors) {
         return doctors.stream()
                 .map(doctor -> modelMapper.map(doctor, DoctorDTO.class))
                 .collect(Collectors.toList());

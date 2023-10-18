@@ -10,6 +10,9 @@ import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.service.DoctorService;
 import ru.javavlsu.kb.esap.util.UserUtils;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @RestController
 @CrossOrigin
 @RequestMapping("/api/doctor")
@@ -28,6 +31,12 @@ public class DoctorController {
     public ResponseEntity<Page<DoctorDTO>> getAllDoctors(@RequestParam(required = false, defaultValue = "0") int page) {
         Doctor doctor = userUtils.getDoctor();
         return ResponseEntity.ok(doctorService.getByClinic(doctor.getClinic(), page));
+    }
+
+    @GetMapping("/schedules")
+    public ResponseEntity<List<DoctorDTO>> getDoctorsWithSchedule(@RequestParam LocalDate date) {
+        Doctor doctor = userUtils.getDoctor();
+        return ResponseEntity.ok(doctorService.getDoctorsWithScheduleOnDate(doctor.getClinic(), date));
     }
 
     @GetMapping("/count")

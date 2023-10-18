@@ -15,6 +15,7 @@ import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.repository.DoctorRepository;
 import ru.javavlsu.kb.esap.exception.NotFoundException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -45,6 +46,12 @@ public class DoctorService {
         log.debug("class:DoctorService, method:getByClinic, sql:findByClinicOrderByIdAsc");
         Page<Doctor> doctors = doctorRepository.findByClinicOrderByIdAsc(clinic, PageRequest.of(page, 10));
         return doctorMapper.toDoctorDTOPage(doctors);
+    }
+
+    public List<DoctorDTO> getDoctorsWithScheduleOnDate(Clinic clinic, LocalDate date) {
+        log.debug("class:DoctorService, method:getDoctorsWithScheduleOnDate, sql:findByClinicOrderByIdAsc");
+        List<Doctor> doctors = doctorRepository.findByClinicAndSchedulesDateOrderByIdAsc(clinic, date);
+        return doctorMapper.toDoctorDTOList(doctors);
     }
 
     public Doctor getById(long id) {
