@@ -1,9 +1,7 @@
 package ru.javavlsu.kb.esap.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,6 +36,14 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> role;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "clinic_id", referencedColumnName = "id")
+    private Clinic clinic;
+
+    @Max(value = 2, message = "Не верно указан пол")
+    @Min(value = 1, message = "Не верно указан пол")
+    private int gender;
 
     @Override
     public boolean equals(Object o) {

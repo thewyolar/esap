@@ -6,23 +6,6 @@ create table clinics
     phone_number varchar(255) not null,
     primary key (id)
 );
-create table employees
-(
-    id bigserial not null,
-    first_name varchar(255) not null,
-    last_name varchar(255) not null,
-    patronymic varchar(100) not null,
-    position varchar(255),
-    primary key (id)
-);
-create table lab_tests
-(
-    id bigserial not null,
-    description varchar(255),
-    name varchar(255),
-    result varchar(255),
-    primary key (id)
-);
 create table doctors
 (
     id bigserial not null,
@@ -30,11 +13,9 @@ create table doctors
     last_name varchar(255) not null,
     login varchar(255),
     password varchar(255),
-    gender integer not null check (gender<=2 AND gender>=1),
     patronymic varchar(100) not null,
     specialization varchar(255) not null,
-    clinic_id bigint, primary key (id),
-    FOREIGN KEY (clinic_id) REFERENCES clinics (id)
+    primary key (id)
 );
 create table patients
 (
@@ -43,13 +24,10 @@ create table patients
     birth_date date not null,
     email varchar(100),
     first_name varchar(100),
-    gender integer not null check (gender<=2 AND gender>=1),
     last_name varchar(100),
     patronymic varchar(100),
     phone_number varchar(20),
-    clinic_id bigint,
-    primary key (id),
-    FOREIGN KEY (clinic_id) REFERENCES clinics (id)
+    primary key (id)
 );
 create table medical_card
 (
@@ -77,17 +55,6 @@ create table analyzes
     medical_record_id bigint,
     primary key (id),
     FOREIGN KEY (medical_record_id) REFERENCES medical_record (id)
-);
-
-create table registries
-(
-    id bigserial not null,
-    email varchar(255),
-    name varchar(255),
-    phone_number varchar(255),
-    clinic_id bigint,
-    primary key (id),
-    FOREIGN KEY (clinic_id) REFERENCES clinics (id)
 );
 
 create table schedules

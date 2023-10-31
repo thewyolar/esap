@@ -30,7 +30,7 @@ public class DoctorDTO {
 
     private int gender;
 
-    private Clinic clinic;
+    private ClinicDTO clinic;
 
     private List<ScheduleResponseDTO> schedules;
 }

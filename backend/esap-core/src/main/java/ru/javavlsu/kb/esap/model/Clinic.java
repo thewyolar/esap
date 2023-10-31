@@ -33,12 +33,7 @@ public class Clinic {
     @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
     @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     @JsonIgnore
-    private List<Doctor> doctors;
-
-    @OneToMany(mappedBy = "clinic", fetch = FetchType.LAZY)
-    @Cascade({org.hibernate.annotations.CascadeType.PERSIST, org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @JsonIgnore
-    private List<Patient> patients;
+    private List<User> users;
 
     @Override
     public boolean equals(Object o) {
