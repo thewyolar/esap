@@ -32,10 +32,6 @@ public class Patient extends User {
     @NotNull
     private LocalDate birthDate;
 
-    @Max(value = 2, message = "Не верно указан пол")
-    @Min(value = 1, message = "Не верно указан пол")
-    private int gender;
-
     @Size(max = 200)
     private String address;
 
@@ -54,9 +50,5 @@ public class Patient extends User {
 
     @OneToMany(mappedBy = "patient", fetch = FetchType.LAZY)
     private List<Appointment> appointments;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "clinic_id", referencedColumnName = "id")
-    private Clinic clinic;
 
 }

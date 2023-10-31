@@ -28,16 +28,8 @@ public class Doctor extends User {
     @Column(name = "specialization", nullable = false)
     private String specialization;
 
-    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
     private List<Schedule> schedules;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "clinic_id", referencedColumnName = "id")
-    private Clinic clinic;
-
-    @Max(value = 2, message = "Не верно указан пол")
-    @Min(value = 1, message = "Не верно указан пол")
-    private int gender;
 
     //TODO    @ToString.Include(name = "password")
     //    private String maskPassword(){
