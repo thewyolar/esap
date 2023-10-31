@@ -9,6 +9,7 @@ import ru.javavlsu.kb.esap.model.Clinic;
 import ru.javavlsu.kb.esap.model.Patient;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
@@ -36,4 +37,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     @Query("SELECT COUNT(p) FROM Patient p WHERE FUNCTION('DATEDIFF', YEAR, p.birthDate, CURRENT_DATE) >= :minAge AND FUNCTION('DATEDIFF', YEAR, p.birthDate, CURRENT_DATE) <= :maxAge AND p.clinic = :clinic")
     int countPatientsByAgeRangeAndClinic(@Param("minAge") int minAge, @Param("maxAge") int maxAge, @Param("clinic") Clinic clinic);
+
+    Optional<Patient> findByLogin(String login);
 }

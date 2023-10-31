@@ -46,20 +46,22 @@ public class PatientController {
             @RequestParam(required = false) String lastName,
             @RequestParam(required = false, defaultValue = "0") int page
     ) {
-        Doctor doctor = userUtils.getDoctor();
+        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         Page<PatientResponseDTO> patients = patientService.getByClinic(firstName, patronymic, lastName, doctor.getClinic(), page);
         return ResponseEntity.ok(patients);
     }
 
     @GetMapping("/count")
+    @PreAuthorize("hasRole('CHIEF_DOCTOR') or hasRole('LABORATORY') or hasRole('REGISTRANT') or hasRole('DOCTOR') or hasRole('ADMIN')")
     public ResponseEntity<Integer> getPatientsCount() {
-        Doctor doctor = userUtils.getDoctor();
+        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         return ResponseEntity.ok(patientService.getPatientCountByClinic(doctor.getClinic()));
     }
 
     @GetMapping("/latest")
+    @PreAuthorize("hasRole('CHIEF_DOCTOR') or hasRole('LABORATORY') or hasRole('REGISTRANT') or hasRole('DOCTOR') or hasRole('ADMIN')")
     public ResponseEntity<List<PatientResponseDTO>> getLatestPatients(@RequestParam(defaultValue = "5") int count) {
-        Doctor doctor = userUtils.getDoctor();
+        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         return ResponseEntity.ok(patientService.getLatestPatients(count, doctor.getClinic()));
     }
 
@@ -70,13 +72,14 @@ public class PatientController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('REGISTRANT')")
+//    @PreAuthorize("hasRole('REGISTRANT')")
     public ResponseEntity<HttpStatus> createPatient(@Valid @RequestBody PatientDTO patientDTO,
                                                     BindingResult bindingResult) {
+        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         if (bindingResult.hasErrors()) {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
-        PatientWithPassword patientWithPassword = patientService.create(patientDTO, userUtils.getDoctor().getClinic());
+        PatientWithPassword patientWithPassword = patientService.create(patientDTO, doctor.getClinic());
         Patient createdPatient = patientWithPassword.getPatient();
         createdPatient.setPassword(patientWithPassword.getDecryptedPassword());
         emailService.sendUserData(createdPatient);
@@ -95,14 +98,16 @@ public class PatientController {
     }
 
     @GetMapping("/statistics/by-gender")
+    @PreAuthorize("hasRole('CHIEF_DOCTOR') or hasRole('LABORATORY') or hasRole('REGISTRANT') or hasRole('DOCTOR') or hasRole('ADMIN')")
     public ResponseEntity<PatientStatisticsByGenderDTO> getPatientStatisticsByGender() {
-        Doctor doctor = userUtils.getDoctor();
+        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         return ResponseEntity.ok(patientService.getPatientsStatisticsByGender(doctor.getClinic()));
     }
 
     @GetMapping("/statistics/by-age")
+    @PreAuthorize("hasRole('CHIEF_DOCTOR') or hasRole('LABORATORY') or hasRole('REGISTRANT') or hasRole('DOCTOR') or hasRole('ADMIN')")
     public ResponseEntity<PatientStatisticsByAgeDTO> getPatientStatisticsByAge() {
-        Doctor doctor = userUtils.getDoctor();
+        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         return ResponseEntity.ok(patientService.getPatientsStatisticsByAge(doctor.getClinic()));
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.MedicalCardDTO.MedicalCardResponseDTO;
 import ru.javavlsu.kb.esap.dto.MedicalCardDTO.MedicalRecordRequestDTO;
 import ru.javavlsu.kb.esap.mapper.MedicalCardMapper;
+import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.MedicalCard;
 import ru.javavlsu.kb.esap.service.MedicalCardService;
 import ru.javavlsu.kb.esap.service.PatientService;
@@ -49,7 +50,7 @@ public class MedicalCardController {
             throw new NotCreateException(ResponseMessageError.createErrorMsg(bindingResult.getFieldErrors()));
         }
         medicalCardService.createMedicalRecord(medicalCardMapper.toMedicalRecordRequestDTO(medicalRecordRequestDTO),
-                medicalCardService.getMedicalCardByPatient(patientService.getById(id)), userUtils.getDoctor());
+                medicalCardService.getMedicalCardByPatient(patientService.getById(id)), (Doctor) userUtils.UserDetails().getUser());
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }

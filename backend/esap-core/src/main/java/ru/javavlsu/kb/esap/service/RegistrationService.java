@@ -52,7 +52,7 @@ public class RegistrationService {
         doctor.setRole(new HashSet<>());
         doctor.getRole().add(roleRepository.findByName("ROLE_CHIEF_DOCTOR")
                 .orElseThrow(() -> new NotFoundException("Role not found")));
-        clinic.setDoctors(Collections.singletonList(doctor));
+        clinic.setUsers(Collections.singletonList(doctor));
         clinicRepository.save(clinic);
         return new String[]{login, password};
     }

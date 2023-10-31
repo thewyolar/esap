@@ -1,6 +1,7 @@
 package ru.javavlsu.kb.esap.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +13,17 @@ import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.auth.AuthenticationDTO;
 import ru.javavlsu.kb.esap.dto.auth.ClinicRegistrationDTO;
 import ru.javavlsu.kb.esap.dto.auth.DoctorRegistration;
+import ru.javavlsu.kb.esap.exception.DeviseLoginException;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
 import ru.javavlsu.kb.esap.exception.ResponseMessageError;
 import ru.javavlsu.kb.esap.mapper.ClinicMapper;
 import ru.javavlsu.kb.esap.mapper.DoctorMapper;
+import ru.javavlsu.kb.esap.model.Doctor;
+import ru.javavlsu.kb.esap.model.Patient;
 import ru.javavlsu.kb.esap.security.JWTUtil;
+import ru.javavlsu.kb.esap.security.UserDetails;
 import ru.javavlsu.kb.esap.service.DoctorService;
+import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.service.RegistrationService;
 import ru.javavlsu.kb.esap.service.UserService;
 import ru.javavlsu.kb.esap.util.UserUtils;
@@ -37,8 +43,9 @@ public class AuthController {
     private final DoctorService doctorService;
     private final UserUtils userUtils;
     private final UserService userService;
+    private final PatientService patientService;
 
-    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RegistrationService registrationService, ClinicMapper clinicMapper, DoctorMapper doctorMapper, DoctorService doctorService, UserUtils userUtils, UserService userService) {
+    public AuthController(AuthenticationManager authenticationManager, JWTUtil jwtUtil, RegistrationService registrationService, ClinicMapper clinicMapper, DoctorMapper doctorMapper, DoctorService doctorService, UserUtils userUtils, UserService userService, PatientService patientService) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.registrationService = registrationService;
@@ -47,6 +54,7 @@ public class AuthController {
         this.doctorService = doctorService;
         this.userUtils = userUtils;
         this.userService = userService;
+        this.patientService = patientService;
     }
 
     @PostMapping("/registration/clinic")
@@ -61,7 +69,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO) {
+    public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO, HttpServletRequest request) {
+        List<String> roles = userService.getRoles(authenticationDTO.getLogin());
+        if (roles.stream().anyMatch(role -> role.equals("ROLE_PATIENT")) &&
+                !request.getHeader("User-Agent").contains("Mobi")) {
+            throw new DeviseLoginException("Cannot login from this device");
+        }
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(), authenticationDTO.getPassword());
         authenticationManager.authenticate(authenticationToken);
@@ -78,7 +91,8 @@ public class AuthController {
     @PostMapping("/registration/doctor")
     @PreAuthorize("hasRole('CHIEF_DOCTOR')")
     public Map<String, String> registrationDoctor(@RequestBody @Valid DoctorRegistration doctorRegistration) {
-        String[] loginPassword = registrationService.registrationDoctor(doctorRegistration, userUtils.getDoctor().getClinic());
+        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
+        String[] loginPassword = registrationService.registrationDoctor(doctorRegistration, doctor.getClinic());
         return Map.of("login", loginPassword[0], "password", loginPassword[1]);
     }
 
