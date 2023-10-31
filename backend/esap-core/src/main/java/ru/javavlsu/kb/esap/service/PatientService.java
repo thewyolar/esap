@@ -149,4 +149,8 @@ public class PatientService {
 
         return statistics;
     }
+
+    public Patient getByLogin(String login) {
+        return patientRepository.findByLogin(login).orElseThrow(() -> new NotFoundException("Patient not found"));
+    }
 }

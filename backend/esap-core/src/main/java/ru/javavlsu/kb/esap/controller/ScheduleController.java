@@ -3,6 +3,7 @@ package ru.javavlsu.kb.esap.controller;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.AppointmentsCountByDayDTO;
@@ -48,7 +49,7 @@ public class ScheduleController {
 
     @GetMapping("/{id}")
     public ScheduleResponseDTO getSchedule(@PathVariable("id") Long id) {
-        return scheduleMapper.toScheduleResponseDTO(scheduleService.getByIdAndDoctor(id, userUtils.getDoctor()));
+        return scheduleMapper.toScheduleResponseDTO(scheduleService.getByIdAndDoctor(id, (Doctor) userUtils.UserDetails().getUser()));
     }
 
     @PostMapping
@@ -72,19 +73,20 @@ public class ScheduleController {
 
     @GetMapping("/day")
     public List<ScheduleResponseDTO> getAppointmentsByDay(@RequestParam(required = false) LocalDate date) {
-        Doctor doctor = userUtils.getDoctor();
+        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         return scheduleService.getSchedulesByDay(date, doctor.getClinic());
     }
 
     @GetMapping("/appointment/latest")
     public List<AppointmentResponseDTO> getLatestAppointments(@RequestParam(name = "count", defaultValue = "5") Integer count) {
-        Doctor doctor = userUtils.getDoctor();
+        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         return appointmentService.getLatestAppointments(count, doctor);
     }
 
     @GetMapping("/appointment/count-by-day")
+    @PreAuthorize("hasRole('CHIEF_DOCTOR') or hasRole('LABORATORY') or hasRole('REGISTRANT') or hasRole('DOCTOR') or hasRole('ADMIN')")
     public List<AppointmentsCountByDayDTO> getAppointmentsCountByDay() {
-        Doctor doctor = userUtils.getDoctor();
+        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         return appointmentService.getAppointmentsCountByDay(doctor);
     }
 }
