@@ -72,7 +72,7 @@ public class AuthController {
     public Map<String, String> performLogin(@RequestBody AuthenticationDTO authenticationDTO, HttpServletRequest request) {
         List<String> roles = userService.getRoles(authenticationDTO.getLogin());
         if (roles.stream().anyMatch(role -> role.equals("ROLE_PATIENT")) &&
-                !request.getHeader("User-Agent").contains("Mobi")) {
+                !request.getHeader("User-Agent").contains("mobile")) {
             throw new DeviseLoginException("Cannot login from this device");
         }
         UsernamePasswordAuthenticationToken authenticationToken =
