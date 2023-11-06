@@ -50,8 +50,8 @@ public class DoctorController {
 
     @GetMapping("/schedules")
     public ResponseEntity<List<DoctorDTO>> getDoctorsWithSchedule(@RequestParam LocalDate date) {
-        Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
-        return ResponseEntity.ok(doctorService.getDoctorsWithScheduleOnDate(doctor.getClinic(), date));
+        UserDetails userDetails = userUtils.UserDetails();
+        return ResponseEntity.ok(doctorService.getDoctorsWithScheduleOnDate(userDetails.getUser().getClinic(), date));
     }
 
     @GetMapping("/count")
