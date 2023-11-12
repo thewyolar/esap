@@ -12,4 +12,5 @@ public class ClinicDTO {
 
     private String address;
 
+    private String phoneNumber;
 }
