@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ru.javavlsu.kb.esap.dto.PatientAppointmentDTO;
 import ru.javavlsu.kb.esap.dto.PatientDTO;
 import ru.javavlsu.kb.esap.dto.PatientStatisticsByAgeDTO;
 import ru.javavlsu.kb.esap.dto.PatientStatisticsByGenderDTO;
@@ -14,6 +15,7 @@ import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.PatientResponseDTO;
 import ru.javavlsu.kb.esap.mapper.PatientMapper;
 import ru.javavlsu.kb.esap.model.Doctor;
 import ru.javavlsu.kb.esap.model.Patient;
+import ru.javavlsu.kb.esap.service.AppointmentService;
 import ru.javavlsu.kb.esap.service.EmailService;
 import ru.javavlsu.kb.esap.service.PatientService;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
@@ -31,12 +33,14 @@ public class PatientController {
     private final PatientMapper patientMapper;
     private final UserUtils userUtils;
     private final EmailService emailService;
+    private final AppointmentService appointmentService;
 
-    public PatientController(PatientService patientService, PatientMapper patientMapper, UserUtils userUtils, EmailService emailService) {
+    public PatientController(PatientService patientService, PatientMapper patientMapper, UserUtils userUtils, EmailService emailService, AppointmentService appointmentService) {
         this.patientService = patientService;
         this.patientMapper = patientMapper;
         this.userUtils = userUtils;
         this.emailService = emailService;
+        this.appointmentService = appointmentService;
     }
 
     @GetMapping("")
@@ -109,5 +113,11 @@ public class PatientController {
     public ResponseEntity<PatientStatisticsByAgeDTO> getPatientStatisticsByAge() {
         Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         return ResponseEntity.ok(patientService.getPatientsStatisticsByAge(doctor.getClinic()));
+    }
+
+    @GetMapping("/appointments")
+    public ResponseEntity<List<PatientAppointmentDTO>> getPatientAppointments() {
+        Patient patient = (Patient) userUtils.UserDetails().getUser();
+        return ResponseEntity.ok(appointmentService.getAppointmentsForPatient(patient));
     }
 }

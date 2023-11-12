@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.dto.AppointmentsCountByDayDTO;
 import ru.javavlsu.kb.esap.dto.AppointmentDTO;
+import ru.javavlsu.kb.esap.dto.PatientAppointmentDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.AppointmentResponseDTO;
 import ru.javavlsu.kb.esap.mapper.AppointmentMapper;
 import ru.javavlsu.kb.esap.model.*;
@@ -65,5 +66,11 @@ public class AppointmentService {
     @Transactional(readOnly = true)
     public List<AppointmentsCountByDayDTO> getAppointmentsCountByDay(Doctor doctor) {
         return appointmentRepository.countAppointmentsByDay(doctor.getClinic());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PatientAppointmentDTO> getAppointmentsForPatient(Patient patient) {
+        List<Appointment> appointments = appointmentRepository.findByPatient(patient);
+        return appointmentMapper.toPatientAppointmentDTOList(appointments);
     }
 }
