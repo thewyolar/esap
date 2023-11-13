@@ -115,9 +115,4 @@ public class PatientController {
         return ResponseEntity.ok(patientService.getPatientsStatisticsByAge(doctor.getClinic()));
     }
 
-    @GetMapping("/appointments")
-    public ResponseEntity<List<PatientAppointmentDTO>> getPatientAppointments() {
-        Patient patient = (Patient) userUtils.UserDetails().getUser();
-        return ResponseEntity.ok(appointmentService.getAppointmentsForPatient(patient));
-    }
 }

@@ -3,6 +3,7 @@ package ru.javavlsu.kb.esap.mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 import ru.javavlsu.kb.esap.dto.AppointmentDTO;
+import ru.javavlsu.kb.esap.dto.DoctorAppointmentDTO;
 import ru.javavlsu.kb.esap.dto.PatientAppointmentDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.AppointmentResponseDTO;
 import ru.javavlsu.kb.esap.model.Appointment;
@@ -36,6 +37,12 @@ public class AppointmentMapper {
     public List<PatientAppointmentDTO> toPatientAppointmentDTOList(List<Appointment> appointments) {
         return appointments.stream()
                 .map(appointment -> modelMapper.map(appointment, PatientAppointmentDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<DoctorAppointmentDTO> toDoctorAppointmentDTOList(List<Appointment> appointments) {
+        return appointments.stream()
+                .map(appointment -> modelMapper.map(appointment, DoctorAppointmentDTO.class))
                 .collect(Collectors.toList());
     }
 }

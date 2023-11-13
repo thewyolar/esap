@@ -16,7 +16,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     List<Appointment> findBySchedule(Schedule schedule);
 
-    List<Appointment> findByPatient(Patient patient);
+    @Query("SELECT a FROM Appointment a WHERE a.patient = :patient")
+    List<Appointment> findByPatient(@Param("patient") Patient patient);
+
+    @Query("SELECT a FROM Appointment a WHERE a.doctor = :doctor")
+    List<Appointment> findByDoctor(@Param("doctor") Doctor doctor);
 
     @Query("SELECT NEW ru.javavlsu.kb.esap.dto.AppointmentsCountByDayDTO(a.date, COUNT(a)) " +
             "FROM Appointment a WHERE a.schedule.doctor.clinic = :clinic " +

@@ -8,12 +8,15 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.javavlsu.kb.esap.dto.AppointmentsCountByDayDTO;
 import ru.javavlsu.kb.esap.dto.AppointmentDTO;
+import ru.javavlsu.kb.esap.dto.PatientAppointmentDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.AppointmentResponseDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.ScheduleResponseDTO;
 import ru.javavlsu.kb.esap.mapper.AppointmentMapper;
 import ru.javavlsu.kb.esap.mapper.ScheduleMapper;
 import ru.javavlsu.kb.esap.model.Doctor;
+import ru.javavlsu.kb.esap.model.Patient;
+import ru.javavlsu.kb.esap.security.UserDetails;
 import ru.javavlsu.kb.esap.service.AppointmentService;
 import ru.javavlsu.kb.esap.service.ScheduleService;
 import ru.javavlsu.kb.esap.exception.NotCreateException;
@@ -88,5 +91,17 @@ public class ScheduleController {
     public List<AppointmentsCountByDayDTO> getAppointmentsCountByDay() {
         Doctor doctor = (Doctor) userUtils.UserDetails().getUser();
         return appointmentService.getAppointmentsCountByDay(doctor);
+    }
+
+    @GetMapping("/appointments")
+    public ResponseEntity<List<?>> getUserAppointments() {
+        UserDetails ud = userUtils.UserDetails();
+        if (ud.getAuthorities().stream().anyMatch(role -> role.getAuthority().equals("ROLE_PATIENT"))) {
+            Patient patient = (Patient) ud.getUser();
+            return ResponseEntity.ok(appointmentService.getAppointmentsForUser(patient));
+        } else {
+            Doctor doctor = (Doctor) ud.getUser();
+            return ResponseEntity.ok(appointmentService.getAppointmentsForUser(doctor));
+        }
     }
 }

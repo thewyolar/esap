@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 @Getter
 @Setter
-public class PatientAppointmentDTO {
+public class DoctorAppointmentDTO {
 
     private Long id;
 
@@ -18,5 +18,5 @@ public class PatientAppointmentDTO {
 
     private LocalTime endAppointments;
 
-    private DoctorResponseDTO doctor;
+    private PatientDTO patient;
 }
