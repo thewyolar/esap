@@ -18,7 +18,7 @@
     "@types/react-dom": "^18.0.11",
     "@types/react-router-dom": "^5.3.3",
     "@types/sass": "^1.45.0",
-    "axios": "^0.24.0",
+    "axios": "^1.6.1",
     "bootstrap": "^5.2.3",
     "moment": "^2.29.4",
     "react": "^18.2.0",
