@@ -19,7 +19,7 @@ const DoctorPage: React.FC = () => {
   return (
     <div className='userPage'>
       <div className="titleContainer">
-        <h3>Пациент</h3>
+        <h3>Врач</h3>
       </div>
       <div className="userContainer">
         {doctor && <DoctorDetails doctor={doctor} />}

@@ -31,11 +31,8 @@ public class Doctor extends User {
     @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
     private List<Schedule> schedules;
 
-    //TODO    @ToString.Include(name = "password")
-    //    private String maskPassword(){
-    //        return "*******";
-    //    } потестить
-
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+    private List<Appointment> appointments;
 
     public String getFio(){
         return this.lastName + " " + this.firstName + " " + this.patronymic;

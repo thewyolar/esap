@@ -9,7 +9,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Deprecated
 public class DoctorResponseDTO {
 
     private Long id;
@@ -24,4 +23,6 @@ public class DoctorResponseDTO {
     private String specialization;
 
     private int gender;
+
+    private ClinicDTO clinic;
 }

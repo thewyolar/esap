@@ -1,11 +1,14 @@
 package ru.javavlsu.kb.esap.service;
 
+import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javavlsu.kb.esap.dto.AppointmentsCountByDayDTO;
 import ru.javavlsu.kb.esap.dto.AppointmentDTO;
+import ru.javavlsu.kb.esap.dto.DoctorAppointmentDTO;
+import ru.javavlsu.kb.esap.dto.PatientAppointmentDTO;
 import ru.javavlsu.kb.esap.dto.ScheduleResponseDTO.AppointmentResponseDTO;
 import ru.javavlsu.kb.esap.mapper.AppointmentMapper;
 import ru.javavlsu.kb.esap.model.*;
@@ -26,12 +29,16 @@ public class AppointmentService {
     private final ScheduleRepository scheduleRepository;
     private final PatientRepository patientRepository;
     private final AppointmentMapper appointmentMapper;
+    private final DoctorService doctorService;
+    private final EntityManager em;
 
-    public AppointmentService(AppointmentRepository appointmentRepository, ScheduleRepository scheduleRepository, PatientRepository patientRepository, AppointmentMapper appointmentMapper) {
+    public AppointmentService(AppointmentRepository appointmentRepository, ScheduleRepository scheduleRepository, PatientRepository patientRepository, AppointmentMapper appointmentMapper, DoctorService doctorService, EntityManager em) {
         this.appointmentRepository = appointmentRepository;
         this.scheduleRepository = scheduleRepository;
         this.patientRepository = patientRepository;
         this.appointmentMapper = appointmentMapper;
+        this.doctorService = doctorService;
+        this.em = em;
     }
 
     @Transactional
@@ -52,6 +59,7 @@ public class AppointmentService {
         Patient patient = patientRepository.findById(appointmentDTO.getPatientId())
                 .orElseThrow(() -> new NotFoundException("Patient not found"));
         appointment.setPatient(patient);
+        appointment.setDoctor(doctorService.refreshDoctor(schedule.getDoctor()));
         appointmentRepository.save(appointment);
     }
 
@@ -65,5 +73,17 @@ public class AppointmentService {
     @Transactional(readOnly = true)
     public List<AppointmentsCountByDayDTO> getAppointmentsCountByDay(Doctor doctor) {
         return appointmentRepository.countAppointmentsByDay(doctor.getClinic());
+    }
+
+    @Transactional(readOnly = true)
+    public List<DoctorAppointmentDTO> getAppointmentsForUser(Doctor doctor) {
+        List<Appointment> appointments = appointmentRepository.findByDoctor(doctor);
+        return appointmentMapper.toDoctorAppointmentDTOList(appointments);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PatientAppointmentDTO> getAppointmentsForUser(Patient patient) {
+        List<Appointment> appointments = appointmentRepository.findByPatient(patient);
+        return appointmentMapper.toPatientAppointmentDTOList(appointments);
     }
 }
