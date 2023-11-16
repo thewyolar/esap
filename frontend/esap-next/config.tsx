@@ -1,5 +1,5 @@
 const config = {
-  apiUrl: 'http://localhost:8080',
+  apiUrl: process.env.NEXT_PUBLIC_API_URL,
   title: 'ЕСАП',
   publicRoutes: ['/login', '/register', '/password/reset'],
 };
